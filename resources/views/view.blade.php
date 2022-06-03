@@ -5,13 +5,25 @@
 @include('layouts/header_layout')
 
 @section('content')
+
+<script>
+  var set=0;
+  function double() {
+  if(set==0){ set=1; } else {
+  alert("処理中です。");
+  return false; }}
+  </script>
+  
+</head>
+
+
 @isset($msg)
 <ul class="list-group">
   <li class="list-group-item">{{$msg}}</li>
 </ul>
 <hr>
 @endisset
-  <form action = '/zipcode/view' method ='post'>
+  <form action = '/zipcode/view' method ='post' onSubmit="return double()">
     @csrf
     〒 <input type="text" placeholder="000"  maxlength="3" name ='zipcode1'> - <input type="text" placeholder="0000"  maxlength="4" name ='zipcode2'>
     <input type="submit" value ='send'>
