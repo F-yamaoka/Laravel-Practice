@@ -82,7 +82,7 @@
 <h2>4 JavaScript</h2>
 <div class="row gap-2">
     <div class="col-3">
-    <a href = '/third/name' class="btn btn-outline-primary">練習1</a>
+    <a href = '/javascript/index' class="btn btn-outline-primary">練習1</a>
     </div>
 </div>
 @endsection

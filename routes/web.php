@@ -4,7 +4,7 @@ use App\Http\Controllers\FirstController;
 use App\Http\Controllers\SecondController;
 use App\Http\Controllers\ZipcodeController;
 use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\ThirdController;
+use App\Http\Controllers\JavascriptController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +24,12 @@ Route::get('/zipcode',[ZipcodeController::class,'zipcode']);
 Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
 Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
+Route::get('/zipcode/address',[PostController::class,'address']);
+
+// Javascript学習
+Route::get('/javascript/index',[JavascriptController::class,'index']);
 
 // 教科書その1
-Route::get('/zipcode/address',[PostController::class,'address']);
 Route::get('/first/request',[FirstController::class,'request']);
 Route::post('/first/request',[FirstController::class,'request']);
 Route::get('/first/request2',[FirstController::class,'request2']);
@@ -59,6 +62,5 @@ Route::get('/second/search',[SecondController::class,'search']);
 Route::get('/second/json',[SecondController::class,'json']);
 Route::get('/second/json/{id}',[SecondController::class,'json']);
 
-// Javascript学習
-Route::get('/third/name',[ThirdController::class,'name']);
+
 
