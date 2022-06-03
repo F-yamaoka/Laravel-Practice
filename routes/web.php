@@ -59,6 +59,6 @@ Route::get('/second/search',[SecondController::class,'search']);
 Route::get('/second/json',[SecondController::class,'json']);
 Route::get('/second/json/{id}',[SecondController::class,'json']);
 
-// 教科書その3
+// Javascript学習
 Route::get('/third/name',[ThirdController::class,'name']);
 
