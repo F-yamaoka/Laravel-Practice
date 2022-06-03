@@ -23,9 +23,6 @@ class ZipcodeController extends Controller
     }
 
     public function add(Request $request){
-        // 多重送信対策
-        $request->session()->regenerateToken();
-
         $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode='.$request->zipcode1.$request->zipcode2;
 
         $options = array(
@@ -34,7 +31,7 @@ class ZipcodeController extends Controller
             'header'=> 'Content-type: application/json; charset=UTF-8' //JSON形式で表示
             )
         );
-
+        
         $context = stream_context_create($options);
         $raw_data = file_get_contents($url, false,$context);
         $data = json_decode($raw_data,true);
