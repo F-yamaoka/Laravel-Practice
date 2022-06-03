@@ -41,21 +41,6 @@ class AddressSeeder extends Seeder
         ]);
 
         DB::table('addresses')->insert([
-            'address1'=> '東京都',
-            'address2'=> '大島町',
-            'address3'=> '',
-            'kana1'=> 'ﾄｳｷｮｳﾄ',
-            'kana2'=> 'ｵｵｼﾏﾏﾁ',
-            'kana3'=> '',
-            'prefcode'=> '13',
-            'zipcode'=> '1000100',
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
-        ]);
-
-
-
-        DB::table('addresses')->insert([
             'address1'=> '大阪府',
 			'address2'=> '池田市',
 			'address3'=> '旭丘',
