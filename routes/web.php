@@ -25,12 +25,8 @@ Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
 Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
 
-
-
-// DB接続API
+// 教科書その1
 Route::get('/zipcode/address',[PostController::class,'address']);
-
-
 Route::get('/first/request',[FirstController::class,'request']);
 Route::post('/first/request',[FirstController::class,'request']);
 Route::get('/first/request2',[FirstController::class,'request2']);
@@ -40,6 +36,7 @@ Route::get('/first/service2',[FirstController::class,'service2']);
 Route::get('/first/service2/{id}',[FirstController::class,'service2']);
 Route::get('/first/service3',[FirstController::class,'service3']);
 
+// 教科書その2
 Route::get('/second/aimai',[SecondController::class,'aimai']);
 Route::get('/second/aimai/{id}',[SecondController::class,'aimai']);
 Route::get('/second/hashi',[SecondController::class,'hashi']);
@@ -62,27 +59,6 @@ Route::get('/second/search',[SecondController::class,'search']);
 Route::get('/second/json',[SecondController::class,'json']);
 Route::get('/second/json/{id}',[SecondController::class,'json']);
 
+// 教科書その3
 Route::get('/third/name',[ThirdController::class,'name']);
 
-
-
-
-
-
-
-
-/* Route::get('/',[SecondController::class,'']); */
-
-
-
-
-
-
-
-
-
-
-
-//Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
