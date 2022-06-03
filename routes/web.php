@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FirstController::class,'index']);
 
+// ZIPcode（参画前の準備課題）
 Route::get('/zipcode',[ZipcodeController::class,'zipcode']);
 Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
@@ -82,6 +83,6 @@ Route::get('/third/name',[ThirdController::class,'name']);
 
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

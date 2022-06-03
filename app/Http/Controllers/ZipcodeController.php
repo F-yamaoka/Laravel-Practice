@@ -9,7 +9,7 @@ class ZipcodeController extends Controller
 {
     // React画面
     public function zipcode(){
-        return view('zipcode');
+        return view('zipcode.zipcode');
     }
 
     // 一覧表示
@@ -19,9 +19,10 @@ class ZipcodeController extends Controller
             'msg' => '住所一覧',
             'data' =>$addresses,
         ];
-        return view('view',$data);
+        return view('zipcode.view',$data);
     }
 
+    // 追加
     public function add(Request $request){
         $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode='.$request->zipcode1.$request->zipcode2;
 
@@ -69,7 +70,7 @@ class ZipcodeController extends Controller
             'data' =>$addresses,
         ];
         
-        return view('view',$data);
+        return view('zipcode.view',$data);
     }
 
     public function delete($id = -1){
@@ -87,6 +88,6 @@ class ZipcodeController extends Controller
             'data' =>Address::all(),
         ];
         
-        return view('view',$data);
+        return view('zipcode.view',$data);
     }    
 }
