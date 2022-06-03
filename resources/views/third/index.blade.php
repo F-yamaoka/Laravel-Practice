@@ -6,5 +6,10 @@
 
 @section('content')
 
+<script>
+    let name = prompt('name?','');
+    alert('Your name is '+ name);
+</script>
+
 @endsection
   

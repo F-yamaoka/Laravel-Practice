@@ -7,16 +7,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            練習
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="http://localhost:8000/zipcode/view">住所DB</a></li>
-            <li><a class="dropdown-item" href="http://localhost:8000/zipcode">ReactAPP</a></li>
-            <li><a class="dropdown-item" href="http://localhost:8000/zipcode/address">住所JSON</a></li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:8000/zipcode/view">住所DB</a></li>
+            <a class="nav-link" href="http://localhost:8000/zipcode">ReactAPP</a></li>
+            <a class="nav-link" href="http://localhost:8000/zipcode/address">住所JSON</a></li>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
