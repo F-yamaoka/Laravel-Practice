@@ -14,9 +14,27 @@
 <button onClick = "how_old()">年齢</button>
 <button onClick = "login()">ログイン</button>
 <button onClick = "double()">偶数</button>
-<button onClick = "is_your_name()">名前</button>
+<button onClick = "is_prime_number()">素数</button>
 
 <script>
+    // 素数チェック（入力）
+    function is_prime_number(){
+        let number = Number(prompt('number?',''));
+        if(Number.isInteger(number)){
+            alert(isPrime(number) ? 'prime':'NOT prime');
+        }else{
+        alert('not Number');
+        }
+    }
+
+    // 素数チェック（判断）
+    function isPrime(number){
+        if(number == 1 || number == 0)return 0;
+        for(let i = 2 ; i < number ; i++){
+            if(number % i == 0)return 0;
+        }
+        return 1;
+    }
 
     //入力値 +10までの偶数を出力　数字以外ならキャンセル
     function double(){
