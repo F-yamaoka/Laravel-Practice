@@ -21,8 +21,8 @@ class FirstController extends Controller
     
     }
 
-    public function index(){
-        return view ('index');
+    public function toppage(){
+        return view ('toppage');
     }
 
     public function request(Request $request){

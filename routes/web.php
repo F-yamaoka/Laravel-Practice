@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[FirstController::class,'index']);
+Route::get('/',[FirstController::class,'toppage']);
 
 // ZIPcode（参画前の準備課題）
 Route::get('/zipcode',[ZipcodeController::class,'zipcode']);
