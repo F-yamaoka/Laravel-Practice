@@ -19,48 +19,52 @@
 <button onClick ='testCalculator()'>test</button>
 
 <script>
-  // 初期化
-  let number1;
-  let number2;
-  let operator;
-  let result;
-  let msg;
+// 初期化
+let number1;
+let number2;
+let operator;
+let result;
+let msg;
 
-  // 計算機生成
-  function calculator(){
-    number1 = Number(document.getElementById("number1").value);
-    number2 = Number(document.getElementById("number2").value);
-    operator = document.getElementById("operator").value;
-    
-    document.getElementById("result").value = calculate(number1,operator,number2);
-  }
+// 計算機生成
+function calculator(){
+  number1 = Number(document.getElementById("number1").value);
+  number2 = Number(document.getElementById("number2").value);
+  operator = document.getElementById("operator").value;
+  
+  document.getElementById("result").value = calculate(number1,operator,number2);
+}
 
-  // 計算
-  function calculate(number1,operator,number2){
-    result = 0;
-    number1*=1;
-    number2*=1;
+// 計算
+function calculate(number1,operator,number2){
+  result = 0;
+  number1*=1;
+  number2*=1;
 
-    if (number1*0 != 0) return result = 'error';
-    if (number2*0 != 0) return result = 'error';
+  if (number1*0 != 0) return result = 'error';
+  if (number2*0 != 0) return result = 'error';
 
-    switch(operator){
-    case '+' :
-      result = number1 + number2;
+  switch(operator){
+  case '+' :
+    result = number1 + number2;
+  break;
+  case '-' :
+    result = number1 - number2;
+  break;
+  case '*' :
+    result = number1 * number2;
     break;
-    case '-' :
-      result = number1 - number2;
-    break;
-    case '*' :
-      result = number1 * number2;
-      break;
-    case '/' :
-      if (number2 == 0) {
-        result = 'error';
-      }else{
-        result = number1 / number2;
+  case '/' :
+    if (number2 == 0) {
+      if (number1 ==0) {
+        result = NaN;
+      } else {
+        result = Infinity;
       }
-      break;
+    }else{
+      result = number1 / number2;
+    }
+    break;
   }
   return result;
 }
@@ -73,49 +77,96 @@ function debugCalculator(number1,operator,number2,result) {
 }
 
 // 計算機のテスト
-function testCalculator() {
-  let msg = '__test log__\n';
-  if (calculate(1,'+',1)==2){
-    msg += '(1+1=2) 〇\n';
-  }else {
-    msg += '(1+1=2) ×\n';
+// NaN ==NaNがfalseになるので正しいテストはできない
+// Infinity も同様
+function testCalculator(number_of_test = 100) {
+  let msg = '';
+  let error = '';
+  let count = 0;
+  let errcount = 0;
+
+  let num1 = 0;
+  let num2 = 0;
+  for(let i = 0 ; i < number_of_test ; i++) {
+    num1 = Math.floor( Math.random() * Math.floor( Math.random() * 100 ));
+    num2 = Math.floor( Math.random() * Math.floor( Math.random() * 100 ));
+    if (calculate(num1,'+',num2) == num1 + num2) {
+      msg += '(' + num1 + '+' + num2 + '=' + (num1 + num2) + ') 〇\n';
+      count ++;
+    }else {
+      msg += '(' + num1 + '+' + num2 + '=' + (num1 + num2) + ') ×\n';
+      error += '(' + num1 + '+' + num2 + '=' + (num1 + num2) + ') ×\n';
+      errcount ++;
+    }
+
+    if (calculate(num1,'-',num2) == (num1 - num2)) {
+      msg += '(' + num1 + '-' + num2 + '=' + (num1 - num2) + ') 〇\n';
+      count ++;
+    }else {
+      msg += '(' + num1 + '-' + num2 + '=' + (num1 - num2) + ') ×\n';
+      error += '(' + num1 + '-' + num2 + '=' + (num1 - num2) + ') ×\n';
+      errcount ++;
+    }
+
+    if (calculate(num1,'*',num2) == num1 * num2) {
+      msg += '(' + num1 + '*' + num2 + '=' + (num1 * num2) + ') 〇\n';
+      count ++;
+    }else {
+      msg += '(' + num1 + '*' + num2 + '=' + (num1 * num2) + ') ×\n';
+      error += '(' + num1 + '*' + num2 + '=' + (num1 * num2) + ') ×\n';
+      errcount ++;
+    }
+
+    if (calculate(num1,'/',num2) == num1 / num2) {
+      msg += '(' + num1 + '/' + num2 + '=' + (num1 / num2) +') 〇\n';
+      count ++;
+    }else {
+      msg += '(' + num1 + '/' + num2 + '=' + (num1 / num2) +') ×\n';
+      error += '(' + num1 + '/' + num2 + '=' + (num1 / num2) +') ×\n';
+      errcount ++;
+    }
   }
-  if (calculate(3,'-',1)==2){
-    msg += '(3-1=2) 〇\n';
-  }else {
-    msg += '(3-1=2) ×\n';
-  }
-  if (calculate(4,'*',6)==24){
-    msg += '(4*6=2) 〇\n';
-  }else {
-    msg += '(4*6=2) ×\n';
-  }
-  if (calculate(6,'/',3)==2){
-    msg += '(6/3=2) 〇\n';
-  }else {
-    msg += '(6/3=2) ×\n';
-  }
-  if (calculate(10,'*',5)==50){
-    msg += '(10+5=50) 〇\n';
-  }else {
-    msg += '(10+5=50) ×\n';
-  }
-  if (calculate(10,'/',0)=='error'){
+
+  if (calculate(10,'/',0)=='error') {
     msg += '(10/0=error) 〇\n';
+    count ++;
   }else {
     msg += '(10/0=error) ×\n';
+    error += '(10/0=error) ×\n';
+    errcount ++;
   }
-  if (calculate('1','+','3')==4){
+
+  if (calculate('1','+','3')==4) {
     msg += '(\'1\'+\'3\'=4) 〇\n';
+    count ++;
   }else {
     msg += '(\'1\'+\'3\'=4) ×\n';
+    error += '(\'1\'+\'3\'=4) ×\n';
+    errcount ++;
   }
-  if (calculate('hello','/','world')=='error'){
+
+  if (calculate('a','/','b')=='error') {
     msg += '(a/b=error) 〇\n';
+    count ++;
   }else {
     msg += '(a/b=error) ×\n';
+    error += '(a/b=error) ×\n';
+    errcount ++;
   }
-  alert(msg);
+
+  if (calculate('','+','')==0) {
+    msg += '(undefined+undefined=0) 〇\n';
+    count ++;
+
+  }else {
+    msg += '(undefined+undefined=0) ×\n';
+    error += '(undefined+undefined=0) ×\n';
+    errcount ++;
+  }
+
+  alert('__test log__\n'+ count + '(success : '
+  + (count - errcount) + ' / error : ' + errcount + ')\n'
+  + error);
 }
 
 </script>
