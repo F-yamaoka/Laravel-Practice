@@ -28,6 +28,8 @@ Route::get('/zipcode/address',[PostController::class,'address']);
 
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);
+Route::get('/javascript/index2',[JavascriptController::class,'index2']);
+
 
 // 教科書その1
 Route::get('/first/request',[FirstController::class,'request']);

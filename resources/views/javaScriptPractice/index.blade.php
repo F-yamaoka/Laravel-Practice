@@ -63,33 +63,27 @@
     ”TheMaster" と等しい場合には “Welcome!” と表示します。
     別の文字列の場合 – “Wrong password” を表示します。
     空文字または入力がキャンセルされた場合には “Canceled.” と表示します */
-    function login(){
-        let userName = prompt('what is your name?','');
-        if(userName == 'admin'){
-            let password = prompt('password?','');
-            if(password == 'password'){
-                alert('admin login \n Hello'+userName);
-            }else{
-                alert('wrong password');
-
-            }
-
-        }else{
-            alert('hello'+userName);
+    function login() {
+        let userName = prompt('what is your name?', '');
+        if (userName == 'admin') {
+            let password = prompt('password?', '');
+            if (password == 'password') alert('admin login \n Hello'+userName);
+            else alert('wrong password');
+        } else {    
+            alert('hello' + userName);
         }
     }
-
-
+                    
     // 名前をアラートで入力
-    function is_your_name(){
-        let name = prompt('name?','');
-        alert('Your name is '+ name);
+    function is_your_name() {
+        let name = prompt('name?', '');
+        alert('Your name is ' + name);
     }
 
     // 18歳以上の時
-    function how_old(){
-        let old = prompt('how old are you',0);
-        let msg = old < 18 ? 'you are young' :'you are adult';
+    function how_old() {
+        let old = prompt('how old are you', 0);
+        let msg = old < 18 ? 'you are young' : 'you are adult';
         alert(msg);
     }
 </script>

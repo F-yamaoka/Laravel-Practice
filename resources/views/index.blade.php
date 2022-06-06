@@ -84,6 +84,9 @@
     <div class="col-3">
     <a href = '/javascript/index' class="btn btn-outline-primary">練習1</a>
     </div>
+    <div class="col-3">
+    <a href = '/javascript/index2' class="btn btn-outline-primary">練習2</a>
+    </div>
 </div>
 @endsection
   
