@@ -9,8 +9,8 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="http://localhost:8000/zipcode/view">住所DB</a></li>
-            <a class="nav-link" href="http://localhost:8000/zipcode">ReactAPP</a></li>
-            <a class="nav-link" href="http://localhost:8000/zipcode/address">住所JSON</a></li>
+            <a class="nav-link" href="http://localhost:8000/javascript/calculator">電卓</a></li>
+
           </li>
         </ul>
       </div>

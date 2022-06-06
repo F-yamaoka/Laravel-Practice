@@ -29,6 +29,8 @@ Route::get('/zipcode/address',[PostController::class,'address']);
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);
 Route::get('/javascript/index2',[JavascriptController::class,'index2']);
+Route::get('/javascript/calculator',[JavascriptController::class,'calculator']);
+
 
 
 // 教科書その1

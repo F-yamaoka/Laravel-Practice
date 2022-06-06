@@ -13,4 +13,8 @@ class JavascriptController extends Controller
     public function index2(){
         return view('javaScriptPractice.index2');
     } 
+
+    public function calculator(){
+        return view('javaScriptPractice.calculator');
+    }
 }
