@@ -5494,9 +5494,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MyComponent)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5524,6 +5526,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var MyComponent = /*#__PURE__*/function (_Component) {
   _inherits(MyComponent, _Component);
 
@@ -5534,51 +5538,96 @@ var MyComponent = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, MyComponent);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this, props); // 初期json呼び出し
+
     _this.state = {
-      num: 0,
-      msg: 'OK'
+      msg: '正しく読み込まれました!',
+      items: []
     };
-    _this.doChange = _this.doChange.bind(_assertThisInitialized(_this));
+    _this.getAddressData = _this.getAddressData.bind(_assertThisInitialized(_this));
+
+    _this.getAddressData();
+
     return _this;
-  }
+  } // json取得 表に成形
+
 
   _createClass(MyComponent, [{
-    key: "doChange",
-    value: function doChange(event) {
-      var n = event.target.value;
-      this.setState(function (state) {
-        return {
-          num: n,
-          msg: 'count: ' + n
-        };
+    key: "getAddressData",
+    value: function getAddressData(event) {
+      var _this2 = this;
+
+      console.log('getaddressdata');
+      var url = "/zipcode/address";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        var tmp_items = response.data;
+
+        _this2.setState(function (state) {
+          return {
+            msg: '正しく読み込まれました！',
+            items: tmp_items
+          };
+        });
+        /* 
+        for (let i = 0; i < res.data.length; i++) {
+          res.data[i]['id'];
+          res.data[i]['address1'];
+          res.data[i]['address2'];
+          res.data[i]['address3'];
+          res.data[i]['kana1'];
+          res.data[i]['kana2'];
+          res.data[i]['kana3'];
+          res.data[i]['zipcode'];
+          res.data[i]['created_at'];
+        } 
+        */
+
       });
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-          children: this.state.msg
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-            type: "number",
-            id: "num",
-            onChange: this.doChange
-          })
-        })]
-      });
+      console.log('1');
+      console.log(this.state.items);
+      console.log('2');
+
+      if (this.state.items.length > 0) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            children: this.state.msg
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: this.getAddressData,
+              children: "\u66F4\u65B0"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            children: this.state.items[0].address1
+          })]
+        });
+      } else {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            children: this.state.msg
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: this.getAddressData,
+              children: "\u66F4\u65B0"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {})]
+        });
+      }
     }
   }]);
 
   return MyComponent;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 
 
 if (document.getElementById('mycomponent')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(MyComponent, {}), document.getElementById('mycomponent'));
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(MyComponent, {}), document.getElementById('mycomponent'));
 }
 
 /***/ }),
@@ -59159,6 +59208,18 @@ if (false) {} else {
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
