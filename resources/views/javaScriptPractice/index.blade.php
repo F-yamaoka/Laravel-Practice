@@ -20,9 +20,9 @@
 <button class="btn btn-outline-primary" onClick = "ucFirstCall()">最初の文字を大文字にする</button>
 <button class="btn btn-outline-primary" onClick = "inputText()">長すぎる文字列の短縮</button>
 <button class="btn btn-outline-primary" onClick = "inputSum()">数字が続く限り足し続ける</button>
-<script>
 
-    // JavaScript Here
+<script>
+// JavaScript Here
 // 数字が続く限り足し続ける関数
 function inputSum(){
     let num =[];

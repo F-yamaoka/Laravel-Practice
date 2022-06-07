@@ -25,6 +25,8 @@ Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
 Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
 Route::get('/zipcode/address',[PostController::class,'address']);
+Route::get('/zipcode/reactapp',[PostController::class,'reactapp']);
+
 
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);
