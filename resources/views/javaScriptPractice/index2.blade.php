@@ -5,9 +5,9 @@
 
 <button onClick = "objectPractice()">オブジェクト</button>
 <button onClick = "ObjectReference()">参照</button>
-<button onClick = " "></button>
-<button onClick = " "></button>
-<button onClick = " "></button>
+<button onClick = "OP1()">オプショナルチェイニング（プロパティ）</button>
+<button onClick = "OP2()">オプショナルチェイニング（メソッド）</button>
+<button onClick = "primitive()">primitive</button>
 
 <script>
 // JavaScript Here
@@ -86,6 +86,51 @@ function ObjectReference(){
   alert(result);
 }
 
+// 練習3オプショナルチェイニング1
+function OP1(){
+  let user ={};
+  alert ('オプショナルチェイニングあり(undefined)');
+  alert (user?.address?.streat);
+  alert ('次はオプショナルチェイニングなし(エラー発生)');
+  alert (user.address.streat);
+}
+
+// 練習4オプショナルチェイニング2
+function OP2(){
+  // admin()を定義
+  let userAdmin ={
+    admin(){
+      alert('i am admin (function is called)')
+    }
+  };
+
+  // admin()を定義しない
+  let userGuest = {};
+  alert ('オプショナルチェイニングあり(undefined)');
+  userAdmin.admin?.();
+  userGuest.admin?.(); //これは存在しないメソッド
+  alert ('次はオプショナルチェイニングなし(エラー発生)');
+  userAdmin.admin();
+  userGuest.admin(); //これは存在しないメソッド
+}
+
+// 練習4 シンボル
+function primitive(){
+
+  let user = {
+    name : "John",
+    money: 1000,
+
+    [Symbol.toPrimitive](hint){
+      alert(`hint : ${hint}`);
+      return hint == "string" ? `{name: "${this.name}"}` : this.money;
+    }
+  };
+
+  alert(user);
+  alert(+user);
+  alert(user + 500);
+}
 // オブジェクトの内容を返す
 function viewObject(obj){
   let msg = '__viewObject()__\n';
