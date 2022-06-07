@@ -5,6 +5,7 @@
 @include('layouts/header_layout')
 
 @section('content')
+<h3>四則計算器</h3>
 <input type = 'number' id = 'number1' value = '0'>
 <select name='operator' id ='operator'>
   <option value="+">+</option>
@@ -15,16 +16,41 @@
 <input type = 'number' id = 'number2' value = '0'>
 <button onClick ='calculator()'>=</button>
 <input type ='text' id = 'result' disabled>
+
 <br>
-<button onClick ='testCalculator()'>test</button>
+<h3>加算器</h3>
+<input type = 'number' id = 'number3' value = '0'>
+<button onClick ='doAccumulator()'>計算機その2を起動</button>
+<br>
+<h3>テスト</h3>
+<button onClick ='testCalculator()'>計算機その1の単体test</button>
 
 <script>
 // 初期化
 let number1;
 let number2;
+let number3;
 let operator;
 let result;
 let msg;
+
+// 計算機その2起動
+function doAccumulator(){
+  number3 = Number(document.getElementById("number3").value);
+  let accumulator = new Accumulator(number3);
+  accumulator.read();
+  accumulator.read();
+  alert(accumulator.value);
+}
+// 計算機その2
+// 初期値にユーザーの入力を足していく
+function Accumulator(startingValue){
+  this.value = startingValue;
+  this.read = function(){
+    this.value += +prompt('how much to add?', 0);
+  };
+}
+
 
 // 計算機生成
 function calculator(){
@@ -34,6 +60,7 @@ function calculator(){
   
   document.getElementById("result").value = calculate(number1,operator,number2);
 }
+
 
 // 計算
 function calculate(number1,operator,number2){
