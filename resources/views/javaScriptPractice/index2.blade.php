@@ -164,10 +164,10 @@ function viewObject(obj){
 
 function random(max = undefined, min = undefined){
   while (!isFinite(max)) {
-    max = +prompt('max value?','');
+    max = prompt('max value?','');
   }
   while (!isFinite(min)) {
-    min = +prompt('min value?','');
+    min = prompt('min value?','');
   }
 
   // error
@@ -180,18 +180,19 @@ function random(max = undefined, min = undefined){
     return;
   }
   if (max == min){
-    alert ('error : max = min.')
+    alert ('error : max = min.');
     return;
   }
   if (max < min){
-    alert ('error : max < min.')
+    alert (min +','+ max);
+    alert ('error : max < min.');
     return;
   }
-
+  
   // 乱数生成
-  result1 = min + Math.random() * (max - min);
-  result2 = min + Math.random() * (max - min);
-  result3 = min + Math.random() * (max - min);
+  result1 = +min + Math.random() * (max - min);
+  result2 = +min + Math.random() * (max - min);
+  result3 = +min + Math.random() * (max - min);
 
   // 出力
   alert(
