@@ -8,7 +8,8 @@
 <button onClick = "OP1()">オプショナルチェイニング（プロパティ）</button>
 <button onClick = "OP2()">オプショナルチェイニング（メソッド）</button>
 <button onClick = "primitive()">primitive</button>
-
+<button onClick = "checkNumCall()">0 か NULL か NaN か 数値か</button>
+{{-- 結論: 小数部分を扱うとき、等価チェックを避けましょう。 --}}
 <script>
 // JavaScript Here
 
@@ -130,6 +131,25 @@ function primitive(){
   alert(user);
   alert(+user);
   alert(user + 500);
+}
+
+// checknumの呼び出し
+function checkNumCall(){
+  alert('入力したのは'+checkNum());
+}
+
+// 0 か NULL か NaN か 数値か
+function checkNum(){
+  let num;
+
+  do {
+    num = prompt('"数字"を入力','');
+  }while ( !isFinite(num) );        // 文字を除外
+  if (num === null || num === ''){  // nullと空行を除外
+    return null;
+  }
+  return +num;
+
 }
 // オブジェクトの内容を返す
 function viewObject(obj){
