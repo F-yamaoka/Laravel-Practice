@@ -5,30 +5,42 @@
 @include('layouts/header_layout')
 
 @section('content')
-
-
-
-
-
-<button onClick = "is_your_name()">名前</button>
-<button onClick = "how_old()">年齢</button>
-<button onClick = "login()">ログイン</button>
-<button onClick = "double()">偶数</button>
-<button onClick = "is_prime_number()">素数</button>
-<button onClick = "objectPractice()">オブジェクト</button>
-<button onClick = "ObjectReference()">参照</button>
-<button onClick = "OP1()">オプショナルチェイニング（プロパティ）</button>
-<button onClick = "OP2()">オプショナルチェイニング（メソッド）</button>
-<button onClick = "primitive()">primitive</button>
-<button onClick = "checkNumCall()">0 か NULL か NaN か 数値か</button>
-<button onClick = "random()">ランダム(最大,最小)</button>
-<button onClick = "ucFirstCall()">最初の文字を大文字にする</button>
-<button onClick = "inputText()">長すぎる文字列の短縮</button>
+<button class="btn btn-outline-primary" onClick = "is_your_name()">名前</button>
+<button class="btn btn-outline-primary" onClick = "how_old()">年齢</button>
+<button class="btn btn-outline-primary" onClick = "login()">ログイン</button>
+<button class="btn btn-outline-primary" onClick = "double()">偶数</button>
+<button class="btn btn-outline-primary" onClick = "is_prime_number()">素数</button>
+<button class="btn btn-outline-primary" onClick = "objectPractice()">オブジェクト</button>
+<button class="btn btn-outline-primary" onClick = "ObjectReference()">参照</button>
+<button class="btn btn-outline-primary" onClick = "OP1()">オプショナルチェイニング（プロパティ）</button>
+<button class="btn btn-outline-primary" onClick = "OP2()">オプショナルチェイニング（メソッド）</button>
+<button class="btn btn-outline-primary" onClick = "primitive()">primitive</button>
+<button class="btn btn-outline-primary" onClick = "checkNumCall()">0 か NULL か NaN か 数値か</button>
+<button class="btn btn-outline-primary" onClick = "random()">ランダム(最大,最小)</button>
+<button class="btn btn-outline-primary" onClick = "ucFirstCall()">最初の文字を大文字にする</button>
+<button class="btn btn-outline-primary" onClick = "inputText()">長すぎる文字列の短縮</button>
+<button class="btn btn-outline-primary" onClick = "inputSum()">数字が続く限り足し続ける</button>
 <script>
 
     // JavaScript Here
+// 数字が続く限り足し続ける関数
+function inputSum(){
+    let num =[];
+    let value = 0;
+    while(1){
+        value = prompt('input',0);
+        if (value==="" || value===null || !isFinite(value))break;
+        num.push(value);
+    }
 
-// 長すぎる文字列を省略する関数
+    let sum = 0;
+    for (let item of num){
+        sum += +item;
+    }
+    alert(sum);
+}
+
+    // 長すぎる文字列を省略する関数
 function inputText(){
   let longStr = prompt('long long text :','');
   let shortStr = truncate(longStr,20);
