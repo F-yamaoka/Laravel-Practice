@@ -5,5 +5,5 @@
 @include('layouts/header_layout')
 
 @section('content')
-
+<div id ="mycomponent"></div>
 @endsection
