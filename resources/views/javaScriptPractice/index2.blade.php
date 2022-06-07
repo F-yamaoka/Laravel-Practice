@@ -9,6 +9,7 @@
 <button onClick = "OP2()">オプショナルチェイニング（メソッド）</button>
 <button onClick = "primitive()">primitive</button>
 <button onClick = "checkNumCall()">0 か NULL か NaN か 数値か</button>
+<button onClick = "random()">ランダム(最大,最小)</button>
 {{-- 結論: 小数部分を扱うとき、等価チェックを避けましょう。 --}}
 <script>
 // JavaScript Here
@@ -159,6 +160,48 @@ function viewObject(obj){
     msg += obj[key] + ',\n'; 
   }
   return msg;
+}
+
+function random(max = undefined, min = undefined){
+  while (!isFinite(max)) {
+    max = +prompt('max value?','');
+  }
+  while (!isFinite(min)) {
+    min = +prompt('min value?','');
+  }
+
+  // error
+  if (max === null || min === null) {
+    alert ('error : max or min is null.');
+    return;
+  }
+  if (max === ''|| min === '') {
+    alert ('error : max or min is empty');
+    return;
+  }
+  if (max == min){
+    alert ('error : max = min.')
+    return;
+  }
+  if (max < min){
+    alert ('error : max < min.')
+    return;
+  }
+
+  // 乱数生成
+  result1 = min + Math.random() * (max - min);
+  result2 = min + Math.random() * (max - min);
+  result3 = min + Math.random() * (max - min);
+
+  // 出力
+  alert(
+    'max:' + max 
+  + '\nmin' + min 
+  + '\n乱数1 : ' + result1
+  + '\n乱数2 : ' + result2
+  + '\n乱数3 : ' + result3
+  );
+  return;
 }
 
 </script>
