@@ -10,10 +10,22 @@
 <button onClick = "primitive()">primitive</button>
 <button onClick = "checkNumCall()">0 か NULL か NaN か 数値か</button>
 <button onClick = "random()">ランダム(最大,最小)</button>
+<button onClick = "ucFirstCall()">最初の文字を大文字にする</button>
+
 {{-- 結論: 小数部分を扱うとき、等価チェックを避けましょう。 --}}
 <script>
 // JavaScript Here
+function ucFirstCall(){
+  str = prompt('入力:','');
+  alert(ucFirst(str));
+}
+// 最初の文字を大文字に
+function ucFirst(str){
+  // 空文字除外
+  if( !str ) return str;
 
+  return str[0].toUpperCase()+str.slice(1);
+}
 // 練習1
 function objectPractice(){
   let user = {
