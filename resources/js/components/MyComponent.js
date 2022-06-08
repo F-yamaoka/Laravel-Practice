@@ -231,7 +231,8 @@ export default class MyComponent extends Component {
           />
           <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
         </div>
-
+        <hr/>
+        <div className="container">
         <div class="input-group mb-3">
  
           <span class="input-group-text" id="basic-addon2">メッセージ</span>
@@ -302,6 +303,7 @@ export default class MyComponent extends Component {
             }              
           </tbody>
         </table>
+      </div>
       </div>
     );
   }
