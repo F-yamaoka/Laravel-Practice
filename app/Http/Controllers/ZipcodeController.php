@@ -90,8 +90,4 @@ class ZipcodeController extends Controller
         
         return view('zipcode.view',$data);
     }    
-
-    public function reactapp(){
-        return view ('zipcode.reactapp');
-    }
 }

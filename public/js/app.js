@@ -5538,45 +5538,113 @@ var MyComponent = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, MyComponent);
 
-    _this = _super.call(this, props); // 初期json呼び出し
-
+    _this = _super.call(this, props);
     _this.getAddressData = _this.getAddressData.bind(_assertThisInitialized(_this));
+    _this.callZipcodeApi = _this.callZipcodeApi.bind(_assertThisInitialized(_this)); // 初期json呼び出し
 
     _this.getAddressData();
 
     _this.state = {
       msg: '更新中',
-      items: []
+      err: ''
     };
     return _this;
-  } // json取得 表に成形
-
+  }
 
   _createClass(MyComponent, [{
-    key: "getAddressData",
-    value: function getAddressData(event) {
+    key: "callZipcodeApi",
+    value: function callZipcodeApi(event) {
       var _this2 = this;
 
       this.setState(function (state) {
         return {
-          msg: '更新中'
+          msg: '更新中',
+          err: ''
         };
-      });
-      var url = "/zipcode/address";
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-        var tmp_items = response.data;
+      }); // 仮　デ　ー　タ　仮　デ　ー　タ　　
 
-        if (tmp_items.length > 0) {
+      var zipcode1 = '' + document.getElementById('zipcode1').value;
+      var zipcode2 = '' + document.getElementById('zipcode2').value;
+
+      if (zipcode1 === '' || zipcode2 === '') {
+        this.setState(function (state) {
+          return {
+            msg: '完了',
+            err: '未入力'
+          };
+        });
+        return;
+      }
+
+      var url = '/zipcode/reactapp/zipcode_api/' + zipcode1 + zipcode2;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        var _temp_data$results;
+
+        var temp_data = JSON.parse(response.data); // errorメッセージが帰ってきた場合
+
+        if (!temp_data.message === null) {
           _this2.setState(function (state) {
             return {
-              msg: '正しく表示されました。',
-              items: tmp_items
+              msg: '完了',
+              err: '住所の取得に失敗しました(' + temp_data.message + ')'
+            };
+          });
+
+          return;
+        } // debug 用
+
+
+        console.log(temp_data); // リザルトが帰ってきた場合
+
+        if (((_temp_data$results = temp_data.results) === null || _temp_data$results === void 0 ? void 0 : _temp_data$results.length) != null) {
+          _this2.setState(function (state) {
+            return {
+              msg: '完了',
+              zipcodeItem: temp_data
+            };
+          });
+
+          return;
+        } // 何も帰ってこなかった場合
+
+
+        _this2.setState(function (state) {
+          return {
+            msg: '完了',
+            err: '住所の取得に失敗しました(不明なエラー)'
+          };
+        });
+      });
+    } // JSON取得 表に成形
+
+  }, {
+    key: "getAddressData",
+    value: function getAddressData(event) {
+      var _this3 = this;
+
+      this.setState(function (state) {
+        return {
+          msg: '更新中',
+          err: ''
+        };
+      });
+      var url = "/zipcode/reactapp/address_api";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        var tmp_items = response.data; // 分岐：データの有無
+
+        if (tmp_items.length > 0) {
+          _this3.setState(function (state) {
+            return {
+              msg: '完了',
+              items: tmp_items,
+              err: ''
             };
           });
         } else {
-          _this2.setState(function (state) {
+          _this3.setState(function (state) {
             return {
-              msg: 'データの更新に失敗しました。'
+              msg: '完了',
+              err: 'データの更新に失敗しました。'
             };
           });
         }
@@ -5585,80 +5653,87 @@ var MyComponent = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      if (this.state.items.length > 0) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            children: this.state.msg
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              onClick: this.getAddressData,
-              children: "\u66F4\u65B0"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
-            "class": "table",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "id"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "address1"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "address2"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "address3"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "kana1"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "kana2"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "kana3"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "zipcode"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                  children: "created_at"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
-              children: this.state.items.map(function (row) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.id
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.address1
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.address2
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.address3
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.kana1
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.kana2
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.kana3
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.zipcode
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: row.created_at.slice(0, 10)
-                  })]
-                });
-              })
-            })]
+      var _this$state, _this$state$zipcodeIt, _this$state$zipcodeIt2, _this$state2, _this$state2$zipcodeI, _this$state2$zipcodeI2, _this$state3, _this$state3$zipcodeI, _this$state3$zipcodeI2, _this$state4, _this$state4$zipcodeI, _this$state4$zipcodeI2, _this$state5, _this$state6, _this$state7, _this$state7$items;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "container",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["result:", (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : (_this$state$zipcodeIt2 = _this$state$zipcodeIt.results[0]) === null || _this$state$zipcodeIt2 === void 0 ? void 0 : _this$state$zipcodeIt2.zipcode, " ", (_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : (_this$state2$zipcodeI2 = _this$state2$zipcodeI.results[0]) === null || _this$state2$zipcodeI2 === void 0 ? void 0 : _this$state2$zipcodeI2.addresse, (_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : (_this$state3$zipcodeI2 = _this$state3$zipcodeI.results[0]) === null || _this$state3$zipcodeI2 === void 0 ? void 0 : _this$state3$zipcodeI2.address2, (_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : (_this$state4$zipcodeI2 = _this$state4$zipcodeI.results[0]) === null || _this$state4$zipcodeI2 === void 0 ? void 0 : _this$state4$zipcodeI2.address3]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["err:", (_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.err]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["msg:", (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.msg]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["zipcode1 :", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "number",
+            id: "zipcode1"
           })]
-        });
-      } else {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            children: this.state.msg
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              onClick: this.getAddressData,
-              children: "\u66F4\u65B0"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["zipcode2 :", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "number",
+            id: "zipcode2"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            onClick: this.callZipcodeApi,
+            children: "\u53D6\u5F97"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            onClick: this.getAddressData,
+            children: "\u66F4\u65B0"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+          "class": "table",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "id"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "address1"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "address2"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "address3"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "kana1"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "kana2"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "kana3"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "zipcode"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                children: "created_at"
+              })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {})]
-        });
-      }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+            children: (_this$state7 = this.state) === null || _this$state7 === void 0 ? void 0 : (_this$state7$items = _this$state7.items) === null || _this$state7$items === void 0 ? void 0 : _this$state7$items.map(function (row) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.id
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.address1
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.address2
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.address3
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.kana1
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.kana2
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.kana3
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.zipcode
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: row.created_at.slice(0, 10)
+                })]
+              });
+            })
+          })]
+        })]
+      });
     }
   }]);
 

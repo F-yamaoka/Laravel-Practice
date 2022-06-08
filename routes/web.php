@@ -5,6 +5,8 @@ use App\Http\Controllers\SecondController;
 use App\Http\Controllers\ZipcodeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\JavascriptController;
+use App\Http\Controllers\ReactController;
+
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +21,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FirstController::class,'toppage']);
 
-// ZIPcode（参画前の準備課題）
+// 参画前の準備課題
+
+// 住所（PHP版)
 Route::get('/zipcode',[ZipcodeController::class,'zipcode']);
 Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
 Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
-Route::get('/zipcode/address',[PostController::class,'address']);
-Route::get('/zipcode/reactapp',[ZipcodeController::class,'reactapp']);
 
+// 住所（React版) 
+Route::get('/zipcode/reactapp',[ReactController::class,'reactapp']);
+Route::get('/zipcode/reactapp/add',[ReactController::class,'add']);
+Route::get('/zipcode/reactapp/delete/{id}',[ReactController::class,'delete']);
+Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ReactController::class,'zipcode_api']);
+Route::get('/zipcode/reactapp/address_api',[ReactController::class,'address_api']);
 
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);
