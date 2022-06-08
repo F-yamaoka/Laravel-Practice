@@ -5624,7 +5624,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this3.setState(function (state) {
             return {
               status: '完了',
-              msg: '住所の取得に失敗しました(' + temp_data.message + ')'
+              msg: '住所の取得に失敗しました'
             };
           });
 
@@ -5648,7 +5648,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         _this3.setState(function (state) {
           return {
             status: '完了',
-            msg: '住所の取得に失敗しました(不明なエラー)'
+            msg: '住所の取得に失敗しました'
           };
         });
       });
@@ -5783,52 +5783,104 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this$state4,
           _this$state4$zipcodeI,
           _this$state4$zipcodeI2,
+          _this6 = this,
           _this$state5,
           _this$state6,
-          _this6 = this,
           _this$state7,
           _this$state7$items;
 
+      var oldZipcode = (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : (_this$state$zipcodeIt2 = _this$state$zipcodeIt.results[0]) === null || _this$state$zipcodeIt2 === void 0 ? void 0 : _this$state$zipcodeIt2.zipcode;
+      var result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : (_this$state2$zipcodeI2 = _this$state2$zipcodeI.results[0]) === null || _this$state2$zipcodeI2 === void 0 ? void 0 : _this$state2$zipcodeI2.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : (_this$state3$zipcodeI2 = _this$state3$zipcodeI.results[0]) === null || _this$state3$zipcodeI2 === void 0 ? void 0 : _this$state3$zipcodeI2.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : (_this$state4$zipcodeI2 = _this$state4$zipcodeI.results[0]) === null || _this$state4$zipcodeI2 === void 0 ? void 0 : _this$state4$zipcodeI2.address3);
+      result = result.replace('undefined', '');
+      result = result.replace('undefined', '');
+      result = result.replace('undefined', '');
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-          children: ["result:", (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : (_this$state$zipcodeIt2 = _this$state$zipcodeIt.results[0]) === null || _this$state$zipcodeIt2 === void 0 ? void 0 : _this$state$zipcodeIt2.zipcode, " ", (_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : (_this$state2$zipcodeI2 = _this$state2$zipcodeI.results[0]) === null || _this$state2$zipcodeI2 === void 0 ? void 0 : _this$state2$zipcodeI2.addresse, (_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : (_this$state3$zipcodeI2 = _this$state3$zipcodeI.results[0]) === null || _this$state3$zipcodeI2 === void 0 ? void 0 : _this$state3$zipcodeI2.address2, (_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : (_this$state4$zipcodeI2 = _this$state4$zipcodeI.results[0]) === null || _this$state4$zipcodeI2 === void 0 ? void 0 : _this$state4$zipcodeI2.address3]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-          children: ["msg:", (_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.msg]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-          children: ["status:", (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.status]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-          children: ["zipcode1 :", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          "class": "input-group mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            "class": "input-group-text",
+            id: "basic-addon2",
+            children: "\u3012"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             type: "number",
-            id: "zipcode1"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-          children: ["zipcode2 :", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            id: "zipcode1",
+            "class": "form-control",
+            placeholder: "000",
+            "aria-label": "zipcode",
+            "aria-describedby": "basic-addon2"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            "class": "input-group-text",
+            id: "basic-addon2",
+            children: "-"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             type: "number",
-            id: "zipcode2"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            id: "zipcode2",
+            "class": "form-control",
+            placeholder: "0000",
+            "aria-label": "zipcode",
+            "aria-describedby": "basic-addon2"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
             "class": "btn btn-outline-success",
             onClick: this.callZipcodeApi,
             children: "\u53D6\u5F97"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          "class": true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            "class": "text-center",
+            children: "\u2193"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          "class": "input-group mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            "class": "form-control",
+            value: result,
+            placeholder: "",
+            "aria-label": "address",
+            "aria-describedby": "basic-addon2",
+            disabled: true
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
             "class": "btn btn-outline-success",
             onClick: function onClick() {
-              var _this6$state, _this6$state$zipcodeI, _this6$state$zipcodeI2;
-
-              return _this6.callInsetAction((_this6$state = _this6.state) === null || _this6$state === void 0 ? void 0 : (_this6$state$zipcodeI = _this6$state.zipcodeItem) === null || _this6$state$zipcodeI === void 0 ? void 0 : (_this6$state$zipcodeI2 = _this6$state$zipcodeI.results[0]) === null || _this6$state$zipcodeI2 === void 0 ? void 0 : _this6$state$zipcodeI2.zipcode);
+              return _this6.callInsetAction(oldZipcode);
             },
             children: "\u8FFD\u52A0"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          "class": "input-group mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            "class": "input-group-text",
+            id: "basic-addon2",
+            children: "\u30E1\u30C3\u30BB\u30FC\u30B8"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            id: "msg",
+            value: (_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.msg,
+            "class": "form-control",
+            placeholder: "",
+            "aria-label": "msg",
+            "aria-describedby": "basic-addon2",
+            disabled: true
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            "class": "input-group-text",
+            id: "basic-addon2",
+            children: "\u72B6\u614B"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            id: "msg",
+            value: (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.status,
+            "class": "form-control",
+            placeholder: "",
+            "aria-label": "msg",
+            "aria-describedby": "basic-addon2",
+            disabled: true
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
             "class": "btn btn-outline-success",
             onClick: this.getAddressData,
             children: "\u66F4\u65B0"
-          })
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
           "class": "table",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {

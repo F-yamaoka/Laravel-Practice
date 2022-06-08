@@ -79,7 +79,7 @@ export default class MyComponent extends Component {
       if (!temp_data.message === null){
         this.setState((state)=>({
           status : '完了',
-          msg : '住所の取得に失敗しました(' + temp_data.message + ')',
+          msg : '住所の取得に失敗しました',
         }));
         return;
       }
@@ -97,7 +97,7 @@ export default class MyComponent extends Component {
       // 何も帰ってこなかった場合
       this.setState((state)=>({
         status : '完了',
-        msg : '住所の取得に失敗しました(不明なエラー)' 
+        msg : '住所の取得に失敗しました' 
       }));
     });
     return;
@@ -197,23 +197,72 @@ export default class MyComponent extends Component {
   }
 
   render(){
-    return (
+    let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
+    let result = ''+ this.state?.zipcodeItem?.results[0]?.address1 
+    + this.state?.zipcodeItem?.results[0]?.address2 
+    + this.state?.zipcodeItem?.results[0]?.address3;
+
+    result = result.replace('undefined','');
+    result = result.replace('undefined','');
+    result = result.replace('undefined','');
+
+
+      return (
       <div className="container">
-        {/* メッセージ群 */}
-        <p>result:{this.state?.zipcodeItem?.results[0]?.zipcode} {this.state?.zipcodeItem?.results[0]?.addresse}
-        {this.state?.zipcodeItem?.results[0]?.address2}{this.state?.zipcodeItem?.results[0]?.address3}</p>
-        <p>msg:{this.state?.msg}</p>
-        <p>status:{this.state?.status}</p>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon2">〒</span>
+          <input type="number"  id = 'zipcode1' class="form-control" placeholder="000" aria-label="zipcode" aria-describedby="basic-addon2"/>
+          <span class="input-group-text" id="basic-addon2">-</span>
+          <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
+          <button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
+        </div>
+        <div class >
+        <p class="text-center">↓</p>
+        </div>
+        <div class="input-group mb-3">
+          <input 
+            type="text" 
+            class="form-control" 
+            value = {result}
+            placeholder="" 
+            aria-label="address" 
+            aria-describedby="basic-addon2"
+            disabled
+          />
+          <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
+        </div>
 
-        {/* インプット群 */}
-        <p>zipcode1 :<input type ='number' id = 'zipcode1'/></p>
-        <p>zipcode2 :<input type ='number' id = 'zipcode2'/></p>
+        <div class="input-group mb-3">
+ 
+          <span class="input-group-text" id="basic-addon2">メッセージ</span>
 
-        {/* ボタン群  */}
+          <input 
+            type="text"  
+            id = 'msg' 
+            value = {this.state?.msg} 
+            class="form-control" 
+            placeholder="" 
+            aria-label="msg" 
+            aria-describedby="basic-addon2"
+            disabled
+          />
+
+          
+          <span class="input-group-text" id="basic-addon2">状態</span>
+          <input 
+            type="text"  
+            id = 'msg' 
+            value = {this.state?.status} 
+            class="form-control" 
+            placeholder="" 
+            aria-label="msg" 
+            aria-describedby="basic-addon2"
+            disabled
+          />
+          <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
+
+        </div>
         
-        <p><button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button></p> 
-        <p><button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(this.state?.zipcodeItem?.results[0]?.zipcode)}>追加</button></p>
-        <p><button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button></p> 
         
         {/* テーブル表示 */}
         <table class="table">
