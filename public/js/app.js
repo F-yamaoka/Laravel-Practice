@@ -5636,7 +5636,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this3.setState(function (state) {
             return {
               status: '完了',
-              zipcodeItem: temp_data
+              zipcodeItem: temp_data,
+              msg: ''
             };
           });
 
@@ -5657,19 +5658,19 @@ var MyComponent = /*#__PURE__*/function (_Component) {
   }, {
     key: "callInsetAction",
     value: function callInsetAction() {
-      return;
-    } // 削除処理
-
-  }, {
-    key: "callDeleteAction",
-    value: function callDeleteAction() {
       var _this4 = this;
 
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
+      var zipcode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
       var event = arguments.length > 1 ? arguments[1] : undefined;
 
-      if (id == -1) {
-        alert('return');
+      // zipcode　バリデーション
+      if (zipcode === -1) {
+        this.setState(function (state) {
+          return {
+            status: '完了',
+            msg: '未入力'
+          };
+        });
         return;
       }
 
@@ -5678,9 +5679,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           status: '更新中',
           msg: ''
         };
-      }); // 削除処理
+      }); // 追加処理
 
-      var url = "/zipcode/reactapp/delete/" + id;
+      var url = "/zipcode/reactapp/insert/" + zipcode;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         _this4.setState(function (state) {
           return {
@@ -5712,6 +5713,60 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }
       });
       return;
+    } // 削除処理
+
+  }, {
+    key: "callDeleteAction",
+    value: function callDeleteAction() {
+      var _this5 = this;
+
+      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;
+      var event = arguments.length > 1 ? arguments[1] : undefined;
+
+      if (id == -1) {
+        alert('return');
+        return;
+      }
+
+      this.setState(function (state) {
+        return {
+          status: '更新中',
+          msg: ''
+        };
+      }); // 削除処理
+
+      var url = "/zipcode/reactapp/delete/" + id;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        _this5.setState(function (state) {
+          return {
+            status: '完了',
+            msg: response.data
+          };
+        });
+      }); // 更新処理
+
+      var url2 = "/zipcode/reactapp/address_api";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url2).then(function (response) {
+        var tmp_items = response.data; // 分岐：データの有無
+
+        if (tmp_items.length > 0) {
+          _this5.setState(function (state) {
+            return {
+              status: '完了',
+              items: tmp_items
+            };
+          });
+        } else {
+          _this5.setState(function (state) {
+            return {
+              status: '完了',
+              msg: 'データがありません',
+              items: tmp_items
+            };
+          });
+        }
+      });
+      return;
     }
   }, {
     key: "render",
@@ -5730,9 +5785,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this$state4$zipcodeI2,
           _this$state5,
           _this$state6,
+          _this6 = this,
           _this$state7,
-          _this$state7$items,
-          _this5 = this;
+          _this$state7$items;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
@@ -5761,7 +5816,11 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
             "class": "btn btn-outline-success",
-            onClick: this.callInsetAction,
+            onClick: function onClick() {
+              var _this6$state, _this6$state$zipcodeI, _this6$state$zipcodeI2;
+
+              return _this6.callInsetAction((_this6$state = _this6.state) === null || _this6$state === void 0 ? void 0 : (_this6$state$zipcodeI = _this6$state.zipcodeItem) === null || _this6$state$zipcodeI === void 0 ? void 0 : (_this6$state$zipcodeI2 = _this6$state$zipcodeI.results[0]) === null || _this6$state$zipcodeI2 === void 0 ? void 0 : _this6$state$zipcodeI2.zipcode);
+            },
             children: "\u8FFD\u52A0"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
@@ -5821,7 +5880,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     "class": "btn btn-outline-danger",
                     onClick: function onClick() {
-                      return _this5.callDeleteAction(row.id);
+                      return _this6.callDeleteAction(row.id);
                     },
                     children: "\u524A\u9664"
                   })

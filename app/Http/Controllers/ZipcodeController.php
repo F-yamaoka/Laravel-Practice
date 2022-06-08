@@ -60,7 +60,7 @@ class ZipcodeController extends Controller
             .$data['results'][0]['address2']
             .'( 〒'
             .$request->zipcode1
-            .'-'.$request->zipcode2
+            .$request->zipcode2
             .' ) -> save!';
         }
 

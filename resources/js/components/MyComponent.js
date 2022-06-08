@@ -89,6 +89,7 @@ export default class MyComponent extends Component {
         this.setState((state)=>({
           status : '完了',
           zipcodeItem : temp_data,
+          msg : '',
         }));
         return;
       }
@@ -102,9 +103,52 @@ export default class MyComponent extends Component {
     return;
   }
   
-
   // 追加処理
-  callInsetAction(){
+  callInsetAction(zipcode =-1, event){
+    // zipcode　バリデーション
+    if (zipcode=== -1){
+      this.setState((state)=>({
+        status : '完了',
+        msg : '未入力',
+      }));
+      return;
+    }
+
+    this.setState((state)=>({
+      status : '更新中',
+      msg : '',
+    }));
+
+    // 追加処理
+    const url = "/zipcode/reactapp/insert/"+zipcode;
+    axios.get(url).then(response => {
+
+      this.setState((state)=>({
+        status : '完了',
+        msg : response.data,
+      }));
+    });
+  
+    // 更新処理
+    const url2 = "/zipcode/reactapp/address_api";
+    axios.get(url2).then(response => {
+      let tmp_items = response.data;
+
+      // 分岐：データの有無
+      if (tmp_items.length > 0) {
+        this.setState((state)=>({
+          status : '完了',
+          items : tmp_items,
+        }));
+      }else{
+        this.setState((state)=>({
+          status : '完了',
+          msg : 'データがありません',
+          items : tmp_items,
+        }));
+      }
+    });
+
     return;
   }
 
@@ -166,8 +210,9 @@ export default class MyComponent extends Component {
         <p>zipcode2 :<input type ='number' id = 'zipcode2'/></p>
 
         {/* ボタン群  */}
+        
         <p><button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button></p> 
-        <p><button class= "btn btn-outline-success" onClick={this.callInsetAction}>追加</button></p>
+        <p><button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(this.state?.zipcodeItem?.results[0]?.zipcode)}>追加</button></p>
         <p><button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button></p> 
         
         {/* テーブル表示 */}

@@ -31,7 +31,7 @@ Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
 
 // 住所（React版) 
 Route::get('/zipcode/reactapp',[ReactController::class,'reactapp']);
-Route::get('/zipcode/reactapp/add',[ReactController::class,'add']);
+Route::get('/zipcode/reactapp/insert/{zipcode}',[ReactController::class,'insert']);
 Route::get('/zipcode/reactapp/delete/{id}',[ReactController::class,'delete']);
 Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ReactController::class,'zipcode_api']);
 Route::get('/zipcode/reactapp/address_api',[ReactController::class,'address_api']);
