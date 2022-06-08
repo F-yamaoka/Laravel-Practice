@@ -14,8 +14,16 @@ class ReactController extends Controller
 
     }
     
-    public function delete(){
-        
+    public function delete(Request $request){
+        $address = Address::find($request->id);
+
+        if(isset($address)){
+            $msg ='削除しました(zipcode :'.$address->zipcode.')';
+            $address->delete();
+        }else{
+            $msg ='error(対象IDが存在しない)';
+        }
+        return response($msg,200);
     }
 
     public function zipcode_api(Request $request){
