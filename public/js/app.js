@@ -5540,14 +5540,14 @@ var MyComponent = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props); // 初期json呼び出し
 
-    _this.state = {
-      msg: '正しく読み込まれました!',
-      items: []
-    };
     _this.getAddressData = _this.getAddressData.bind(_assertThisInitialized(_this));
 
     _this.getAddressData();
 
+    _this.state = {
+      msg: '更新中',
+      items: []
+    };
     return _this;
   } // json取得 表に成形
 
@@ -5557,38 +5557,34 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     value: function getAddressData(event) {
       var _this2 = this;
 
-      console.log('getaddressdata');
+      this.setState(function (state) {
+        return {
+          msg: '更新中'
+        };
+      });
       var url = "/zipcode/address";
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         var tmp_items = response.data;
 
-        _this2.setState(function (state) {
-          return {
-            msg: '正しく読み込まれました！',
-            items: tmp_items
-          };
-        });
-        /* 
-        for (let i = 0; i < res.data.length; i++) {
-          tableData.push(<th>id</th>);
-          tableData.push(<th>address1</th>);
-          tableData.push(<th>address2</th>);
-          tableData.push(<th>address3</th>);
-          tableData.push(<th>kana1</th>);
-          tableData.push(<th>kana2</th>);
-          tableData.push(<th>kana3</th>);
-          tableData.push(<th>zipcode</th>);
-          tableData.push(<th>created_at</th>);
-        } 
-        */
-
+        if (tmp_items.length > 0) {
+          _this2.setState(function (state) {
+            return {
+              msg: '正しく表示されました。',
+              items: tmp_items
+            };
+          });
+        } else {
+          _this2.setState(function (state) {
+            return {
+              msg: 'データの更新に失敗しました。'
+            };
+          });
+        }
       });
     }
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state.items);
-
       if (this.state.items.length > 0) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "container",
@@ -5600,6 +5596,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               children: "\u66F4\u65B0"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+            "class": "table",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {

@@ -8,51 +8,42 @@ export default class MyComponent extends Component {
     super(props);
 
     // 初期json呼び出し
-    this.state = {
-      msg : '正しく読み込まれました!',
-      items :[],
-    };
     this.getAddressData = this.getAddressData.bind(this);
     this.getAddressData();
-
+    this.state = {
+      msg : '更新中',
+      items :[],
+    };
   }
 
   // json取得 表に成形
   getAddressData(event){
-    console.log('getaddressdata');
+    this.setState((state)=>({
+      msg : '更新中',
+    }));
     const url = "/zipcode/address";
     axios.get(url).then(response => {
       let tmp_items = response.data;
-      this.setState((state)=>({
-        msg : '正しく読み込まれました！',
-        items : tmp_items,
-      }));
-      /* 
-      for (let i = 0; i < res.data.length; i++) {
-        tableData.push(<th>id</th>);
-        tableData.push(<th>address1</th>);
-        tableData.push(<th>address2</th>);
-        tableData.push(<th>address3</th>);
-        tableData.push(<th>kana1</th>);
-        tableData.push(<th>kana2</th>);
-        tableData.push(<th>kana3</th>);
-        tableData.push(<th>zipcode</th>);
-        tableData.push(<th>created_at</th>);
-      } 
-      */
-
+      if (tmp_items.length > 0) {
+        this.setState((state)=>({
+          msg : '正しく表示されました。',
+          items : tmp_items,
+        }));
+      }else{
+        this.setState((state)=>({
+          msg : 'データの更新に失敗しました。',
+        }));
+      }
     });
   }
 
   render(){
-    console.log(this.state.items);
-
     if (this.state.items.length > 0) {
       return (
         <div className="container">
           <p>{this.state.msg}</p>
           <p><button onClick={this.getAddressData}>更新</button></p> 
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>id</th>
@@ -68,19 +59,19 @@ export default class MyComponent extends Component {
       </thead>
       <tbody>
         {this.state.items.map((row) => {
-          return (
-            <tr>
-              <td>{row.id}</td>
-              <td>{row.address1}</td>
-              <td>{row.address2}</td>
-              <td>{row.address3}</td>
-              <td>{row.kana1}</td>
-              <td>{row.kana2}</td>
-              <td>{row.kana3}</td>
-              <td>{row.zipcode}</td>
-              <td>{row.created_at.slice(0,10)}</td>
-            </tr>
-          );
+        return (
+        <tr>
+          <td>{row.id}</td>
+          <td>{row.address1}</td>
+          <td>{row.address2}</td>
+          <td>{row.address3}</td>
+          <td>{row.kana1}</td>
+          <td>{row.kana2}</td>
+          <td>{row.kana3}</td>
+          <td>{row.zipcode}</td>
+          <td>{row.created_at.slice(0,10)}</td>
+        </tr>
+        );
         })}
       </tbody>
     </table>
