@@ -67,6 +67,3 @@ Route::get('/second/save/{id}/{name}',[SecondController::class,'save']);
 Route::get('/second/search',[SecondController::class,'search']);
 Route::get('/second/json',[SecondController::class,'json']);
 Route::get('/second/json/{id}',[SecondController::class,'json']);
-
-
-

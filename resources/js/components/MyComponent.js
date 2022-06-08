@@ -29,15 +29,15 @@ export default class MyComponent extends Component {
       }));
       /* 
       for (let i = 0; i < res.data.length; i++) {
-        res.data[i]['id'];
-        res.data[i]['address1'];
-        res.data[i]['address2'];
-        res.data[i]['address3'];
-        res.data[i]['kana1'];
-        res.data[i]['kana2'];
-        res.data[i]['kana3'];
-        res.data[i]['zipcode'];
-        res.data[i]['created_at'];
+        tableData.push(<th>id</th>);
+        tableData.push(<th>address1</th>);
+        tableData.push(<th>address2</th>);
+        tableData.push(<th>address3</th>);
+        tableData.push(<th>kana1</th>);
+        tableData.push(<th>kana2</th>);
+        tableData.push(<th>kana3</th>);
+        tableData.push(<th>zipcode</th>);
+        tableData.push(<th>created_at</th>);
       } 
       */
 
@@ -45,17 +45,45 @@ export default class MyComponent extends Component {
   }
 
   render(){
-    console.log('1');
     console.log(this.state.items);
-    console.log('2');
+
     if (this.state.items.length > 0) {
       return (
         <div className="container">
           <p>{this.state.msg}</p>
           <p><button onClick={this.getAddressData}>更新</button></p> 
-
-          {/* ここをfor文章で回して表を作る */}
-          <p>{this.state.items[0].address1}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>address1</th>
+          <th>address2</th>
+          <th>address3</th>
+          <th>kana1</th>
+          <th>kana2</th>
+          <th>kana3</th>
+          <th>zipcode</th>
+          <th>created_at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {this.state.items.map((row) => {
+          return (
+            <tr>
+              <td>{row.id}</td>
+              <td>{row.address1}</td>
+              <td>{row.address2}</td>
+              <td>{row.address3}</td>
+              <td>{row.kana1}</td>
+              <td>{row.kana2}</td>
+              <td>{row.kana3}</td>
+              <td>{row.zipcode}</td>
+              <td>{row.created_at.slice(0,10)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
         </div>
       );
     }else{
