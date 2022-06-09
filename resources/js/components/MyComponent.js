@@ -233,10 +233,7 @@ export default class MyComponent extends Component {
           <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
         </div>
         </div>
-        <hr/>
-
-
-        <div className="container">
+      <div className="container">
 
         <div class="input-group mb-3">  
           <span class="input-group-text" id="basic-addon2">メッセージ</span>
@@ -251,8 +248,25 @@ export default class MyComponent extends Component {
             aria-describedby="basic-addon2"
             disabled
           />
+        </div>
+      </div>
+        
+        <hr/>
+
+
+      <div className="container">
+      <div class="row">
+      <div class="col-9">
+
+
+
+        </div>
+      <div class="col-3">
+
+        <div class="input-group mb-3">  
 
           <span class="input-group-text" id="basic-addon2">状態</span>
+
           <input 
             type="text"  
             id = 'msg' 
@@ -264,24 +278,26 @@ export default class MyComponent extends Component {
             disabled
           />
           <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
-          </div>
         </div>
+        </div>
+        </div> 
+
+      </div> 
         
         
         {/* テーブル表示 */}
         <table class="table">
           <thead>
             <tr>
-              <th>id</th>
-              <th>address1</th>
-              <th>address2</th>
-              <th>address3</th>
-              <th>kana1</th>
-              <th>kana2</th>
-              <th>kana3</th>
-              <th>zipcode</th>
-              <th>created_at</th>
-              <th>delete</th>
+              <th>住所1</th>
+              <th>住所2</th>
+              <th>住所3</th>
+              <th>かな1</th>
+              <th>かな2</th>
+              <th>かな3</th>
+              <th>郵便番号</th>
+              <th>登録日時</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
@@ -290,7 +306,6 @@ export default class MyComponent extends Component {
               this.state?.items?.map((row) => {
                 return (
                 <tr>
-                  <td>{row.id}</td>
                   <td>{row.address1}</td>
                   <td>{row.address2}</td>
                   <td>{row.address3}</td>
