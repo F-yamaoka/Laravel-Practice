@@ -5785,6 +5785,17 @@ var MyComponent = /*#__PURE__*/function (_Component) {
       var b = '-';
       var c = str.slice(3);
       return '〒' + a + b + c;
+    } //
+    //
+    // undefinedを取り除く
+
+  }, {
+    key: "removeUndefined",
+    value: function removeUndefined(str) {
+      str = str.replace('undefined', '');
+      str = str.replace('undefined', '');
+      str = str.replace('undefined', '');
+      return str;
     }
   }, {
     key: "render",
@@ -5809,9 +5820,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
 
       var oldZipcode = (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : (_this$state$zipcodeIt2 = _this$state$zipcodeIt.results[0]) === null || _this$state$zipcodeIt2 === void 0 ? void 0 : _this$state$zipcodeIt2.zipcode;
       var result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : (_this$state2$zipcodeI2 = _this$state2$zipcodeI.results[0]) === null || _this$state2$zipcodeI2 === void 0 ? void 0 : _this$state2$zipcodeI2.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : (_this$state3$zipcodeI2 = _this$state3$zipcodeI.results[0]) === null || _this$state3$zipcodeI2 === void 0 ? void 0 : _this$state3$zipcodeI2.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : (_this$state4$zipcodeI2 = _this$state4$zipcodeI.results[0]) === null || _this$state4$zipcodeI2 === void 0 ? void 0 : _this$state4$zipcodeI2.address3);
-      result = result.replace('undefined', '');
-      result = result.replace('undefined', '');
-      result = result.replace('undefined', '');
+      result = this.removeUndefined(result);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -5842,14 +5851,14 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               "aria-describedby": "basic-addon2"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               "class": "btn btn-outline-success",
-              onClick: this.callZipcodeApi,
+              onClick: function onClick() {
+                return _this6.callZipcodeApi;
+              },
               children: "\u53D6\u5F97"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-              "class": "arrow",
-              children: " \u2192 "
-            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            "class": "arrow",
+            children: " \u2192 "
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             "class": "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
@@ -5892,9 +5901,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             "class": "row",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              "class": "col-9"
+              "class": "col-7"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              "class": "col-3",
+              "class": "col-5 align-self-end",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 "class": "input-group mb-3",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {

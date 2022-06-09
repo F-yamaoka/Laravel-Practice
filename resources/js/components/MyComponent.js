@@ -10,6 +10,7 @@ export default class MyComponent extends Component {
     this.getAddressData = this.getAddressData.bind(this);
     this.callZipcodeApi = this.callZipcodeApi.bind(this);
     this.callDeleteAction = this.callDeleteAction.bind(this);
+  
 
     // 初期json呼び出し
     this.getAddressData();
@@ -213,121 +214,134 @@ export default class MyComponent extends Component {
     return('〒'+a + b + c);
   }
 
-  render(){
-    let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
-    let result = ''+ this.state?.zipcodeItem?.results[0]?.address1 
-    + this.state?.zipcodeItem?.results[0]?.address2 
-    + this.state?.zipcodeItem?.results[0]?.address3;
+  //
+  //
+  // undefinedを取り除く
+  removeUndefined(str){
+    str = str.replace('undefined','');
+    str = str.replace('undefined','');
+    str = str.replace('undefined','');
+    return str;
+  }
 
-    result = result.replace('undefined','');
-    result = result.replace('undefined','');
-    result = result.replace('undefined','');
+render(){
+  let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
+  let result = ''+ this.state?.zipcodeItem?.results[0]?.address1 
+  + this.state?.zipcodeItem?.results[0]?.address2 
+  + this.state?.zipcodeItem?.results[0]?.address3;
+  result = this.removeUndefined(result);
 
-
-return (
-<div className="container">
-  <div class="d-flex p-2 bd-highlight">
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon2">〒</span>
-      <input type="number"  id = 'zipcode1' class="form-control" placeholder="000" aria-label="zipcode" aria-describedby="basic-addon2"/>
-      <span class="input-group-text" id="basic-addon2">-</span>
-      <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
-      <button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
-    </div>
-    <p class="arrow"> → </p>
-    <div class="input-group mb-3">
-      <input 
-        type="text" 
-        class="form-control" 
-        value = {result}
-        placeholder="" 
-        aria-label="address" 
-        aria-describedby="basic-addon2"
-        disabled
-      />
-      <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
-    </div>
-  </div>
-
+  return (
   <div className="container">
-    <div class="input-group mb-3">  
-      <span class="input-group-text" id="basic-addon2">メッセージ</span>
-      <input 
-        type="text"  
-        id = 'msg' 
-        value = {this.state?.msg} 
-        class="form-control" 
-        placeholder="" 
-        aria-label="msg" 
-        aria-describedby="basic-addon2"
-        disabled
-      />
-    </div>
-  </div>        
-  <hr/>
-
-  <div className="container">
-    <div class="row">
-      <div class="col-9">
-        {/* 空要素 */}
+    <div class="d-flex p-2 bd-highlight">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">〒</span>
+        <input 
+          type="number"
+          id = 'zipcode1' 
+          class="form-control" 
+          placeholder="000" 
+          aria-label="zipcode" 
+          aria-describedby="basic-addon2"
+        />
+        <span class="input-group-text" id="basic-addon2">-</span>
+        <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
+        <button class= "btn btn-outline-success" onClick={()=>this.callZipcodeApi}>取得</button>
       </div>
-      <div class="col-3">
-        <div class="input-group mb-3">  
-          <span class="input-group-text" id="basic-addon2">状態</span>
-          <input 
-            type="text"  
-            id = 'msg' 
-            value = {this.state?.status} 
-            class="form-control" 
-            placeholder="" 
-            aria-label="msg" 
-            aria-describedby="basic-addon2"
-            disabled
-          />
-          <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
+      <p class="arrow"> → </p>
+      <div class="input-group mb-3">
+        <input 
+          type="text" 
+          class="form-control" 
+          value = {result}
+          placeholder="" 
+          aria-label="address" 
+          aria-describedby="basic-addon2"
+          disabled
+        />
+        <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
+      </div>
+    </div>
+
+    <div className="container">
+      <div class="input-group mb-3">  
+        <span class="input-group-text" id="basic-addon2">メッセージ</span>
+        <input 
+          type="text"  
+          id = 'msg' 
+          value = {this.state?.msg} 
+          class="form-control" 
+          placeholder="" 
+          aria-label="msg" 
+          aria-describedby="basic-addon2"
+          disabled
+        />
+      </div>
+    </div>        
+    <hr/>
+
+    <div className="container">
+      <div class="row">
+        <div class="col-7">
+          {/* 空要素 */}
         </div>
-      </div>
+        <div class="col-5 align-self-end">
+          <div class="input-group mb-3">  
+            <span class="input-group-text" id="basic-addon2">状態</span>
+            <input 
+              type="text"  
+              id = 'msg' 
+              value = {this.state?.status} 
+              class="form-control" 
+              placeholder="" 
+              aria-label="msg" 
+              aria-describedby="basic-addon2"
+              disabled
+            />
+            <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
+          </div>
+        </div>
+      </div> 
     </div> 
-  </div> 
-        
-        
-    {/* テーブル表示 */}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>住所1</th>
-          <th>住所2</th>
-          <th>住所3</th>
-          <th>かな1</th>
-          <th>かな2</th>
-          <th>かな3</th>
-          <th>郵便番号</th>
-          <th>登録日時</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          this.state?.items?.map((row) => {
-            return (
-            <tr>
-              <td>{row.address1}</td>
-              <td>{row.address2}</td>
-              <td>{row.address3}</td>
-              <td>{row.kana1}</td>
-              <td>{row.kana2}</td>
-              <td>{row.kana3}</td>
-              <td>{this.zipcodeSlice(row.zipcode)}</td>
-              <td>{row.created_at.slice(0,10)}</td>
-              <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
-            </tr>
-            );
-          })
-        }              
-      </tbody>
-    </table>
-  </div>
-  );
+          
+          
+      {/* テーブル表示 */}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>住所1</th>
+            <th>住所2</th>
+            <th>住所3</th>
+            <th>かな1</th>
+            <th>かな2</th>
+            <th>かな3</th>
+            <th>郵便番号</th>
+            <th>登録日時</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            this.state?.items?.map((row) => {
+              return (
+              <tr>
+                <td>{row.address1}</td>
+                <td>{row.address2}</td>
+                <td>{row.address3}</td>
+                <td>{row.kana1}</td>
+                <td>{row.kana2}</td>
+                <td>{row.kana3}</td>
+                <td>{this.zipcodeSlice(row.zipcode)}</td>
+                <td>{row.created_at.slice(0,10)}</td>
+                <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
+              </tr>
+              );
+            })
+          }              
+        </tbody>
+      </table>
+    </div>
+    );
   }
 }
 
