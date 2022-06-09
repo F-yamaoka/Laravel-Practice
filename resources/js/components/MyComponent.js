@@ -69,6 +69,7 @@ export default class MyComponent extends Component {
       this.setState((state)=>({
         status : '完了',
         msg : '',
+        zipcodeItem : '',
       }));
       return;
     }
@@ -76,7 +77,8 @@ export default class MyComponent extends Component {
     if (zipcode.length > 7){
       this.setState((state)=>({
         status : '完了',
-        msg : '郵便番号の形式は000-0000です',
+        msg : '',
+        zipcodeItem : '',
       }));
       return;
     }
@@ -118,7 +120,7 @@ export default class MyComponent extends Component {
     if (zipcode=== -1){
       this.setState((state)=>({
         status : '完了',
-        msg : '未入力',
+        msg : '郵便番号を入力して住所を表示してください',
       }));
       return;
     }
@@ -233,14 +235,46 @@ export default class MyComponent extends Component {
 
 
 render(){
+  let result;
   let oldZipcode = this.state?.zipcodeItem?.zipcode;
-  let result = ''+ this.state?.zipcodeItem?.address1 
+  let existAddressData;
+  let isLoading;
+  
+  result = ''+ this.state?.zipcodeItem?.address1 
   + this.state?.zipcodeItem?.address2 
   + this.state?.zipcodeItem?.address3;
   result = this.removeUndefined(result);
 
+
+  if (result.length > 0) {
+    existAddressData =false;
+  }else{
+    existAddressData =true;
+  }
+
+  if (this.state?.status ==='更新中'){
+    isLoading = true;
+  }else{
+    isLoading = false;
+  }
+
   return (
   <div className="container">
+    <div className="container">
+      <div className="input-group mb-3">  
+        <input 
+          type="text"  
+          id = 'msg' 
+          value = {this.state?.msg} 
+          className="form-control" 
+          placeholder="" 
+          aria-label="msg" 
+          aria-describedby="basic-addon2"
+          disabled
+        />
+      </div>
+    </div>        
+
     <div className="d-flex p-2 bd-highlight">
       <div className="input-group mb-3">
         <span className="input-group-text" id="basic-addon2">〒</span>
@@ -255,7 +289,7 @@ render(){
           onChange={this.callZipcodeApi}
         />
 
-        <button type = 'button'  className= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
+        {/* <button type = 'button'  className= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button> */}
       </div>
 
 
@@ -269,38 +303,36 @@ render(){
           aria-label="address" 
           aria-describedby="basic-addon2"
           disabled
-        />
-        <button className= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
+          />
+        <button 
+          className= "btn btn-outline-success" 
+          onClick={()=>this.callInsetAction(oldZipcode)}
+          disabled={existAddressData||isLoading}
+        >追加</button>
       </div>
     </div>
 
-    <div className="container">
-      <div className="input-group mb-3">  
-        <span className="input-group-text" id="basic-addon2">メッセージ</span>
-        <input 
-          type="text"  
-          id = 'msg' 
-          value = {this.state?.msg} 
-          className="form-control" 
-          placeholder="" 
-          aria-label="msg" 
-          aria-describedby="basic-addon2"
-          disabled
-        />
-      </div>
-    </div>        
+    
     <hr/>
 
     <div className="container">
       <div className="row">
-        <div className="col-7">
+        <div className="col-4">
         
-        <a className= "btn btn-outline-success" href = "/zipcode/reactapp/download">CSVダウンロード</a>
+        <a 
+          type = "button"
+          className= "btn btn-outline-success" 
+          disabled = {isLoading}
+          href = "/zipcode/reactapp/download" 
+        >CSVダウンロード</a>
         
         </div>
-        <div className="col-5 align-self-end">
+        <div className="col-5">
+        {/* 空要素 */}
+        </div>
+        <div className="col-3 align-self-end">
+
           <div className="input-group mb-3">  
-            <span className="input-group-text" id="basic-addon2">状態</span>
             <input 
               type="text"  
               id = 'msg' 
@@ -312,7 +344,11 @@ render(){
               disabled
             />
 
-            <button className= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
+            <button 
+              className= "btn btn-outline-success"
+              onClick={this.getAddressData}
+              disabled = {isLoading}
+            >更新</button>
           </div>
         </div>
       </div> 
@@ -347,7 +383,13 @@ render(){
                 <td>{row.kana3}</td>
                 <td>{this.zipcodeSlice(row.zipcode)}</td>
                 <td>{row.created_at.slice(0,10)}</td>
-                <td><button className= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
+                <td>
+                  <button className= "btn btn-outline-danger" 
+                    onClick ={()=>this.callDeleteAction(row.id)}
+                    disabled = {isLoading}
+                    >削除
+                  </button>
+                </td>
               </tr>
               );
             })

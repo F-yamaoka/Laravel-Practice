@@ -5614,7 +5614,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         this.setState(function (state) {
           return {
             status: '完了',
-            msg: ''
+            msg: '',
+            zipcodeItem: ''
           };
         });
         return;
@@ -5624,7 +5625,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         this.setState(function (state) {
           return {
             status: '完了',
-            msg: '郵便番号の形式は000-0000です'
+            msg: '',
+            zipcodeItem: ''
           };
         });
         return;
@@ -5679,7 +5681,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         this.setState(function (state) {
           return {
             status: '完了',
-            msg: '未入力'
+            msg: '郵便番号を入力して住所を表示してください'
           };
         });
         return;
@@ -5815,18 +5817,50 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this$state3$zipcodeI,
           _this$state4,
           _this$state4$zipcodeI,
-          _this6 = this,
           _this$state5,
           _this$state6,
+          _this6 = this,
           _this$state7,
-          _this$state7$items;
+          _this$state8,
+          _this$state8$items;
 
+      var result;
       var oldZipcode = (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : _this$state$zipcodeIt.zipcode;
-      var result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : _this$state2$zipcodeI.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : _this$state3$zipcodeI.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : _this$state4$zipcodeI.address3);
+      var existAddressData;
+      var isLoading;
+      result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : _this$state2$zipcodeI.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : _this$state3$zipcodeI.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : _this$state4$zipcodeI.address3);
       result = this.removeUndefined(result);
+
+      if (result.length > 0) {
+        existAddressData = false;
+      } else {
+        existAddressData = true;
+      }
+
+      if (((_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.status) === '更新中') {
+        isLoading = true;
+      } else {
+        isLoading = false;
+      }
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "container",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "input-group mb-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              type: "text",
+              id: "msg",
+              value: (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.msg,
+              className: "form-control",
+              placeholder: "",
+              "aria-label": "msg",
+              "aria-describedby": "basic-addon2",
+              disabled: true
+            })
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "d-flex p-2 bd-highlight",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "input-group mb-3",
@@ -5843,11 +5877,6 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               "aria-describedby": "basic-addon2",
               maxLength: "8",
               onChange: this.callZipcodeApi
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              type: "button",
-              className: "btn btn-outline-success",
-              onClick: this.callZipcodeApi,
-              children: "\u53D6\u5F97"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             className: "arrow",
@@ -5867,51 +5896,33 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               onClick: function onClick() {
                 return _this6.callInsetAction(oldZipcode);
               },
+              disabled: existAddressData || isLoading,
               children: "\u8FFD\u52A0"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "container",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "input-group mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              className: "input-group-text",
-              id: "basic-addon2",
-              children: "\u30E1\u30C3\u30BB\u30FC\u30B8"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-              type: "text",
-              id: "msg",
-              value: (_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.msg,
-              className: "form-control",
-              placeholder: "",
-              "aria-label": "msg",
-              "aria-describedby": "basic-addon2",
-              disabled: true
-            })]
-          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "container",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "row",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "col-7",
+              className: "col-4",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+                type: "button",
                 className: "btn btn-outline-success",
+                disabled: isLoading,
                 href: "/zipcode/reactapp/download",
                 children: "CSV\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "col-5 align-self-end",
+              className: "col-5"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "col-3 align-self-end",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "input-group mb-3",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                  className: "input-group-text",
-                  id: "basic-addon2",
-                  children: "\u72B6\u614B"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                   type: "text",
                   id: "msg",
-                  value: (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.status,
+                  value: (_this$state7 = this.state) === null || _this$state7 === void 0 ? void 0 : _this$state7.status,
                   className: "form-control",
                   placeholder: "",
                   "aria-label": "msg",
@@ -5920,6 +5931,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-outline-success",
                   onClick: this.getAddressData,
+                  disabled: isLoading,
                   children: "\u66F4\u65B0"
                 })]
               })
@@ -5950,7 +5962,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
-            children: (_this$state7 = this.state) === null || _this$state7 === void 0 ? void 0 : (_this$state7$items = _this$state7.items) === null || _this$state7$items === void 0 ? void 0 : _this$state7$items.map(function (row) {
+            children: (_this$state8 = this.state) === null || _this$state8 === void 0 ? void 0 : (_this$state8$items = _this$state8.items) === null || _this$state8$items === void 0 ? void 0 : _this$state8$items.map(function (row) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.address1
@@ -5974,6 +5986,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                     onClick: function onClick() {
                       return _this6.callDeleteAction(row.id);
                     },
+                    disabled: isLoading,
                     children: "\u524A\u9664"
                   })
                 })]
