@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use DateTime;
+use App\Models\Zipcode;
 class ReactController extends Controller
 {
     public function reactapp(){
@@ -11,19 +12,9 @@ class ReactController extends Controller
     }
     
     public function insert(Request $request){
-        $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode='.$request->zipcode;
+        $data = Zipcode::where('zipcode','=',$request->zipcode)->first();
 
-        $options = array(
-            'http' => array(
-            'method'=> 'GET',
-            'header'=> 'Content-type: application/json; charset=UTF-8' //JSON形式で表示
-            )
-        );
-        
-        $context = stream_context_create($options);
-        $raw_data = file_get_contents($url, false,$context);
-        $data = json_decode($raw_data,true);
-        if(empty($data['results'][0])){
+        if(empty($data)){
             if(isset($data['message'])){
                 $msg = $data['message'];
             }else{
@@ -31,14 +22,13 @@ class ReactController extends Controller
             }
         }else{
             $address = new Address;
-            $address ->address1 = $data['results'][0]['address1'];
-            $address ->address2 = $data['results'][0]['address2'];
-            $address ->address3 = $data['results'][0]['address3'];
-            $address ->kana1 =  $data['results'][0]['kana1'];
-            $address ->kana2 = $data['results'][0]['kana2'];
-            $address ->kana3 = $data['results'][0]['kana3'];
-            $address ->prefcode = $data['results'][0]['prefcode'];
-            $address ->zipcode =  $data['results'][0]['zipcode'];
+            $address ->address1 = $data['address1'];
+            $address ->address2 = $data['address2'];
+            $address ->address3 = $data['address3'];
+            $address ->kana1 =  $data['kana1'];
+            $address ->kana2 = $data['kana2'];
+            $address ->kana3 = $data['kana3'];
+            $address ->zipcode =  $data['zipcode'];
             $address ->created_at = new DateTime();
             $address ->updated_at = new DateTime();
             $address->save();
@@ -59,8 +49,9 @@ class ReactController extends Controller
         return response($msg,200);
     }
 
+    // 外部API　使用しない
     public function zipcode_api(Request $request){
-        $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode='.$request->zipcode;
+/*         $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode='.$request->zipcode;
 
         $options = array(
             'http' => array(
@@ -70,11 +61,12 @@ class ReactController extends Controller
         );
         $context = stream_context_create($options);
         $json = file_get_contents($url, false,$context);
-        return response()->json($json);
+        return response()->json($json); */
     }
 
     public function address_api(){
         $addresses = Address::all(); 
         return response()->json($addresses,200);
     }
+    
 }

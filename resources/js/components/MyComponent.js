@@ -53,11 +53,11 @@ export default class MyComponent extends Component {
   // zip code api呼び出し
   callZipcodeApi(event){
     
-    let zipcode1 ='' + document.getElementById('zipcode1').value;
-    zipcode1 =  zipcode1.replace('-','');
+    let zipcode ='' + document.getElementById('zipcode').value;
+    zipcode =  zipcode.replace('-','');
     
     // zipcode　バリデーション
-    if (zipcode1 ===''){
+    if (zipcode ===''){
       this.setState((state)=>({
         status : '完了',
         msg : '未入力',
@@ -65,7 +65,7 @@ export default class MyComponent extends Component {
       return;
     }
 
-    if (zipcode1.length < 7){
+    if (zipcode.length < 7){
       this.setState((state)=>({
         status : '完了',
         msg : '',
@@ -73,10 +73,10 @@ export default class MyComponent extends Component {
       return;
     }
 
-    if (zipcode1.length > 7){
+    if (zipcode.length > 7){
       this.setState((state)=>({
         status : '完了',
-        msg : '',
+        msg : '郵便番号の形式は000-0000です',
       }));
       return;
     }
@@ -86,24 +86,16 @@ export default class MyComponent extends Component {
       err :'',
     }));
 
-    let url = '/zipcode/reactapp/zipcode_api/' + zipcode1;
+    let url = '/zipcode/reactapp/zipcode_api/' + zipcode;
     axios.get(url).then(response => {
-      let temp_data = JSON.parse(response.data);
-
-      // errorメッセージが帰ってきた場合
-      if (!temp_data.message === null){
-        this.setState((state)=>({
-          status : '完了',
-          msg : '住所の取得に失敗しました',
-        }));
-        return;
-      }
+      console.log(response.data.id);
+      console.log(response.data.zipcode);
 
       // リザルトが帰ってきた場合
-      if(temp_data.results?.length != null) {
+      if(response.data.id > 0) {
         this.setState((state)=>({
           status : '完了',
-          zipcodeItem : temp_data,
+          zipcodeItem : response.data,
           msg : '',
         }));
         return;
@@ -239,10 +231,10 @@ export default class MyComponent extends Component {
 
 
 render(){
-  let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
-  let result = ''+ this.state?.zipcodeItem?.results[0]?.address1 
-  + this.state?.zipcodeItem?.results[0]?.address2 
-  + this.state?.zipcodeItem?.results[0]?.address3;
+  let oldZipcode = this.state?.zipcodeItem?.zipcode;
+  let result = ''+ this.state?.zipcodeItem?.address1 
+  + this.state?.zipcodeItem?.address2 
+  + this.state?.zipcodeItem?.address3;
   result = this.removeUndefined(result);
 
   return (
@@ -252,7 +244,7 @@ render(){
         <span className="input-group-text" id="basic-addon2">〒</span>
         <input 
           type="text"
-          id = 'zipcode1' 
+          id = 'zipcode' 
           className="form-control" 
           placeholder="000-0000" 
           aria-label="zipcode" 

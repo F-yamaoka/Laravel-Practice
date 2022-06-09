@@ -5597,10 +5597,10 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     value: function callZipcodeApi(event) {
       var _this3 = this;
 
-      var zipcode1 = '' + document.getElementById('zipcode1').value;
-      zipcode1 = zipcode1.replace('-', ''); // zipcode　バリデーション
+      var zipcode = '' + document.getElementById('zipcode').value;
+      zipcode = zipcode.replace('-', ''); // zipcode　バリデーション
 
-      if (zipcode1 === '') {
+      if (zipcode === '') {
         this.setState(function (state) {
           return {
             status: '完了',
@@ -5610,7 +5610,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      if (zipcode1.length < 7) {
+      if (zipcode.length < 7) {
         this.setState(function (state) {
           return {
             status: '完了',
@@ -5620,11 +5620,11 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      if (zipcode1.length > 7) {
+      if (zipcode.length > 7) {
         this.setState(function (state) {
           return {
             status: '完了',
-            msg: ''
+            msg: '郵便番号の形式は000-0000です'
           };
         });
         return;
@@ -5636,29 +5636,16 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           err: ''
         };
       });
-      var url = '/zipcode/reactapp/zipcode_api/' + zipcode1;
+      var url = '/zipcode/reactapp/zipcode_api/' + zipcode;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-        var _temp_data$results;
+        console.log(response.data.id);
+        console.log(response.data.zipcode); // リザルトが帰ってきた場合
 
-        var temp_data = JSON.parse(response.data); // errorメッセージが帰ってきた場合
-
-        if (!temp_data.message === null) {
+        if (response.data.id > 0) {
           _this3.setState(function (state) {
             return {
               status: '完了',
-              msg: '住所の取得に失敗しました'
-            };
-          });
-
-          return;
-        } // リザルトが帰ってきた場合
-
-
-        if (((_temp_data$results = temp_data.results) === null || _temp_data$results === void 0 ? void 0 : _temp_data$results.length) != null) {
-          _this3.setState(function (state) {
-            return {
-              status: '完了',
-              zipcodeItem: temp_data,
+              zipcodeItem: response.data,
               msg: ''
             };
           });
@@ -5822,24 +5809,20 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this$state,
           _this$state$zipcodeIt,
-          _this$state$zipcodeIt2,
           _this$state2,
           _this$state2$zipcodeI,
-          _this$state2$zipcodeI2,
           _this$state3,
           _this$state3$zipcodeI,
-          _this$state3$zipcodeI2,
           _this$state4,
           _this$state4$zipcodeI,
-          _this$state4$zipcodeI2,
           _this6 = this,
           _this$state5,
           _this$state6,
           _this$state7,
           _this$state7$items;
 
-      var oldZipcode = (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : (_this$state$zipcodeIt2 = _this$state$zipcodeIt.results[0]) === null || _this$state$zipcodeIt2 === void 0 ? void 0 : _this$state$zipcodeIt2.zipcode;
-      var result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : (_this$state2$zipcodeI2 = _this$state2$zipcodeI.results[0]) === null || _this$state2$zipcodeI2 === void 0 ? void 0 : _this$state2$zipcodeI2.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : (_this$state3$zipcodeI2 = _this$state3$zipcodeI.results[0]) === null || _this$state3$zipcodeI2 === void 0 ? void 0 : _this$state3$zipcodeI2.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : (_this$state4$zipcodeI2 = _this$state4$zipcodeI.results[0]) === null || _this$state4$zipcodeI2 === void 0 ? void 0 : _this$state4$zipcodeI2.address3);
+      var oldZipcode = (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$zipcodeIt = _this$state.zipcodeItem) === null || _this$state$zipcodeIt === void 0 ? void 0 : _this$state$zipcodeIt.zipcode;
+      var result = '' + ((_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$zipcodeI = _this$state2.zipcodeItem) === null || _this$state2$zipcodeI === void 0 ? void 0 : _this$state2$zipcodeI.address1) + ((_this$state3 = this.state) === null || _this$state3 === void 0 ? void 0 : (_this$state3$zipcodeI = _this$state3.zipcodeItem) === null || _this$state3$zipcodeI === void 0 ? void 0 : _this$state3$zipcodeI.address2) + ((_this$state4 = this.state) === null || _this$state4 === void 0 ? void 0 : (_this$state4$zipcodeI = _this$state4.zipcodeItem) === null || _this$state4$zipcodeI === void 0 ? void 0 : _this$state4$zipcodeI.address3);
       result = this.removeUndefined(result);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
@@ -5853,7 +5836,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
               children: "\u3012"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               type: "text",
-              id: "zipcode1",
+              id: "zipcode",
               className: "form-control",
               placeholder: "000-0000",
               "aria-label": "zipcode",

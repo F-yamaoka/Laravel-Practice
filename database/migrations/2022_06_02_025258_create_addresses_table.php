@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('kana1');
             $table->string('kana2');
             $table->string('kana3');
-            $table->string('prefcode');
             $table->string('zipcode');
             $table->timestamps();
         });

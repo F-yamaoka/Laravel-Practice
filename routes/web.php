@@ -3,10 +3,9 @@
 use App\Http\Controllers\FirstController;
 use App\Http\Controllers\SecondController;
 use App\Http\Controllers\ZipcodeController;
-use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ZipcodeApiController;
 use App\Http\Controllers\JavascriptController;
 use App\Http\Controllers\ReactController;
-
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +32,10 @@ Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
 Route::get('/zipcode/reactapp',[ReactController::class,'reactapp']);
 Route::get('/zipcode/reactapp/insert/{zipcode}',[ReactController::class,'insert']);
 Route::get('/zipcode/reactapp/delete/{id}',[ReactController::class,'delete']);
-Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ReactController::class,'zipcode_api']);
 Route::get('/zipcode/reactapp/address_api',[ReactController::class,'address_api']);
+
+// ZIPCODEから住所データを出力するAPI
+Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ZipcodeApiController::class,'zipcode_api']);
 
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);
