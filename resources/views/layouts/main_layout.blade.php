@@ -6,7 +6,11 @@
 
 
 <script src="{{ asset('js/app.js') }}" defer></script>
-
+<style>
+p.arrow {
+        padding: 15px 10px 10px 10px;
+      }
+</style>   
 </head>
 <body>
     @yield('header')

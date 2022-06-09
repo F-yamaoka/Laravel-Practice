@@ -209,6 +209,7 @@ export default class MyComponent extends Component {
 
       return (
       <div className="container">
+        <div class="d-flex p-2 bd-highlight">
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon2">〒</span>
           <input type="number"  id = 'zipcode1' class="form-control" placeholder="000" aria-label="zipcode" aria-describedby="basic-addon2"/>
@@ -216,8 +217,8 @@ export default class MyComponent extends Component {
           <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
           <button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
         </div>
-        <div class >
-        <p class="text-center">↓</p>
+        <div>
+        <p class="arrow"> → </p>
         </div>
         <div class="input-group mb-3">
           <input 
@@ -231,10 +232,13 @@ export default class MyComponent extends Component {
           />
           <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
         </div>
+        </div>
         <hr/>
+
+
         <div className="container">
-        <div class="input-group mb-3">
- 
+
+        <div class="input-group mb-3">  
           <span class="input-group-text" id="basic-addon2">メッセージ</span>
 
           <input 
@@ -248,7 +252,6 @@ export default class MyComponent extends Component {
             disabled
           />
 
-          
           <span class="input-group-text" id="basic-addon2">状態</span>
           <input 
             type="text"  
@@ -261,7 +264,7 @@ export default class MyComponent extends Component {
             disabled
           />
           <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
-
+          </div>
         </div>
         
         
@@ -303,7 +306,6 @@ export default class MyComponent extends Component {
             }              
           </tbody>
         </table>
-      </div>
       </div>
     );
   }
