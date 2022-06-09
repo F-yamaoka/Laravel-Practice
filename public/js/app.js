@@ -5597,16 +5597,10 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     value: function callZipcodeApi(event) {
       var _this3 = this;
 
-      this.setState(function (state) {
-        return {
-          status: '更新中',
-          err: ''
-        };
-      });
       var zipcode1 = '' + document.getElementById('zipcode1').value;
-      var zipcode2 = '' + document.getElementById('zipcode2').value; // zipcode　バリデーション
+      zipcode1 = zipcode1.replace('-', ''); // zipcode　バリデーション
 
-      if (zipcode1 === '' || zipcode2 === '') {
+      if (zipcode1 === '') {
         this.setState(function (state) {
           return {
             status: '完了',
@@ -5616,7 +5610,33 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      var url = '/zipcode/reactapp/zipcode_api/' + zipcode1 + zipcode2;
+      if (zipcode1.length < 7) {
+        this.setState(function (state) {
+          return {
+            status: '完了',
+            msg: ''
+          };
+        });
+        return;
+      }
+
+      if (zipcode1.length > 7) {
+        this.setState(function (state) {
+          return {
+            status: '完了',
+            msg: ''
+          };
+        });
+        return;
+      }
+
+      this.setState(function (state) {
+        return {
+          status: '更新中',
+          err: ''
+        };
+      });
+      var url = '/zipcode/reactapp/zipcode_api/' + zipcode1;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         var _temp_data$results;
 
@@ -5824,53 +5844,43 @@ var MyComponent = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          "class": "d-flex p-2 bd-highlight",
+          className: "d-flex p-2 bd-highlight",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            "class": "input-group mb-3",
+            className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              "class": "input-group-text",
+              className: "input-group-text",
               id: "basic-addon2",
               children: "\u3012"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-              type: "number",
+              type: "text",
               id: "zipcode1",
-              "class": "form-control",
-              placeholder: "000",
+              className: "form-control",
+              placeholder: "000-0000",
               "aria-label": "zipcode",
-              "aria-describedby": "basic-addon2"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              "class": "input-group-text",
-              id: "basic-addon2",
-              children: "-"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-              type: "number",
-              id: "zipcode2",
-              "class": "form-control",
-              placeholder: "0000",
-              "aria-label": "zipcode",
-              "aria-describedby": "basic-addon2"
+              "aria-describedby": "basic-addon2",
+              maxLength: "8",
+              onChange: this.callZipcodeApi
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              "class": "btn btn-outline-success",
-              onClick: function onClick() {
-                return _this6.callZipcodeApi;
-              },
+              type: "button",
+              className: "btn btn-outline-success",
+              onClick: this.callZipcodeApi,
               children: "\u53D6\u5F97"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            "class": "arrow",
+            className: "arrow",
             children: " \u2192 "
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            "class": "input-group mb-3",
+            className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               type: "text",
-              "class": "form-control",
+              className: "form-control",
               value: result,
               placeholder: "",
               "aria-label": "address",
               "aria-describedby": "basic-addon2",
               disabled: true
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              "class": "btn btn-outline-success",
+              className: "btn btn-outline-success",
               onClick: function onClick() {
                 return _this6.callInsetAction(oldZipcode);
               },
@@ -5880,16 +5890,16 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "container",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            "class": "input-group mb-3",
+            className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              "class": "input-group-text",
+              className: "input-group-text",
               id: "basic-addon2",
               children: "\u30E1\u30C3\u30BB\u30FC\u30B8"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
               type: "text",
               id: "msg",
               value: (_this$state5 = this.state) === null || _this$state5 === void 0 ? void 0 : _this$state5.msg,
-              "class": "form-control",
+              className: "form-control",
               placeholder: "",
               "aria-label": "msg",
               "aria-describedby": "basic-addon2",
@@ -5899,28 +5909,28 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "container",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            "class": "row",
+            className: "row",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              "class": "col-7"
+              className: "col-7"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              "class": "col-5 align-self-end",
+              className: "col-5 align-self-end",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                "class": "input-group mb-3",
+                className: "input-group mb-3",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                  "class": "input-group-text",
+                  className: "input-group-text",
                   id: "basic-addon2",
                   children: "\u72B6\u614B"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                   type: "text",
                   id: "msg",
                   value: (_this$state6 = this.state) === null || _this$state6 === void 0 ? void 0 : _this$state6.status,
-                  "class": "form-control",
+                  className: "form-control",
                   placeholder: "",
                   "aria-label": "msg",
                   "aria-describedby": "basic-addon2",
                   disabled: true
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                  "class": "btn btn-outline-success",
+                  className: "btn btn-outline-success",
                   onClick: this.getAddressData,
                   children: "\u66F4\u65B0"
                 })]
@@ -5928,7 +5938,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
-          "class": "table",
+          className: "table",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
@@ -5972,7 +5982,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                   children: row.created_at.slice(0, 10)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                    "class": "btn btn-outline-danger",
+                    className: "btn btn-outline-danger",
                     onClick: function onClick() {
                       return _this6.callDeleteAction(row.id);
                     },

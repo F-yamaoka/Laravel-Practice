@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 export default class MyComponent extends Component {
   constructor(props){
     super(props);
-
     this.getAddressData = this.getAddressData.bind(this);
     this.callZipcodeApi = this.callZipcodeApi.bind(this);
     this.callDeleteAction = this.callDeleteAction.bind(this);
@@ -24,7 +23,6 @@ export default class MyComponent extends Component {
   //
   // テーブル更新
   getAddressData(event){
-
     this.setState((state)=>({
       status : '更新中',
       msg :'',
@@ -54,16 +52,12 @@ export default class MyComponent extends Component {
   //
   // zip code api呼び出し
   callZipcodeApi(event){
-    this.setState((state)=>({
-      status : '更新中',
-      err :'',
-    }));
-
+    
     let zipcode1 ='' + document.getElementById('zipcode1').value;
-    let zipcode2 ='' + document.getElementById('zipcode2').value;
+    zipcode1 =  zipcode1.replace('-','');
     
     // zipcode　バリデーション
-    if (zipcode1 ===''|| zipcode2 === ''){
+    if (zipcode1 ===''){
       this.setState((state)=>({
         status : '完了',
         msg : '未入力',
@@ -71,8 +65,28 @@ export default class MyComponent extends Component {
       return;
     }
 
-    let url = '/zipcode/reactapp/zipcode_api/' + zipcode1 + zipcode2;
+    if (zipcode1.length < 7){
+      this.setState((state)=>({
+        status : '完了',
+        msg : '',
+      }));
+      return;
+    }
 
+    if (zipcode1.length > 7){
+      this.setState((state)=>({
+        status : '完了',
+        msg : '',
+      }));
+      return;
+    }
+
+    this.setState((state)=>({
+      status : '更新中',
+      err :'',
+    }));
+
+    let url = '/zipcode/reactapp/zipcode_api/' + zipcode1;
     axios.get(url).then(response => {
       let temp_data = JSON.parse(response.data);
 
@@ -116,7 +130,6 @@ export default class MyComponent extends Component {
       }));
       return;
     }
-
     this.setState((state)=>({
       status : '更新中',
       msg : '',
@@ -151,7 +164,6 @@ export default class MyComponent extends Component {
         }));
       }
     });
-
     return;
   }
 
@@ -224,6 +236,8 @@ export default class MyComponent extends Component {
     return str;
   }
 
+
+
 render(){
   let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
   let result = ''+ this.state?.zipcodeItem?.results[0]?.address1 
@@ -233,44 +247,47 @@ render(){
 
   return (
   <div className="container">
-    <div class="d-flex p-2 bd-highlight">
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">〒</span>
+    <div className="d-flex p-2 bd-highlight">
+      <div className="input-group mb-3">
+        <span className="input-group-text" id="basic-addon2">〒</span>
         <input 
-          type="number"
+          type="text"
           id = 'zipcode1' 
-          class="form-control" 
-          placeholder="000" 
+          className="form-control" 
+          placeholder="000-0000" 
           aria-label="zipcode" 
           aria-describedby="basic-addon2"
+          maxLength="8"
+          onChange={this.callZipcodeApi}
         />
-        <span class="input-group-text" id="basic-addon2">-</span>
-        <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
-        <button class= "btn btn-outline-success" onClick={()=>this.callZipcodeApi}>取得</button>
+
+        <button type = 'button'  className= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
       </div>
-      <p class="arrow"> → </p>
-      <div class="input-group mb-3">
+
+
+      <p className="arrow"> → </p>
+      <div className="input-group mb-3">
         <input 
           type="text" 
-          class="form-control" 
+          className="form-control" 
           value = {result}
           placeholder="" 
           aria-label="address" 
           aria-describedby="basic-addon2"
           disabled
         />
-        <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
+        <button className= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
       </div>
     </div>
 
     <div className="container">
-      <div class="input-group mb-3">  
-        <span class="input-group-text" id="basic-addon2">メッセージ</span>
+      <div className="input-group mb-3">  
+        <span className="input-group-text" id="basic-addon2">メッセージ</span>
         <input 
           type="text"  
           id = 'msg' 
           value = {this.state?.msg} 
-          class="form-control" 
+          className="form-control" 
           placeholder="" 
           aria-label="msg" 
           aria-describedby="basic-addon2"
@@ -281,24 +298,24 @@ render(){
     <hr/>
 
     <div className="container">
-      <div class="row">
-        <div class="col-7">
+      <div className="row">
+        <div className="col-7">
           {/* 空要素 */}
         </div>
-        <div class="col-5 align-self-end">
-          <div class="input-group mb-3">  
-            <span class="input-group-text" id="basic-addon2">状態</span>
+        <div className="col-5 align-self-end">
+          <div className="input-group mb-3">  
+            <span className="input-group-text" id="basic-addon2">状態</span>
             <input 
               type="text"  
               id = 'msg' 
               value = {this.state?.status} 
-              class="form-control" 
+              className="form-control" 
               placeholder="" 
               aria-label="msg" 
               aria-describedby="basic-addon2"
               disabled
             />
-            <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
+            <button className= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
           </div>
         </div>
       </div> 
@@ -306,7 +323,7 @@ render(){
           
           
       {/* テーブル表示 */}
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th>住所1</th>
@@ -333,7 +350,7 @@ render(){
                 <td>{row.kana3}</td>
                 <td>{this.zipcodeSlice(row.zipcode)}</td>
                 <td>{row.created_at.slice(0,10)}</td>
-                <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
+                <td><button className= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
               </tr>
               );
             })
