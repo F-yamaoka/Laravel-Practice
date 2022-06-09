@@ -68,5 +68,57 @@ class ReactController extends Controller
         $addresses = Address::all(); 
         return response()->json($addresses,200);
     }
+
+    public function download(){
+    // コールバック関数に１行ずつ書き込んでいく処理を記述
+        $callback = function (){
+        // 出力バッファをopen
+        $stream = fopen('php://output', 'w');
+        // 文字コードをShift-JISに変換
+        stream_filter_prepend($stream, 'convert.iconv.utf-8/cp932//TRANSLIT');
+        // ヘッダー行
+        fputcsv($stream, [
+            'id',
+            'address1',
+            'address2',
+            'address3',
+            'kana1',
+            'kana2',
+            'kana3',
+            'zipcode',
+            'created_at',
+            'update_at',
+        ]);
+        // データ
+        $addresses = Address::orderBy('id', 'desc');
+        // ２行目以降の出力
+	// cursor()メソッドで１レコードずつストリームに流す処理を実現できる。
+        foreach ($addresses->cursor() as $address) {
+            fputcsv($stream, [
+                $address->id, 
+                $address->address1,
+                $address->address2,
+                $address->address3,
+                $address->kana1,
+                $address->kana2,
+                $address->kana3,
+                $address->zipcode,
+                $address->created_at,
+                $address->update_at,
+            ]);
+        }
+        fclose($stream);
+    };
+	
+    // 保存するファイル名
+    $filename = sprintf('all_address_%s.csv', date('Ymd'));
+	
+    // ファイルダウンロードさせるために、ヘッダー出力を調整
+    $header = [
+        'Content-Type' => 'application/octet-stream',
+    ];
+	
+    return response()->streamDownload($callback, $filename, $header);
+    }
     
 }

@@ -12,4 +12,5 @@ class ZipcodeApiController extends Controller
         return response()->json($address);
     }
 
+   
 }

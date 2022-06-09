@@ -33,9 +33,13 @@ Route::get('/zipcode/reactapp',[ReactController::class,'reactapp']);
 Route::get('/zipcode/reactapp/insert/{zipcode}',[ReactController::class,'insert']);
 Route::get('/zipcode/reactapp/delete/{id}',[ReactController::class,'delete']);
 Route::get('/zipcode/reactapp/address_api',[ReactController::class,'address_api']);
+Route::get('/zipcode/reactapp/download',[ReactController::class,'download']);
 
 // ZIPCODEから住所データを出力するAPI
 Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ZipcodeApiController::class,'zipcode_api']);
+
+
+
 
 // Javascript学習
 Route::get('/javascript/index',[JavascriptController::class,'index']);

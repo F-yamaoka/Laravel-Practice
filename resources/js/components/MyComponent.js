@@ -230,6 +230,8 @@ export default class MyComponent extends Component {
 
 
 
+
+
 render(){
   let oldZipcode = this.state?.zipcodeItem?.zipcode;
   let result = ''+ this.state?.zipcodeItem?.address1 
@@ -292,7 +294,9 @@ render(){
     <div className="container">
       <div className="row">
         <div className="col-7">
-          {/* 空要素 */}
+        
+        <a className= "btn btn-outline-success" href = "/zipcode/reactapp/download">CSVダウンロード</a>
+        
         </div>
         <div className="col-5 align-self-end">
           <div className="input-group mb-3">  
@@ -307,6 +311,7 @@ render(){
               aria-describedby="basic-addon2"
               disabled
             />
+
             <button className= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
           </div>
         </div>
