@@ -5767,6 +5767,15 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }
       });
       return;
+    } // xxxyyyy -> xxx - yyyy
+
+  }, {
+    key: "zipcodeSlice",
+    value: function zipcodeSlice(str) {
+      var a = str.slice(0, 3);
+      var b = '-';
+      var c = str.slice(4);
+      return a + b + c;
     }
   }, {
     key: "render",
@@ -5939,8 +5948,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                   children: row.kana2
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.kana3
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                  children: row.zipcode
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                  children: ["\u3012", _this6.zipcodeSlice(row.zipcode)]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.created_at.slice(0, 10)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {

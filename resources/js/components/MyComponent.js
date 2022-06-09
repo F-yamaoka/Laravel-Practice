@@ -195,6 +195,15 @@ export default class MyComponent extends Component {
     });
     return;
   }
+  
+  // xxxyyyy -> xxx - yyyy
+  zipcodeSlice(str){
+    const a = str.slice(0, 3);
+    const b = '-';
+    const c = str.slice(4);
+
+    return(a + b + c);
+  }
 
   render(){
     let oldZipcode = this.state?.zipcodeItem?.results[0]?.zipcode;
@@ -312,7 +321,7 @@ export default class MyComponent extends Component {
                   <td>{row.kana1}</td>
                   <td>{row.kana2}</td>
                   <td>{row.kana3}</td>
-                  <td>{row.zipcode}</td>
+                  <td>〒{this.zipcodeSlice(row.zipcode)}</td>
                   <td>{row.created_at.slice(0,10)}</td>
                   <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
                 </tr>
