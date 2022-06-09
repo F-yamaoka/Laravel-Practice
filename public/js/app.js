@@ -5550,7 +5550,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
       msg: ''
     };
     return _this;
-  } // テーブル更新
+  } //
+  //
+  // テーブル更新
 
 
   _createClass(MyComponent, [{
@@ -5586,7 +5588,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }
       });
       return;
-    } // zip code api呼び出し
+    } //
+    //
+    // zip code api呼び出し
 
   }, {
     key: "callZipcodeApi",
@@ -5616,9 +5620,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         var _temp_data$results;
 
-        var temp_data = JSON.parse(response.data); // debug 用
-
-        console.log(temp_data); // errorメッセージが帰ってきた場合
+        var temp_data = JSON.parse(response.data); // errorメッセージが帰ってきた場合
 
         if (!temp_data.message === null) {
           _this3.setState(function (state) {
@@ -5653,7 +5655,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         });
       });
       return;
-    } // 追加処理
+    } //
+    //
+    // 住所をテーブルに追加する処理
 
   }, {
     key: "callInsetAction",
@@ -5713,7 +5717,9 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }
       });
       return;
-    } // 削除処理
+    } //
+    //
+    // 指定したIDの要素を削除する処理
 
   }, {
     key: "callDeleteAction",
@@ -5767,15 +5773,18 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         }
       });
       return;
-    } // xxxyyyy -> xxx - yyyy
+    } //
+    // xxxyyyy -> 〒xxx - yyyy
+    // 郵便番号の書式を変換
 
   }, {
     key: "zipcodeSlice",
     value: function zipcodeSlice(str) {
+      if (str.length < 7) return str;
       var a = str.slice(0, 3);
       var b = '-';
-      var c = str.slice(4);
-      return a + b + c;
+      var c = str.slice(3);
+      return '〒' + a + b + c;
     }
   }, {
     key: "render",
@@ -5948,8 +5957,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                   children: row.kana2
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.kana3
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
-                  children: ["\u3012", _this6.zipcodeSlice(row.zipcode)]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                  children: _this6.zipcodeSlice(row.zipcode)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.created_at.slice(0, 10)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {

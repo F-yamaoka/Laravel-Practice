@@ -19,6 +19,8 @@ export default class MyComponent extends Component {
     };
   }
 
+  //
+  //
   // テーブル更新
   getAddressData(event){
 
@@ -47,6 +49,8 @@ export default class MyComponent extends Component {
     return;
   }
 
+  //
+  //
   // zip code api呼び出し
   callZipcodeApi(event){
     this.setState((state)=>({
@@ -70,10 +74,6 @@ export default class MyComponent extends Component {
 
     axios.get(url).then(response => {
       let temp_data = JSON.parse(response.data);
-
-      // debug 用
-      console.log(temp_data);
-
 
       // errorメッセージが帰ってきた場合
       if (!temp_data.message === null){
@@ -103,7 +103,9 @@ export default class MyComponent extends Component {
     return;
   }
   
-  // 追加処理
+  //
+  //
+  // 住所をテーブルに追加する処理
   callInsetAction(zipcode =-1, event){
     // zipcode　バリデーション
     if (zipcode=== -1){
@@ -152,7 +154,10 @@ export default class MyComponent extends Component {
     return;
   }
 
-  // 削除処理
+    
+  //
+  //
+  // 指定したIDの要素を削除する処理
   callDeleteAction(id =-1, event){
     if(id == -1){
       alert('return');
@@ -196,13 +201,16 @@ export default class MyComponent extends Component {
     return;
   }
   
-  // xxxyyyy -> xxx - yyyy
+  //
+  // xxxyyyy -> 〒xxx - yyyy
+  // 郵便番号の書式を変換
   zipcodeSlice(str){
+    if (str.length < 7) return str;
     const a = str.slice(0, 3);
     const b = '-';
-    const c = str.slice(4);
+    const c = str.slice(3);
 
-    return(a + b + c);
+    return('〒'+a + b + c);
   }
 
   render(){
@@ -216,66 +224,56 @@ export default class MyComponent extends Component {
     result = result.replace('undefined','');
 
 
-      return (
-      <div className="container">
-        <div class="d-flex p-2 bd-highlight">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon2">〒</span>
-          <input type="number"  id = 'zipcode1' class="form-control" placeholder="000" aria-label="zipcode" aria-describedby="basic-addon2"/>
-          <span class="input-group-text" id="basic-addon2">-</span>
-          <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
-          <button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
-        </div>
-        <div>
-        <p class="arrow"> → </p>
-        </div>
-        <div class="input-group mb-3">
-          <input 
-            type="text" 
-            class="form-control" 
-            value = {result}
-            placeholder="" 
-            aria-label="address" 
-            aria-describedby="basic-addon2"
-            disabled
-          />
-          <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
-        </div>
-        </div>
-      <div className="container">
+return (
+<div className="container">
+  <div class="d-flex p-2 bd-highlight">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon2">〒</span>
+      <input type="number"  id = 'zipcode1' class="form-control" placeholder="000" aria-label="zipcode" aria-describedby="basic-addon2"/>
+      <span class="input-group-text" id="basic-addon2">-</span>
+      <input type="number"  id = 'zipcode2'class="form-control" placeholder="0000" aria-label="zipcode" aria-describedby="basic-addon2"/>
+      <button class= "btn btn-outline-success" onClick={this.callZipcodeApi}>取得</button>
+    </div>
+    <p class="arrow"> → </p>
+    <div class="input-group mb-3">
+      <input 
+        type="text" 
+        class="form-control" 
+        value = {result}
+        placeholder="" 
+        aria-label="address" 
+        aria-describedby="basic-addon2"
+        disabled
+      />
+      <button class= "btn btn-outline-success" onClick={()=>this.callInsetAction(oldZipcode)}>追加</button>
+    </div>
+  </div>
 
-        <div class="input-group mb-3">  
-          <span class="input-group-text" id="basic-addon2">メッセージ</span>
+  <div className="container">
+    <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon2">メッセージ</span>
+      <input 
+        type="text"  
+        id = 'msg' 
+        value = {this.state?.msg} 
+        class="form-control" 
+        placeholder="" 
+        aria-label="msg" 
+        aria-describedby="basic-addon2"
+        disabled
+      />
+    </div>
+  </div>        
+  <hr/>
 
-          <input 
-            type="text"  
-            id = 'msg' 
-            value = {this.state?.msg} 
-            class="form-control" 
-            placeholder="" 
-            aria-label="msg" 
-            aria-describedby="basic-addon2"
-            disabled
-          />
-        </div>
-      </div>
-        
-        <hr/>
-
-
-      <div className="container">
-      <div class="row">
+  <div className="container">
+    <div class="row">
       <div class="col-9">
-
-
-
-        </div>
+        {/* 空要素 */}
+      </div>
       <div class="col-3">
-
         <div class="input-group mb-3">  
-
           <span class="input-group-text" id="basic-addon2">状態</span>
-
           <input 
             type="text"  
             id = 'msg' 
@@ -288,50 +286,48 @@ export default class MyComponent extends Component {
           />
           <button class= "btn btn-outline-success" onClick={this.getAddressData}>更新</button>
         </div>
-        </div>
-        </div> 
-
-      </div> 
-        
-        
-        {/* テーブル表示 */}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>住所1</th>
-              <th>住所2</th>
-              <th>住所3</th>
-              <th>かな1</th>
-              <th>かな2</th>
-              <th>かな3</th>
-              <th>郵便番号</th>
-              <th>登録日時</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              
-              this.state?.items?.map((row) => {
-                return (
-                <tr>
-                  <td>{row.address1}</td>
-                  <td>{row.address2}</td>
-                  <td>{row.address3}</td>
-                  <td>{row.kana1}</td>
-                  <td>{row.kana2}</td>
-                  <td>{row.kana3}</td>
-                  <td>〒{this.zipcodeSlice(row.zipcode)}</td>
-                  <td>{row.created_at.slice(0,10)}</td>
-                  <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
-                </tr>
-                );
-              })
-            }              
-          </tbody>
-        </table>
       </div>
-    );
+    </div> 
+  </div> 
+        
+        
+    {/* テーブル表示 */}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>住所1</th>
+          <th>住所2</th>
+          <th>住所3</th>
+          <th>かな1</th>
+          <th>かな2</th>
+          <th>かな3</th>
+          <th>郵便番号</th>
+          <th>登録日時</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          this.state?.items?.map((row) => {
+            return (
+            <tr>
+              <td>{row.address1}</td>
+              <td>{row.address2}</td>
+              <td>{row.address3}</td>
+              <td>{row.kana1}</td>
+              <td>{row.kana2}</td>
+              <td>{row.kana3}</td>
+              <td>{this.zipcodeSlice(row.zipcode)}</td>
+              <td>{row.created_at.slice(0,10)}</td>
+              <td><button class= "btn btn-outline-danger" onClick ={()=>this.callDeleteAction(row.id)}>削除</button></td>
+            </tr>
+            );
+          })
+        }              
+      </tbody>
+    </table>
+  </div>
+  );
   }
 }
 
