@@ -7,7 +7,6 @@ export default class ChatApp extends Component {
   constructor(props){
     super(props);
     this.reloadMessage();
-
     // 名前変更
     this.namechange = this.namechange.bind(this);
     // メッセージをリロードする。
@@ -17,12 +16,13 @@ export default class ChatApp extends Component {
     // ロードFlag
     this.isLoading = this.isLoading.bind(this);
     this.isMine = this.isMine.bind(this);
+    this.returnTop = this.returnTop(this);
+
 
 
     this.state = {
-      name : 'testname',
+      name : 'testname', // 今後はログイン名に変える
       status : '更新中',
-      msg :'testmessage',
     };
   }
 
@@ -33,6 +33,14 @@ export default class ChatApp extends Component {
     this.setState((state)=>({
       name : 'testname2',
       status : '更新中',
+      msg :'',
+    }));
+
+
+
+    this.setState((state)=>({
+      name : 'testname2',
+      status : '完了',
       msg :'',
     }));
   }
@@ -50,7 +58,7 @@ export default class ChatApp extends Component {
         items : response.data,
       }));
     });
-    
+
 
 
   }
@@ -62,17 +70,23 @@ export default class ChatApp extends Component {
     let context = document.getElementById('context').value;
     if (context.length > 0){
     axios.post('/chatapp/send', {
-    name: 'testname',
+    name: this.state.name,
     context: context
     })
     .then(function (response) {
       console.log(response);
     })
-
-    // 更新して最下部までスクロール
-
-    document.getElementById('context').value = '';
+    
+    const url = "/chatapp/get";
+    axios.get(url).then(response => {
+      console.log(response.data);
+      this.setState((state)=>({
+        status : '完了',
+        items : response.data,
+      }));
+    });
     }
+    document.getElementById('context').value = '';
   }
 
 
@@ -85,16 +99,26 @@ export default class ChatApp extends Component {
 
   //
   //
-  // ロードFlag
+  // 自分の投稿かどうか
   isMine(myname, state){
     return (myname == this.state.name);
   }
 
+  //
+  //
+  // トップに戻る
+  returnTop(state){
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   //
   //
   // レンダリング
   render(){
+
     return (
       <div className="container">
 
@@ -108,9 +132,9 @@ export default class ChatApp extends Component {
         </div>
 
         <div className="background2"> 
-          <div className="input-group mb-3">
-          <input type ='text' id = 'context' className ="form-control" placeholder="メッセージ"/>
-          <button onClick={this.sendMessage} className ="btn btn-primary">送信</button>
+          <div className="input-group input-group-lg mb-3">
+          <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"></textarea>
+          <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
           </div>
         </div>
 

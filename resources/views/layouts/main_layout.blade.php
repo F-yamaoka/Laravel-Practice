@@ -14,9 +14,14 @@ p.arrow {
   height: 10px;
 }
  
+
 ::-webkit-scrollbar-thumb {
   background: rgb(190, 216, 253);
   border-radius: 5px;
+}
+
+.context{
+  resize: none;
 }
 .background1{
 background-color:rgb(113,147,193);
@@ -30,6 +35,11 @@ padding:1em;
 height: 10%;
 overflow:auto;
 }
+
+textarea{
+  resize: none;
+}
+
 .leftbox{
 display:inline-block;
 position:relative;

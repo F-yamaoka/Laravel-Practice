@@ -5488,10 +5488,11 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _this.isLoading = _this.isLoading.bind(_assertThisInitialized(_this));
     _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
+    _this.returnTop = _this.returnTop(_assertThisInitialized(_this));
     _this.state = {
       name: 'testname',
-      status: '更新中',
-      msg: 'testmessage'
+      // 今後はログイン名に変える
+      status: '更新中'
     };
     return _this;
   } //
@@ -5506,6 +5507,13 @@ var ChatApp = /*#__PURE__*/function (_Component) {
         return {
           name: 'testname2',
           status: '更新中',
+          msg: ''
+        };
+      });
+      this.setState(function (state) {
+        return {
+          name: 'testname2',
+          status: '完了',
           msg: ''
         };
       });
@@ -5537,18 +5545,31 @@ var ChatApp = /*#__PURE__*/function (_Component) {
   }, {
     key: "sendMessage",
     value: function sendMessage(state) {
+      var _this3 = this;
+
       var context = document.getElementById('context').value;
 
       if (context.length > 0) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/chatapp/send', {
-          name: 'testname',
+          name: this.state.name,
           context: context
         }).then(function (response) {
           console.log(response);
-        }); // 更新して最下部までスクロール
+        });
+        var url = "/chatapp/get";
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+          console.log(response.data);
 
-        document.getElementById('context').value = '';
+          _this3.setState(function (state) {
+            return {
+              status: '完了',
+              items: response.data
+            };
+          });
+        });
       }
+
+      document.getElementById('context').value = '';
     } //
     //
     // ロードFlag
@@ -5559,7 +5580,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       return this.state.status == '更新中';
     } //
     //
-    // ロードFlag
+    // 自分の投稿かどうか
 
   }, {
     key: "isMine",
@@ -5567,14 +5588,25 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       return myname == this.state.name;
     } //
     //
-    // レンダリング
+    // トップに戻る
 
   }, {
+    key: "returnTop",
+    value: function returnTop(state) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  }, {
     key: "render",
-    value: function render() {
+    value: //
+    //
+    // レンダリング
+    function render() {
       var _this$state,
           _this$state$items,
-          _this3 = this;
+          _this4 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
@@ -5584,7 +5616,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
           children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-                className: _this3.isMine(row.name) ? "rightbox" : "leftbox",
+                className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
                 children: row.context
               })
             });
@@ -5592,11 +5624,11 @@ var ChatApp = /*#__PURE__*/function (_Component) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "background2",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "input-group mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-              type: "text",
-              id: "context",
+            className: "input-group input-group-lg mb-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
               className: "form-control",
+              id: "context",
+              rows: "1",
               placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               onClick: this.sendMessage,
