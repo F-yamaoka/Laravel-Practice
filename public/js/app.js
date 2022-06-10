@@ -5378,7 +5378,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 
-__webpack_require__(/*! ./components/MyComponent */ "./resources/js/components/MyComponent.js");
+__webpack_require__(/*! ./components/ZipcodeApp */ "./resources/js/components/ZipcodeApp.js");
 
 /***/ }),
 
@@ -5483,16 +5483,16 @@ if (document.getElementById('example')) {
 
 /***/ }),
 
-/***/ "./resources/js/components/MyComponent.js":
-/*!************************************************!*\
-  !*** ./resources/js/components/MyComponent.js ***!
-  \************************************************/
+/***/ "./resources/js/components/ZipcodeApp.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/ZipcodeApp.js ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ MyComponent)
+/* harmony export */   "default": () => (/* binding */ ZipcodeApp)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -5528,15 +5528,15 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var MyComponent = /*#__PURE__*/function (_Component) {
-  _inherits(MyComponent, _Component);
+var ZipcodeApp = /*#__PURE__*/function (_Component) {
+  _inherits(ZipcodeApp, _Component);
 
-  var _super = _createSuper(MyComponent);
+  var _super = _createSuper(ZipcodeApp);
 
-  function MyComponent(props) {
+  function ZipcodeApp(props) {
     var _this;
 
-    _classCallCheck(this, MyComponent);
+    _classCallCheck(this, ZipcodeApp);
 
     _this = _super.call(this, props);
     _this.getAddressData = _this.getAddressData.bind(_assertThisInitialized(_this));
@@ -5556,7 +5556,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
   // テーブル更新
 
 
-  _createClass(MyComponent, [{
+  _createClass(ZipcodeApp, [{
     key: "getAddressData",
     value: function getAddressData(event) {
       var _this2 = this;
@@ -5798,7 +5798,6 @@ var MyComponent = /*#__PURE__*/function (_Component) {
         if (count == null) return;else if (isNaN(count)) prompt('文字は対応していません。');else if (count > 100 || count < 1) prompt('1以上100以下の数を指定して下さい。');else break;
       }
 
-      alert(count);
       this.setState(function (state) {
         return {
           status: '更新中',
@@ -5854,11 +5853,11 @@ var MyComponent = /*#__PURE__*/function (_Component) {
   }, {
     key: "zipcodeSlice",
     value: function zipcodeSlice(str) {
-      if (str.length < 7) return str;
-      var a = str.slice(0, 3);
-      var b = '-';
-      var c = str.slice(3);
-      return '〒' + a + b + c;
+      if (str.length == 6) str = '0' + str;
+      if (str.length == 5) str = '00' + str;
+      var front = str.slice(0, 3);
+      var back = str.slice(3);
+      return '〒' + front + '-' + back;
     } //
     //
     // undefinedを取り除く
@@ -5969,23 +5968,26 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           className: "container",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "col-4",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "col-2",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
                 type: "button",
                 className: "btn btn-outline-success",
                 disabled: isLoading,
                 href: "/zipcode/reactapp/download",
                 children: "CSV \u30C0\u30A6\u30F3\u30ED\u30FC\u30C9"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                "class": "input-group mb-3",
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "col-2",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "input-group mb-2",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-outline-secondary",
                   onClick: this.callRandomInsertAction,
                   disabled: isLoading,
                   children: "\u30E9\u30F3\u30C0\u30E0\u30C7\u30FC\u30BF\u633F\u5165"
                 })
-              })]
+              })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "col-5"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6011,7 +6013,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
-          className: "table",
+          className: "table table-sm",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
@@ -6055,7 +6057,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                   children: row.created_at.slice(0, 10)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                    className: "btn btn-outline-danger",
+                    className: "btn btn-outline-danger btn-sm",
                     onClick: function onClick() {
                       return _this7.callDeleteAction(row.id);
                     },
@@ -6071,13 +6073,13 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     }
   }]);
 
-  return MyComponent;
+  return ZipcodeApp;
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 
 
-if (document.getElementById('mycomponent')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(MyComponent, {}), document.getElementById('mycomponent'));
+if (document.getElementById('ZipcodeApp')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(ZipcodeApp, {}), document.getElementById('ZipcodeApp'));
 }
 
 /***/ }),

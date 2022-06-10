@@ -5,5 +5,5 @@
 @include('layouts/header_layout')
 
 @section('content')
-<div id ="mycomponent"></div>
+<div id ="ZipcodeApp"></div>
 @endsection

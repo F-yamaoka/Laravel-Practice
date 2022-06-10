@@ -3,7 +3,7 @@ import axios from "axios";
 import React, {Component} from "react";
 import ReactDOM from 'react-dom';
 
-export default class MyComponent extends Component {
+export default class ZipcodeApp extends Component {
   constructor(props){
     super(props);
     this.getAddressData = this.getAddressData.bind(this);
@@ -221,7 +221,6 @@ export default class MyComponent extends Component {
       else if (count > 100 || count < 1) prompt('1以上100以下の数を指定して下さい。');
       else  break;
     }
-    alert(count);
     this.setState((state)=>({
       status : '更新中',
       msg : '',
@@ -271,12 +270,11 @@ export default class MyComponent extends Component {
   // xxxyyyy -> 〒xxx - yyyy
   // 郵便番号の書式を変換
   zipcodeSlice(str){
-    if (str.length < 7) return str;
-    const a = str.slice(0, 3);
-    const b = '-';
-    const c = str.slice(3);
-
-    return('〒'+a + b + c);
+    if (str.length == 6) str ='0'+ str;
+    if (str.length == 5) str ='00'+ str;
+    let front = str.slice(0, 3);
+    let back = str.slice(3);
+    return('〒'+ front + '-' + back);
   }
 
   //
@@ -288,10 +286,6 @@ export default class MyComponent extends Component {
     str = str.replace('undefined','');
     return str;
   }
-
-
-
-
 
 render(){
   let result;
@@ -376,55 +370,54 @@ render(){
 
     <div className="container">
       <div className="row">
-        <div className="col-4">
-        
+        <div className="col-2">
         <a 
           type = "button"
           className= "btn btn-outline-success" 
           disabled = {isLoading}
           href = "/zipcode/reactapp/download" 
-        >CSV ダウンロード</a>
-        <div class="input-group mb-3">
+        >CSV ダウンロード
+        </a>
+      </div>
+      <div className="col-2">
+        <div class="input-group mb-2">
           <button className= "btn btn-outline-secondary" 
           onClick ={this.callRandomInsertAction}
           disabled = {isLoading}
           >ランダムデータ挿入
         </button>
         </div>
-        </div>
-
-
-        
-        <div className="col-5">
+      </div>
+      <div className="col-5">
         {/* 空要素 */}
-        </div>
-        <div className="col-3 align-self-end">
+      </div>
+      <div className="col-3 align-self-end">
 
-          <div className="input-group mb-3">  
-            <input 
-              type="text"  
-              id = 'msg' 
-              value = {this.state?.status} 
-              className="form-control" 
-              placeholder="" 
-              aria-label="msg" 
-              aria-describedby="basic-addon2"
-              disabled
-            />
+        <div className="input-group mb-3">  
+          <input 
+            type="text"  
+            id = 'msg' 
+            value = {this.state?.status} 
+            className="form-control" 
+            placeholder="" 
+            aria-label="msg" 
+            aria-describedby="basic-addon2"
+            disabled
+          />
 
-            <button 
-              className= "btn btn-outline-success"
-              onClick={this.getAddressData}
-              disabled = {isLoading}
-            >更新</button>
-          </div>
+          <button 
+            className= "btn btn-outline-success"
+            onClick={this.getAddressData}
+            disabled = {isLoading}
+          >更新</button>
         </div>
-      </div> 
+      </div>
     </div> 
+  </div> 
           
           
       {/* テーブル表示 */}
-      <table className="table">
+      <table className="table table-sm">
         <thead>
           <tr>
             <th>住所1</th>
@@ -452,7 +445,7 @@ render(){
                 <td>{this.zipcodeSlice(row.zipcode)}</td>
                 <td>{row.created_at.slice(0,10)}</td>
                 <td>
-                  <button className= "btn btn-outline-danger" 
+                  <button className= "btn btn-outline-danger btn-sm" 
                     onClick ={()=>this.callDeleteAction(row.id)}
                     disabled = {isLoading}
                     >削除
@@ -470,6 +463,6 @@ render(){
 }
 
 
-if (document.getElementById('mycomponent')) {
-  ReactDOM.render(<MyComponent />,document.getElementById('mycomponent'));
+if (document.getElementById('ZipcodeApp')) {
+  ReactDOM.render(<ZipcodeApp />,document.getElementById('ZipcodeApp'));
 }
