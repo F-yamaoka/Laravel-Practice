@@ -142,7 +142,13 @@ export default class ChatApp extends Component {
     )
   }
 }
-
+/* 
+送信や更新でページを一番下に移動する
+メッセージに日付と送信者の名前を表示する
+テキストエリアを文字数によって大きさが変わるようにする
+送信者の名前を自由に変えられるようにする
+すべてロードするのではなく、日付の新しいものだけロードする
+ */
 if (document.getElementById('ChatApp')) {
   ReactDOM.render(<ChatApp/>,document.getElementById('ChatApp'));
 }

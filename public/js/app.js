@@ -5643,6 +5643,14 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
   return ChatApp;
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+/* 
+送信や更新でページを一番下に移動する
+メッセージに日付と送信者の名前を表示する
+テキストエリアを文字数によって大きさが変わるようにする
+送信者の名前を自由に変えられるようにする
+すべてロードするのではなく、日付の新しいものだけロードする
+ */
+
 
 
 
