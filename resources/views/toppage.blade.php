@@ -6,11 +6,6 @@
 
 @section('content')
 <style>.btn {width: 100%;}</style>
-<h2>0. 郵便番号→住所</h2>
-    <div class="row gap-2" >
-    <div class="col-3">
-    <a href = '/zipcode/view' class="btn btn-outline-primary">郵便番号から住所</a>
-    </div>
 <h2>1. リクエスト　ファサード</h2>
     <div class="row gap-2" >
     <div class="col-3">

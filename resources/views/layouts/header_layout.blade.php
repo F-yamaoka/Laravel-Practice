@@ -8,11 +8,8 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="http://localhost:8000/zipcode/view">php郵便番号→住所</a></li>
-            <a class="nav-link" href="http://localhost:8000/zipcode/reactapp">react郵便番号→住所</a></li>
-
-            <a class="nav-link" href="http://localhost:8000/javascript/calculator">電卓</a></li>
-
+            <a class="nav-link" href="http://localhost:8000/zipcode/reactapp">郵便番号変換</a></li>
+            <a class="nav-link" href="http://localhost:8000/chatapp">チャット</a></li>
           </li>
         </ul>
       </div>

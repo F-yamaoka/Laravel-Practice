@@ -6,6 +6,7 @@ use App\Http\Controllers\ZipcodeController;
 use App\Http\Controllers\Api\ZipcodeApiController;
 use App\Http\Controllers\JavascriptController;
 use App\Http\Controllers\ReactController;
+use App\Http\Controllers\ChatAppController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,19 @@ Route::get('/',[FirstController::class,'toppage']);
 
 // 参画前の準備課題
 
-// 住所（PHP版)
+
+// チャットアプリ
+Route::get('/chatapp',[ChatAppController::class,'chatapp']);
+
+
+
+// 郵便番号変換APP（PHP版)
 Route::get('/zipcode',[ZipcodeController::class,'zipcode']);
 Route::get('/zipcode/view',[ZipcodeController::class,'view']);
 Route::post('/zipcode/view',[ZipcodeController::class,'add']);
 Route::get('/zipcode/view/delete/{id}',[ZipcodeController::class,'delete']);
 
-// 住所（React版) 
+// 郵便番号変換APP（React版) 
 Route::get('/zipcode/reactapp',[ReactController::class,'reactapp']);
 Route::get('/zipcode/reactapp/insert/{zipcode}',[ReactController::class,'insert']);
 Route::get('/zipcode/reactapp/delete/{id}',[ReactController::class,'delete']);
@@ -36,11 +43,8 @@ Route::get('/zipcode/reactapp/address_api',[ReactController::class,'address_api'
 Route::get('/zipcode/reactapp/download',[ReactController::class,'download']);
 Route::get('/zipcode/reactapp/zipcode_api/insert_random_address/{count}',[ReactController::class,'insert_random_address']);
 
-
 // ZIPCODEから住所データを出力するAPI
 Route::get('/zipcode/reactapp/zipcode_api/{zipcode}',[ZipcodeApiController::class,'zipcode_api']);
-
-
 
 
 // Javascript学習

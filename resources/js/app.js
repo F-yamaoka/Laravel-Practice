@@ -13,6 +13,7 @@ require('./bootstrap');
  */
 
 require('./components/Example');
+require('./components/ChatApp');
 require('./components/ZipcodeApp');
 
 
