@@ -9,6 +9,8 @@ export default class MyComponent extends Component {
     this.getAddressData = this.getAddressData.bind(this);
     this.callZipcodeApi = this.callZipcodeApi.bind(this);
     this.callDeleteAction = this.callDeleteAction.bind(this);
+    this.callRandomInsertAction = this.callRandomInsertAction.bind(this);
+
   
 
     // 初期json呼び出し
@@ -167,7 +169,7 @@ export default class MyComponent extends Component {
   // 指定したIDの要素を削除する処理
   callDeleteAction(id =-1, event){
     if(id == -1){
-      alert('return');
+      alert('不正なアクセスです。');
       return;
     }
     
@@ -184,6 +186,63 @@ export default class MyComponent extends Component {
         status : '完了',
         msg : response.data,
       }));
+    });
+  
+    // 更新処理
+    const url2 = "/zipcode/reactapp/address_api";
+    axios.get(url2).then(response => {
+      let tmp_items = response.data;
+
+      // 分岐：データの有無
+      if (tmp_items.length > 0) {
+        this.setState((state)=>({
+          status : '完了',
+          items : tmp_items,
+        }));
+      }else{
+        this.setState((state)=>({
+          status : '完了',
+          msg : 'データがありません',
+          items : tmp_items,
+        }));
+      }
+    });
+    return;
+  }
+
+  // ランダムで住所データ追加
+  callRandomInsertAction(event){
+    let count;
+    while (1){
+      count = prompt('何件のデータを追加しますか','1');
+      count = Math.trunc(count);
+      if (count == null) return;
+      else if (isNaN(count)) prompt('文字は対応していません。');
+      else if (count > 100 || count < 1) prompt('1以上100以下の数を指定して下さい。');
+      else  break;
+    }
+    alert(count);
+    this.setState((state)=>({
+      status : '更新中',
+      msg : '',
+    }));
+
+    // 追加処理
+    const url = "/zipcode/reactapp/zipcode_api/insert_random_address/"+count;
+    axios.get(url).then(response => {
+
+      if (response.data.length > 0){
+      this.setState((state)=>({
+        status : '完了',
+        msg : response.data,
+      }));
+      }else{
+        this.setState((state)=>({
+          status : '完了',
+          msg : '追加に失敗しました',
+      }));
+      }
+
     });
   
     // 更新処理
@@ -324,9 +383,18 @@ render(){
           className= "btn btn-outline-success" 
           disabled = {isLoading}
           href = "/zipcode/reactapp/download" 
-        >CSVダウンロード</a>
-        
+        >CSV ダウンロード</a>
+        <div class="input-group mb-3">
+          <button className= "btn btn-outline-secondary" 
+          onClick ={this.callRandomInsertAction}
+          disabled = {isLoading}
+          >ランダムデータ挿入
+        </button>
         </div>
+        </div>
+
+
+        
         <div className="col-5">
         {/* 空要素 */}
         </div>

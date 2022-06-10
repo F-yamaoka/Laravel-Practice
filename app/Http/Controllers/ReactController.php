@@ -38,11 +38,11 @@ class ReactController extends Controller
     }
     
     public function delete(Request $request){
-        $address = Address::find($request->id);
+        $delete_address = Address::find($request->id);
 
-        if(isset($address)){
-            $msg ='削除しました(〒'.$address->zipcode.')';
-            $address->delete();
+        if(isset($delete_address)){
+            $msg ='削除しました(〒'.$delete_address->zipcode.')';
+            $delete_address->delete();
         }else{
             $msg ='error(対象IDが存在しない)';
         }
@@ -89,10 +89,7 @@ class ReactController extends Controller
             'created_at',
             'update_at',
         ]);
-        // データ
         $addresses = Address::orderBy('id', 'desc');
-        // ２行目以降の出力
-	// cursor()メソッドで１レコードずつストリームに流す処理を実現できる。
         foreach ($addresses->cursor() as $address) {
             fputcsv($stream, [
                 $address->id, 
@@ -106,19 +103,35 @@ class ReactController extends Controller
                 $address->created_at,
                 $address->update_at,
             ]);
-        }
-        fclose($stream);
-    };
+            }
+            fclose($stream);
+        };
 	
-    // 保存するファイル名
-    $filename = sprintf('all_address_%s.csv', date('Ymd'));
-	
-    // ファイルダウンロードさせるために、ヘッダー出力を調整
-    $header = [
-        'Content-Type' => 'application/octet-stream',
-    ];
-	
-    return response()->streamDownload($callback, $filename, $header);
+        $filename = sprintf('all_address_%s.csv', date('Ymd'));
+        
+        $header = [
+            'Content-Type' => 'application/octet-stream',
+        ];
+        
+        return response()->streamDownload($callback, $filename, $header);
     }
-    
+
+    public function insert_random_address($count = 1){
+        for ($i = $count ; $i > 0 ; $i--){
+            $random_id = rand(1,127343);
+            $random_address = Zipcode::find($random_id);
+            $insert_address = new Address;
+            $insert_address->address1    = $random_address->address1;
+            $insert_address->address2    = $random_address->address2;
+            $insert_address->address3    = $random_address->address3;
+            $insert_address->kana1       = $random_address->kana1;
+            $insert_address->kana2       = $random_address->kana2;
+            $insert_address->kana3       = $random_address->kana3;
+            $insert_address->zipcode     = $random_address->zipcode;
+            $insert_address->created_at  = new DateTime();
+            $insert_address->updated_at  = new DateTime();
+            $insert_address ->save();
+        }
+        return response($count .'件追加しました。',200);
+    }
 }

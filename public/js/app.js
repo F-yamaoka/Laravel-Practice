@@ -5541,7 +5541,8 @@ var MyComponent = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.getAddressData = _this.getAddressData.bind(_assertThisInitialized(_this));
     _this.callZipcodeApi = _this.callZipcodeApi.bind(_assertThisInitialized(_this));
-    _this.callDeleteAction = _this.callDeleteAction.bind(_assertThisInitialized(_this)); // 初期json呼び出し
+    _this.callDeleteAction = _this.callDeleteAction.bind(_assertThisInitialized(_this));
+    _this.callRandomInsertAction = _this.callRandomInsertAction.bind(_assertThisInitialized(_this)); // 初期json呼び出し
 
     _this.getAddressData();
 
@@ -5739,7 +5740,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
       var event = arguments.length > 1 ? arguments[1] : undefined;
 
       if (id == -1) {
-        alert('return');
+        alert('不正なアクセスです。');
         return;
       }
 
@@ -5773,6 +5774,70 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           });
         } else {
           _this5.setState(function (state) {
+            return {
+              status: '完了',
+              msg: 'データがありません',
+              items: tmp_items
+            };
+          });
+        }
+      });
+      return;
+    } // ランダムで住所データ追加
+
+  }, {
+    key: "callRandomInsertAction",
+    value: function callRandomInsertAction(event) {
+      var _this6 = this;
+
+      var count;
+
+      while (1) {
+        count = prompt('何件のデータを追加しますか', '1');
+        count = Math.trunc(count);
+        if (count == null) return;else if (isNaN(count)) prompt('文字は対応していません。');else if (count > 100 || count < 1) prompt('1以上100以下の数を指定して下さい。');else break;
+      }
+
+      alert(count);
+      this.setState(function (state) {
+        return {
+          status: '更新中',
+          msg: ''
+        };
+      }); // 追加処理
+
+      var url = "/zipcode/reactapp/zipcode_api/insert_random_address/" + count;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        if (response.data.length > 0) {
+          _this6.setState(function (state) {
+            return {
+              status: '完了',
+              msg: response.data
+            };
+          });
+        } else {
+          _this6.setState(function (state) {
+            return {
+              status: '完了',
+              msg: '追加に失敗しました'
+            };
+          });
+        }
+      }); // 更新処理
+
+      var url2 = "/zipcode/reactapp/address_api";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url2).then(function (response) {
+        var tmp_items = response.data; // 分岐：データの有無
+
+        if (tmp_items.length > 0) {
+          _this6.setState(function (state) {
+            return {
+              status: '完了',
+              items: tmp_items
+            };
+          });
+        } else {
+          _this6.setState(function (state) {
             return {
               status: '完了',
               msg: 'データがありません',
@@ -5819,7 +5884,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           _this$state4$zipcodeI,
           _this$state5,
           _this$state6,
-          _this6 = this,
+          _this7 = this,
           _this$state7,
           _this$state8,
           _this$state8$items;
@@ -5894,7 +5959,7 @@ var MyComponent = /*#__PURE__*/function (_Component) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-outline-success",
               onClick: function onClick() {
-                return _this6.callInsetAction(oldZipcode);
+                return _this7.callInsetAction(oldZipcode);
               },
               disabled: existAddressData || isLoading,
               children: "\u8FFD\u52A0"
@@ -5904,15 +5969,23 @@ var MyComponent = /*#__PURE__*/function (_Component) {
           className: "container",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "col-4",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
                 type: "button",
                 className: "btn btn-outline-success",
                 disabled: isLoading,
                 href: "/zipcode/reactapp/download",
-                children: "CSV\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9"
-              })
+                children: "CSV \u30C0\u30A6\u30F3\u30ED\u30FC\u30C9"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "input-group mb-3",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  className: "btn btn-outline-secondary",
+                  onClick: this.callRandomInsertAction,
+                  disabled: isLoading,
+                  children: "\u30E9\u30F3\u30C0\u30E0\u30C7\u30FC\u30BF\u633F\u5165"
+                })
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "col-5"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -5977,14 +6050,14 @@ var MyComponent = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.kana3
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                  children: _this6.zipcodeSlice(row.zipcode)
+                  children: _this7.zipcodeSlice(row.zipcode)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: row.created_at.slice(0, 10)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     className: "btn btn-outline-danger",
                     onClick: function onClick() {
-                      return _this6.callDeleteAction(row.id);
+                      return _this7.callDeleteAction(row.id);
                     },
                     disabled: isLoading,
                     children: "\u524A\u9664"
