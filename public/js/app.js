@@ -5464,6 +5464,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ChatApp = /*#__PURE__*/function (_Component) {
   _inherits(ChatApp, _Component);
 
@@ -5474,23 +5475,136 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, ChatApp);
 
-    _this = _super.call(this, props); // this.getAddressData = this.getAddressData.bind(this);
+    _this = _super.call(this, props);
 
+    _this.reloadMessage(); // 名前変更
+
+
+    _this.namechange = _this.namechange.bind(_assertThisInitialized(_this)); // メッセージをリロードする。
+
+    _this.reloadMessage = _this.reloadMessage.bind(_assertThisInitialized(_this)); // メッセージを送信する。
+
+    _this.sendMessage = _this.sendMessage.bind(_assertThisInitialized(_this)); // ロードFlag
+
+    _this.isLoading = _this.isLoading.bind(_assertThisInitialized(_this));
+    _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
     _this.state = {
+      name: 'testname',
       status: '更新中',
-      msg: ''
+      msg: 'testmessage'
     };
     return _this;
-  }
+  } //
+  //
+  // 名前変更
+
 
   _createClass(ChatApp, [{
+    key: "namechange",
+    value: function namechange(state) {
+      this.setState(function (state) {
+        return {
+          name: 'testname2',
+          status: '更新中',
+          msg: ''
+        };
+      });
+    } //
+    //
+    // メッセージをリロードする。
+
+  }, {
+    key: "reloadMessage",
+    value: function reloadMessage(state) {
+      var _this2 = this;
+
+      // 更新処理
+      var url = "/chatapp/get";
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        console.log(response.data);
+
+        _this2.setState(function (state) {
+          return {
+            status: '完了',
+            items: response.data
+          };
+        });
+      });
+    } //
+    //
+    // メッセージを送信する。
+
+  }, {
+    key: "sendMessage",
+    value: function sendMessage(state) {
+      var context = document.getElementById('context').value;
+
+      if (context.length > 0) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/chatapp/send', {
+          name: 'testname',
+          context: context
+        }).then(function (response) {
+          console.log(response);
+        }); // 更新して最下部までスクロール
+
+        document.getElementById('context').value = '';
+      }
+    } //
+    //
+    // ロードFlag
+
+  }, {
+    key: "isLoading",
+    value: function isLoading(state) {
+      return this.state.status == '更新中';
+    } //
+    //
+    // ロードFlag
+
+  }, {
+    key: "isMine",
+    value: function isMine(myname, state) {
+      return myname == this.state.name;
+    } //
+    //
+    // レンダリング
+
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      var _this$state,
+          _this$state$items,
+          _this3 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
-          children: "ChatAPP"
-        })
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "background1",
+          id: "background1",
+          children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                className: _this3.isMine(row.name) ? "rightbox" : "leftbox",
+                children: row.context
+              })
+            });
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "background2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "input-group mb-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              type: "text",
+              id: "context",
+              className: "form-control",
+              placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: this.sendMessage,
+              className: "btn btn-primary",
+              children: "\u9001\u4FE1"
+            })]
+          })
+        })]
       });
     }
   }]);

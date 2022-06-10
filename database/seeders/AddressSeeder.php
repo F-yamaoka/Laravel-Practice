@@ -61,6 +61,5 @@ class AddressSeeder extends Seeder
             'updated_at' => new DateTime(),
         ]);
         
-        //https://zipcloud.ibsnet.co.jp/api/search?zipcode=???????
     }
 }
