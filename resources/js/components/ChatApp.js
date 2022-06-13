@@ -31,6 +31,7 @@ export default class ChatApp extends Component {
       if (input_name == null) return;
       if (input_name == 'noname') alert('この名前は使用できません');
       else if (input_name.length > 20) alert('20文字以下で入力してください');
+      else if (input_name.length == 0);
       else  break;
     }
     this.setState((state)=>({

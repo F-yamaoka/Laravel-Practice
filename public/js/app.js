@@ -5505,7 +5505,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       while (1) {
         input_name = prompt('名前を入力', '');
         if (input_name == null) return;
-        if (input_name == 'noname') alert('この名前は使用できません');else if (input_name.length > 20) alert('20文字以下で入力してください');else break;
+        if (input_name == 'noname') alert('この名前は使用できません');else if (input_name.length > 20) alert('20文字以下で入力してください');else if (input_name.length == 0) ;else break;
       }
 
       this.setState(function (state) {
