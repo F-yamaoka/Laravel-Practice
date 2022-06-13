@@ -32,6 +32,19 @@ li{
 .form-control{
   background: rgb(245, 245, 245);
 }
+.chat_container{
+}
+.background0{
+  background-color:rgb(194, 194, 194);
+
+  border-radius:10px 10px 0 0;
+
+  padding:1em;
+  width:75%;
+  height: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .background1{
   background-color:rgb(113,147,193);
@@ -43,11 +56,12 @@ li{
   margin-right: auto;
 }
 .background2{
-  background-color:rgb(255, 255, 255);
+  background-color:rgb(194, 194, 194);
+  border-radius:0 0 10px 10px;
+
   padding:1em 1em;
   width:75%;
-  height: 11%;
-  overflow:auto;
+  height: 7%;
   margin-left: auto;
   margin-right: auto;
 }

@@ -167,10 +167,13 @@ export default class ChatApp extends Component {
   render(){
 
     return (
-      <div className="container">
-
-            <div className="background1" id = "background1">
-            <div className="scroll">
+      <div className="chat_container">
+          <div className="background0" id = "background0">
+            {this.state.name}でログイン中
+          </div>
+          
+          <div className="background1" id = "background1">
+          <div className="scroll">
           <div id="scroll-inner">
             {this.state?.items?.map((row) => {
             return (
