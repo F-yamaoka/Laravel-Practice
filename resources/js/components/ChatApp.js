@@ -106,6 +106,28 @@ export default class ChatApp extends Component {
 
   //
   //
+  // 日付変換　時間のみ表示
+  convertDate(created_at){
+    let hour = created_at.slice(11,13);
+    let min = created_at.slice(14,16);
+    console.log ('1:'+hour);
+
+    // 日本時間に変換 (MySQLの時間設定が変えられないので暫定処理)
+    let time_difference = 9; // 時差 (JST - UTC)
+    hour = Number(hour);
+    hour += time_difference;
+    console.log (hour);
+    if (hour > 24) {
+      hour = hour - 24;
+    }
+    if (hour < 10)hour = '0' + hour;
+    //
+    
+    return(hour +':'+ min);
+  }
+
+  //
+  //
   // トップに戻る
   returnTop(state){
     window.scrollTo({
@@ -125,14 +147,20 @@ export default class ChatApp extends Component {
         <div className="background1" id = "background1">
         {this.state?.items?.map((row) => {
         return (
-          <ul >
-            <li  className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</li>
-          </ul>  
-          );})}
+          <div>
+          <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+            <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
+          </div>
+          <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+            <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
+            <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
+          </div>
+          </div>
+        );})}
         </div>
 
         <div className="background2"> 
-          <div className="input-group input-group-lg mb-3">
+          <div className="input-group mb-3">
           <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"></textarea>
           <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
           </div>

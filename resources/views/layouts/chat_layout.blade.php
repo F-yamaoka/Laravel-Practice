@@ -6,15 +6,14 @@
 <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 <script src="{{ asset('js/app.js') }}" defer></script>
 <style>
-p.arrow {
-        padding: 10px 10px 5px 10px;
-}
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
  
-
+li{
+  list-style:none;
+}
 ::-webkit-scrollbar-thumb {
   background: rgb(190, 216, 253);
   border-radius: 5px;
@@ -24,54 +23,93 @@ p.arrow {
   resize: none;
 }
 .background1{
-/* background-color:rgb(113,147,193); */
-background-color:rgb(0, 0, 0);
-
-padding:1em;
-height: 75%;
-overflow:auto;
+  background-color:rgb(113,147,193);
+  padding:1em;
+  width:75%;
+  height: 75%;
+  overflow:auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .background2{
-/* background-color:rgb(113,147,193); */
-background-color:rgb(0, 0, 0);
-
-padding:1em;
-height: 10%;
-overflow:auto;
+  background-color:rgb(113,147,193);
+  padding:1em;
+  width:75%;
+  height: 11%;
+  overflow:auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 textarea{
   resize: none;
 }
 
-.leftbox{
-display:inline-block;
-position:relative;
-background-color:white;
-border-radius:10px;
-padding:10px;
-margin:0 0 10px 10px;
-max-width: 75%;
-float: left;
-clear: both;
-white-space:pre-wrap; 
-word-wrap:break-word;
+.leftmessagebox{
+  display: flex;
+  flex-direction: row;
 }
-.rightbox{
-display:inline-block;
-position:relative;
-/* background-color:#85e249; */
-background-color:#ffffff;
 
-border-radius:10px;
-padding:10px;
-margin:0 10px 10px 0;
-max-width: 75%;
-float: right;
-clear: both;
-white-space:pre-wrap; 
-word-wrap:break-word;
+.rightmessagebox{
+  display: flex;
+  flex-direction: row-reverse;
 }
+.leftbox{
+  background-color:#ebebeb;
+  border-radius:10px;
+  padding:10px;
+  margin:0 0 10px 10px;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+}
+
+.rightbox{
+  background-color:#85e249;
+  border-radius:10px;
+  padding:10px;
+  margin:0 10px 10px 0;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+}
+
+.rightboxlavel{
+  font-size: 80%;
+  padding:10px;
+  margin:0 3px -10px 0;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+}
+.leftboxlavel{
+  font-size: 80%;
+  padding:10px;
+  margin:0 0 -10px 3px;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+}
+
+.rightboxdate{
+  font-size: 80%;
+  padding:10px;
+  margin:0 -5px 0px 0px;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+  margin-top: auto;
+}
+.leftboxdate{5
+  font-size: 80%;
+  padding:10px;
+  margin:0 0 0px -5px;
+  max-width: 75%;
+  white-space:pre-wrap; 
+  word-wrap:break-word;
+  margin-top: auto;
+}
+
 
 </style>   
 </head>
