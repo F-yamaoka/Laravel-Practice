@@ -5488,7 +5488,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _this.isLoading = _this.isLoading.bind(_assertThisInitialized(_this));
     _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
-    _this.returnTop = _this.returnTop(_assertThisInitialized(_this));
     _this.state = {
       name: 'testname',
       // 今後はログイン名に変える
@@ -5531,12 +5530,19 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         console.log(response.data);
 
-        _this2.setState(function (state) {
-          return {
-            status: '完了',
-            items: response.data
-          };
-        });
+        if (response.data.length > 0) {
+          _this2.setState(function (state) {
+            return {
+              status: '完了',
+              items: response.data,
+              scrollFlag: true
+            };
+          }); // ページ最下部へ移動
+
+
+          var target = document.getElementById('scroll-inner');
+          target.scrollIntoView(false);
+        }
       });
     } //
     //
@@ -5565,7 +5571,11 @@ var ChatApp = /*#__PURE__*/function (_Component) {
               status: '完了',
               items: response.data
             };
-          });
+          }); // ページ最下部へ移動
+
+
+          var target = document.getElementById('scroll-inner');
+          target.scrollIntoView(false);
         });
       }
 
@@ -5610,22 +5620,11 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       return hour + ':' + min;
     } //
     //
-    // トップに戻る
+    // レンダリング
 
   }, {
-    key: "returnTop",
-    value: function returnTop(state) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-  }, {
     key: "render",
-    value: //
-    //
-    // レンダリング
-    function render() {
+    value: function render() {
       var _this$state,
           _this$state$items,
           _this4 = this;
@@ -5635,25 +5634,31 @@ var ChatApp = /*#__PURE__*/function (_Component) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "background1",
           id: "background1",
-          children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: _this4.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
-                  children: row.name
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
-                  children: row.context
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: _this4.isMine(row.name) ? "rightboxdate" : "leftboxdate",
-                  children: _this4.convertDate(row.created_at)
-                })]
-              })]
-            });
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "scroll",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              id: "scroll-inner",
+              children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: _this4.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                      children: row.name
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                    className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
+                      children: row.context
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: _this4.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                      children: _this4.convertDate(row.created_at)
+                    })]
+                  })]
+                });
+              })
+            })
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "background2",
@@ -5677,14 +5682,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
   return ChatApp;
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
-/* 
-送信や更新でページを一番下に移動する
-メッセージに日付と送信者の名前を表示する
-テキストエリアを文字数によって大きさが変わるようにする
-送信者の名前を自由に変えられるようにする
-すべてロードするのではなく、日付の新しいものだけロードする
- */
-
 
 
 

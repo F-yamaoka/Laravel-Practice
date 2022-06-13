@@ -11,6 +11,12 @@
   height: 10px;
 }
  
+.scroll{
+    overflow-y: scroll;
+}
+#scroll-inner{
+}
+
 li{
   list-style:none;
 }
@@ -61,8 +67,8 @@ textarea{
 }
 .leftbox{
   background-color:#ebebeb;
-  border-radius:30px;
-  padding:10px 23px;
+  border-radius:25px;
+  padding:10px 21px;
   margin:0 0 10px 10px;
   max-width: 75%;
   white-space:pre-wrap; 
@@ -71,8 +77,8 @@ textarea{
 
 .rightbox{
   background-color:#85e249;
-  border-radius:30px;
-  padding:10px 23px;
+  border-radius:25px;
+  padding:10px 21px;
   margin:0 10px 10px 0;
   max-width: 75%;
   white-space:pre-wrap; 
