@@ -100,7 +100,7 @@ textarea{
   word-wrap:break-word;
   margin-top: auto;
 }
-.leftboxdate{5
+.leftboxdate{
   font-size: 80%;
   padding:10px;
   margin:0 0 0px -5px;
