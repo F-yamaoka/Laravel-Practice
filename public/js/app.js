@@ -5476,6 +5476,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, ChatApp);
 
     _this = _super.call(this, props);
+    _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createRef();
 
     _this.reloadMessage(); // メッセージをリロードする。
 
@@ -5484,12 +5485,13 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _this.sendMessage = _this.sendMessage.bind(_assertThisInitialized(_this)); // ロードFlag
 
-    _this.isLoading = _this.isLoading.bind(_assertThisInitialized(_this));
     _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
+    _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
     _this.state = {
       name: 'noname',
       // 未ログイン時の名前
-      status: '更新中'
+      status: '更新中',
+      page: 20
     };
     return _this;
   } //
@@ -5540,11 +5542,11 @@ var ChatApp = /*#__PURE__*/function (_Component) {
           _this2.setState(function (state) {
             return {
               status: '完了',
-              items: response.data,
-              scrollFlag: true
+              items: response.data
             };
-          }); // ページ最下部へ移動
+          });
 
+          console.log(response.data); // ページ最下部へ移動
 
           var target = document.getElementById('scroll-inner');
           target.scrollIntoView(false);
@@ -5618,14 +5620,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       }
     } //
     //
-    // ロードFlag
-
-  }, {
-    key: "isLoading",
-    value: function isLoading(state) {
-      return this.state.status == '更新中';
-    } //
-    //
     // 自分の投稿かどうか
 
   }, {
@@ -5655,13 +5649,44 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
       return hour + ':' + min;
     } //
+    //ページの一番上に触ったとき
+    // メッセージを10件追加して取ってくる。
+
+  }, {
+    key: "handleScroll",
+    value: function handleScroll(state) {
+      var _this5 = this;
+
+      if (this.node.current.scrollTop == 0) {
+        var client_h = document.getElementById('background1').clientHeight;
+        var scrollHeight = document.getElementById('background1').scrollHeight;
+        var next_page_hight = scrollHeight + client_h;
+        console.log('page:' + this.state.page);
+        console.log('[1]clientHeight: ' + client_h + ' , ' + scrollHeight);
+        console.log('[1]' + next_page_hight);
+        var next_page = this.state.page;
+        var url = "/chatapp/get/" + this.state.page;
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+          if (response.data.length > 0) {
+            _this5.setState(function (state) {
+              return {
+                status: '完了',
+                items: response.data,
+                page: next_page + 10
+              };
+            });
+          }
+        });
+        this.node.current.scrollTop = 20;
+      }
+    } //
     //
     // レンダリング
 
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.state.name == 'noname') {
         var _this$state, _this$state$items;
@@ -5684,7 +5709,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-primary btn-sm",
                   onClick: function onClick() {
-                    return _this5.login();
+                    return _this6.login();
                   },
                   children: "\u30ED\u30B0\u30A4\u30F3"
                 })
@@ -5693,29 +5718,34 @@ var ChatApp = /*#__PURE__*/function (_Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "background1",
             id: "background1",
+            onScroll: this.handleScroll,
+            ref: this.node,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "scroll",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                 id: "scroll-inner",
-                children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
-                        children: row.name
-                      })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "d-flex flex-column-reverse bd-highlight",
+                  children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
-                        children: row.context
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
-                        children: _this5.convertDate(row.created_at)
+                        className: _this6.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                          children: row.name
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                        className: _this6.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightbox" : "leftbox",
+                          children: row.context
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                          children: _this6.convertDate(row.created_at)
+                        })]
                       })]
-                    })]
-                  });
+                    });
+                  })
                 })
               })
             })
@@ -5762,7 +5792,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-danger btn-sm",
                   onClick: function onClick() {
-                    return _this5.logout();
+                    return _this6.logout();
                   },
                   children: "\u30ED\u30B0\u30A2\u30A6\u30C8"
                 })
@@ -5771,29 +5801,34 @@ var ChatApp = /*#__PURE__*/function (_Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "background1",
             id: "background1",
+            onScroll: this.handleScroll,
+            ref: this.node,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "scroll",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                 id: "scroll-inner",
-                children: (_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$items = _this$state2.items) === null || _this$state2$items === void 0 ? void 0 : _this$state2$items.map(function (row) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
-                        children: row.name
-                      })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "d-flex flex-column-reverse bd-highlight",
+                  children: (_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$items = _this$state2.items) === null || _this$state2$items === void 0 ? void 0 : _this$state2$items.map(function (row) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
-                        children: row.context
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                        className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
-                        children: _this5.convertDate(row.created_at)
+                        className: _this6.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                          children: row.name
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                        className: _this6.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightbox" : "leftbox",
+                          children: row.context
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                          className: _this6.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                          children: _this6.convertDate(row.created_at)
+                        })]
                       })]
-                    })]
-                  });
+                    });
+                  })
                 })
               })
             })
@@ -5807,7 +5842,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
                 rows: "1",
                 placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8",
                 onKeyDown: function onKeyDown(e) {
-                  return _this5.handleKeyDown(e);
+                  return _this6.handleKeyDown(e);
                 }
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 onClick: this.reloadMessage,

@@ -10,10 +10,20 @@ class ChatAppController extends Controller
         return view ('chatapp.chatapp');
     }
 
-    public function getMessage(){
-        $all_message = Message::all();
-        return response()->json($all_message);
+    public function getMessage($count = 10){
+        // $msg_count = Message::count();
+        // $response_msg ='';
+        $response = Message::latest() -> take($count)  -> get();
+        // if ($count > $msg_count) {
+        //     $response_msg = 'すべてのメッセージを取得しました。';
+        // }
+        // $response =[
+        //     'all_message' => $all_message,
+        //     'response_msg' => $response_msg,
+        // ];
+        return response()->json($response);
     }
+
     public function sendMessage(Request $request){
         $msg = '';
         $errmsg = '';

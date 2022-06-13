@@ -2,24 +2,29 @@ import { withThemeCreator } from "@material-ui/styles";
 import axios from "axios";
 import React, {Component} from "react";
 import ReactDOM from 'react-dom';
-
 export default class ChatApp extends Component {
   constructor(props){
+    
     super(props);
+    this.node = React.createRef();
     this.reloadMessage();
     // メッセージをリロードする。
     this.reloadMessage = this.reloadMessage.bind(this);
     // メッセージを送信する。
     this.sendMessage = this.sendMessage.bind(this);
     // ロードFlag
-    this.isLoading = this.isLoading.bind(this);
     this.isMine = this.isMine.bind(this);
-
+    this.handleScroll = this.handleScroll.bind(this);
     this.state = {
       name : 'noname', // 未ログイン時の名前
       status : '更新中',
+      page : 20,
     };
+
+
   }
+
+
 
   //
   //
@@ -37,6 +42,7 @@ export default class ChatApp extends Component {
     this.setState((state)=>({
       status : '更新中',
       name : input_name,
+      
     }));
   }
 
@@ -58,8 +64,8 @@ export default class ChatApp extends Component {
         this.setState((state)=>({
           status : '完了',
           items : response.data,
-          scrollFlag : true,
         }));
+        console.log(response.data);
         // ページ最下部へ移動
         let target = document.getElementById('scroll-inner');
         target.scrollIntoView(false);
@@ -126,12 +132,6 @@ export default class ChatApp extends Component {
 
   }
 
-  //
-  //
-  // ロードFlag
-  isLoading(state){
-    return (this.state.status == '更新中');
-  }
 
   //
   //
@@ -161,48 +161,82 @@ export default class ChatApp extends Component {
   }
 
   //
+  //ページの一番上に触ったとき
+  // メッセージを10件追加して取ってくる。
+  handleScroll(state){
+    if (this.node.current.scrollTop == 0){
+      let client_h = document.getElementById('background1').clientHeight;
+      let scrollHeight  = document.getElementById('background1').scrollHeight; 
+
+      let next_page_hight = scrollHeight + client_h;
+      console.log('page:'+this.state.page);
+      console.log('[1]clientHeight: '+client_h+' , '+scrollHeight);
+      console.log('[1]'+(next_page_hight));
+
+
+      let next_page = this.state.page;
+      const url = "/chatapp/get/"+this.state.page;
+      axios.get(url).then(response => {
+
+        if (response.data.length > 0){
+          this.setState((state)=>({
+            status : '完了',
+            items : response.data,
+            page : next_page + 10,
+          }));
+        }
+      });
+      this.node.current.scrollTop = 20;
+
+    }
+
+  }
+
+  //
   //
   // レンダリング
   render(){
-      if (this.state.name == 'noname'){
-        return (
-          <div className="chat_container">
-              <div className="background0" id = "background0">
-                <div className="d-flex justify-content-between">
-                <div className="p-2 bd-highlight"><div className = 'header_msg'>ログインしていません。</div></div>
-                <div className="p-2 bd-highlight"><button className ="btn btn-primary btn-sm" onClick={()=>this.login()}>ログイン</button></div>
-                </div>
-              </div>
-              
-              <div className="background1" id = "background1">
-              <div className="scroll">
-              <div id="scroll-inner">
-                {this.state?.items?.map((row) => {
-                return (
-                  <div>
-                  <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
-                    <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
-                  </div>
-                  <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
-                    <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
-                    <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
-                  </div>
-                  </div>
-                );})}
-                </div>
+    if (this.state.name == 'noname'){
+      return (
+        <div className="chat_container" >
+            <div className="background0" id = "background0">
+              <div className="d-flex justify-content-between">
+              <div className="p-2 bd-highlight"><div className = 'header_msg'>ログインしていません。</div></div>
+              <div className="p-2 bd-highlight"><button className ="btn btn-primary btn-sm" onClick={()=>this.login()}>ログイン</button></div>
               </div>
             </div>
-    
-            <div className="background2"> 
-              <div className="input-group mb-3">
-              <textarea className="form-control" id = 'context' rows="1" disabled placeholder="ログインすることでメッセージを送信できます。"  
-              ></textarea>
-              <button className ="btn btn-primary" disabled>↺</button>
-              <button className ="btn btn-primary" disabled>送信</button>
+            
+            <div className="background1" id = "background1" onScroll={this.handleScroll} ref={this.node}>
+            <div className="scroll" >
+            <div id="scroll-inner" >
+            <div className="d-flex flex-column-reverse bd-highlight">
+              {this.state?.items?.map((row) => {
+              return (
+                <div>
+                <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                  <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
+                </div>
+                <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                  <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
+                  <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
+                </div>
+                </div>
+              );})}
+              </div>
               </div>
             </div>
-    
           </div>
+  
+          <div className="background2"> 
+            <div className="input-group mb-3">
+            <textarea className="form-control" id = 'context' rows="1" disabled placeholder="ログインすることでメッセージを送信できます。"  
+            ></textarea>
+            <button className ="btn btn-primary" disabled>↺</button>
+            <button className ="btn btn-primary"  disabled>送信</button>
+            </div>
+          </div>
+                
+        </div>
         )
       }else{
       return (
@@ -213,9 +247,11 @@ export default class ChatApp extends Component {
                 <div className="p-2 bd-highlight"><button className ="btn btn-danger btn-sm" onClick={()=>this.logout()}>ログアウト</button></div>
               </div>
             </div>
-            <div className="background1" id = "background1">
+            <div className="background1" id = "background1" onScroll={this.handleScroll} ref={this.node}>
             <div className="scroll">
             <div id="scroll-inner">
+            <div className="d-flex flex-column-reverse bd-highlight">
+
               {this.state?.items?.map((row) => {
               return (
                 <div>
@@ -230,6 +266,7 @@ export default class ChatApp extends Component {
               );})}
               </div>
             </div>
+            </div>
           </div>
 
           <div className="background2"> 
@@ -243,12 +280,14 @@ export default class ChatApp extends Component {
             <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
             </div>
           </div>
-
         </div>
       )
     }
   }
 }
+
+
+  
 
 if (document.getElementById('ChatApp')) {
   ReactDOM.render(<ChatApp/>,document.getElementById('ChatApp'));

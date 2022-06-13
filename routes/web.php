@@ -27,6 +27,7 @@ Route::get('/',[FirstController::class,'toppage']);
 // チャットアプリ
 Route::get('/chatapp',[ChatAppController::class,'chatapp']);
 Route::get('/chatapp/get',[ChatAppController::class,'getMessage']);
+Route::get('/chatapp/get/{count}',[ChatAppController::class,'getMessage']);
 Route::post('/chatapp/send',[ChatAppController::class,'sendMessage']);
 
 
