@@ -54,7 +54,6 @@ export default class ChatApp extends Component {
     // 更新処理
     const url = "/chatapp/get";
     axios.get(url).then(response => {
-      console.log(response.data);
       if (response.data.length > 0){
         this.setState((state)=>({
           status : '完了',
@@ -79,12 +78,10 @@ export default class ChatApp extends Component {
     context: context
     })
     .then(function (response) {
-      console.log(response);
     })
     
     const url = "/chatapp/get";
     axios.get(url).then(response => {
-      console.log(response.data);
       this.setState((state)=>({
         status : '完了',
         items : response.data,
@@ -108,12 +105,10 @@ export default class ChatApp extends Component {
       context: context
       })
       .then(function (response) {
-        console.log(response);
       })
       
       const url = "/chatapp/get";
       axios.get(url).then(response => {
-        console.log(response.data);
         this.setState((state)=>({
           status : '完了',
           items : response.data,

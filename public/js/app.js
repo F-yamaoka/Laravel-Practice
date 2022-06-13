@@ -5536,8 +5536,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       // 更新処理
       var url = "/chatapp/get";
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-        console.log(response.data);
-
         if (response.data.length > 0) {
           _this2.setState(function (state) {
             return {
@@ -5567,13 +5565,9 @@ var ChatApp = /*#__PURE__*/function (_Component) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/chatapp/send', {
           name: this.state.name,
           context: context
-        }).then(function (response) {
-          console.log(response);
-        });
+        }).then(function (response) {});
         var url = "/chatapp/get";
         axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-          console.log(response.data);
-
           _this3.setState(function (state) {
             return {
               status: '完了',
@@ -5602,13 +5596,9 @@ var ChatApp = /*#__PURE__*/function (_Component) {
             axios__WEBPACK_IMPORTED_MODULE_0___default().post('/chatapp/send', {
               name: this.state.name,
               context: context
-            }).then(function (response) {
-              console.log(response);
-            });
+            }).then(function (response) {});
             var url = "/chatapp/get";
             axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-              console.log(response.data);
-
               _this4.setState(function (state) {
                 return {
                   status: '完了',
