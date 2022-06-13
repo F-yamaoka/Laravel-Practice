@@ -32,14 +32,14 @@ li{
 .form-control{
   background: rgb(245, 245, 245);
 }
-.chat_container{
+.header_msg{
+  margin: 4px 0px 8px 4px;
 }
 .background0{
   background-color:rgb(194, 194, 194);
 
   border-radius:10px 10px 0 0;
 
-  padding:1em;
   width:75%;
   height: 5%;
   margin-left: auto;

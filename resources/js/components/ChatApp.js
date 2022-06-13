@@ -7,8 +7,6 @@ export default class ChatApp extends Component {
   constructor(props){
     super(props);
     this.reloadMessage();
-    // 名前変更
-    this.namechange = this.namechange.bind(this);
     // メッセージをリロードする。
     this.reloadMessage = this.reloadMessage.bind(this);
     // メッセージを送信する。
@@ -17,9 +15,8 @@ export default class ChatApp extends Component {
     this.isLoading = this.isLoading.bind(this);
     this.isMine = this.isMine.bind(this);
 
-
     this.state = {
-      name : 'testname', // 今後はログイン名に変える
+      name : 'noname', // 未ログイン時の名前
       status : '更新中',
     };
   }
@@ -27,19 +24,25 @@ export default class ChatApp extends Component {
   //
   //
   // 名前変更
-  namechange(state){
+  login(state){
+    let input_name;
+    while (1){
+      input_name = prompt('名前を入力','');
+      if (input_name == null) return;
+      if (input_name == 'noname') prompt ('この名前は使用できません');
+      else if (input_name.length > 20) prompt('20文字以下で入力してください');
+      else  break;
+    }
     this.setState((state)=>({
-      name : 'testname2',
       status : '更新中',
-      msg :'',
+      name : input_name,
     }));
+  }
 
-
-
+  logout(state){
     this.setState((state)=>({
-      name : 'testname2',
-      status : '完了',
-      msg :'',
+      status : '更新中',
+      name : 'noname',
     }));
   }
 
@@ -165,46 +168,89 @@ export default class ChatApp extends Component {
   //
   // レンダリング
   render(){
-
-    return (
-      <div className="chat_container">
-          <div className="background0" id = "background0">
-            {this.state.name}でログイン中
+      if (this.state.name == 'noname'){
+        return (
+          <div className="chat_container">
+              <div className="background0" id = "background0">
+                <div class="d-flex justify-content-between">
+                <div class="p-2 bd-highlight"><div className = 'header_msg'>ログインしていません。</div></div>
+                <div class="p-2 bd-highlight"><button className ="btn btn-primary btn-sm" onClick={()=>this.login()}>ログイン</button></div>
+                </div>
+              </div>
+              
+              <div className="background1" id = "background1">
+              <div className="scroll">
+              <div id="scroll-inner">
+                {this.state?.items?.map((row) => {
+                return (
+                  <div>
+                  <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                    <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
+                  </div>
+                  <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                    <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
+                    <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
+                  </div>
+                  </div>
+                );})}
+                </div>
+              </div>
+            </div>
+    
+            <div className="background2"> 
+              <div className="input-group mb-3">
+              <textarea className="form-control" id = 'context' rows="1" disabled placeholder="ログインすることでメッセージを送信できます。"  
+              ></textarea>
+              <button className ="btn btn-primary" disabled>↺</button>
+              <button className ="btn btn-primary" disabled>送信</button>
+              </div>
+            </div>
+    
           </div>
-          
-          <div className="background1" id = "background1">
-          <div className="scroll">
-          <div id="scroll-inner">
-            {this.state?.items?.map((row) => {
-            return (
-              <div>
-              <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
-                <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
+        )
+      }else{
+      return (
+        <div className="chat_container">
+            <div className="background0" id = "background0">
+              <div class="d-flex justify-content-between">
+                <div class="p-2 bd-highlight"><div className = 'header_msg'> {this.state.name}としてログイン中。</div></div>
+                <div class="p-2 bd-highlight"><button className ="btn btn-danger btn-sm" onClick={()=>this.logout()}>ログアウト</button></div>
               </div>
-              <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
-                <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
-                <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
+            </div>
+            <div className="background1" id = "background1">
+            <div className="scroll">
+            <div id="scroll-inner">
+              {this.state?.items?.map((row) => {
+              return (
+                <div>
+                <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                  <div  className={(this.isMine(row.name) ?"rightboxlavel":"leftboxlavel")}>{row.name}</div>
+                </div>
+                <div className={(this.isMine(row.name) ?"rightmessagebox":"leftmessagebox")}>
+                  <div className={(this.isMine(row.name) ?"rightbox":"leftbox")}>{row.context}</div>
+                  <div  className={(this.isMine(row.name) ?"rightboxdate":"leftboxdate")}>{this.convertDate(row.created_at)}</div>
+                </div>
+                </div>
+              );})}
               </div>
-              </div>
-            );})}
             </div>
           </div>
-        </div>
 
-        <div className="background2"> 
-          <div className="input-group mb-3">
-          <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"  
-          onKeyDown={
-            (e) => this.handleKeyDown(e)
-            }
-          ></textarea>
-          <button onClick={this.reloadMessage} className ="btn btn-primary" >↺</button>
-          <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
+          <div className="background2"> 
+            <div className="input-group mb-3">
+            <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"  
+            onKeyDown={
+              (e) => this.handleKeyDown(e)
+              }
+            ></textarea>
+            <button onClick={this.reloadMessage} className ="btn btn-primary" >↺</button>
+            <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
+            </div>
           </div>
-        </div>
 
-      </div>
-    )
+        </div>
+      )
+    }
   }
 }
 

@@ -5477,10 +5477,8 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _this.reloadMessage(); // 名前変更
+    _this.reloadMessage(); // メッセージをリロードする。
 
-
-    _this.namechange = _this.namechange.bind(_assertThisInitialized(_this)); // メッセージをリロードする。
 
     _this.reloadMessage = _this.reloadMessage.bind(_assertThisInitialized(_this)); // メッセージを送信する。
 
@@ -5489,8 +5487,8 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     _this.isLoading = _this.isLoading.bind(_assertThisInitialized(_this));
     _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
     _this.state = {
-      name: 'testname',
-      // 今後はログイン名に変える
+      name: 'noname',
+      // 未ログイン時の名前
       status: '更新中'
     };
     return _this;
@@ -5500,20 +5498,30 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
 
   _createClass(ChatApp, [{
-    key: "namechange",
-    value: function namechange(state) {
+    key: "login",
+    value: function login(state) {
+      var input_name;
+
+      while (1) {
+        input_name = prompt('名前を入力', '');
+        if (input_name == null) return;
+        if (input_name == 'noname') prompt('この名前は使用できません');else if (input_name.length > 20) prompt('20文字以下で入力してください');else break;
+      }
+
       this.setState(function (state) {
         return {
-          name: 'testname2',
           status: '更新中',
-          msg: ''
+          name: input_name
         };
       });
+    }
+  }, {
+    key: "logout",
+    value: function logout(state) {
       this.setState(function (state) {
         return {
-          name: 'testname2',
-          status: '完了',
-          msg: ''
+          status: '更新中',
+          name: 'noname'
         };
       });
     } //
@@ -5663,69 +5671,167 @@ var ChatApp = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$state,
-          _this$state$items,
-          _this5 = this;
+      var _this5 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "chat_container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "background0",
-          id: "background0",
-          children: [this.state.name, "\u3067\u30ED\u30B0\u30A4\u30F3\u4E2D"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "background1",
-          id: "background1",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "scroll",
+      if (this.state.name == 'noname') {
+        var _this$state, _this$state$items;
+
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "chat_container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background0",
+            id: "background0",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              "class": "d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "p-2 bd-highlight",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "header_msg",
+                  children: "\u30ED\u30B0\u30A4\u30F3\u3057\u3066\u3044\u307E\u305B\u3093\u3002"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "p-2 bd-highlight",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  className: "btn btn-primary btn-sm",
+                  onClick: function onClick() {
+                    return _this5.login();
+                  },
+                  children: "\u30ED\u30B0\u30A4\u30F3"
+                })
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background1",
+            id: "background1",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              id: "scroll-inner",
-              children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
-                      children: row.name
-                    })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+              className: "scroll",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                id: "scroll-inner",
+                children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
-                      children: row.context
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
-                      children: _this5.convertDate(row.created_at)
+                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                        children: row.name
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
+                        children: row.context
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                        children: _this5.convertDate(row.created_at)
+                      })]
                     })]
-                  })]
-                });
+                  });
+                })
               })
             })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "background2",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "input-group mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
-              className: "form-control",
-              id: "context",
-              rows: "1",
-              placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8",
-              onKeyDown: function onKeyDown(e) {
-                return _this5.handleKeyDown(e);
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              onClick: this.reloadMessage,
-              className: "btn btn-primary",
-              children: "\u21BA"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-              onClick: this.sendMessage,
-              className: "btn btn-primary",
-              children: "\u9001\u4FE1"
-            })]
-          })
-        })]
-      });
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-group mb-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
+                className: "form-control",
+                id: "context",
+                rows: "1",
+                disabled: true,
+                placeholder: "\u30ED\u30B0\u30A4\u30F3\u3059\u308B\u3053\u3068\u3067\u30E1\u30C3\u30BB\u30FC\u30B8\u3092\u9001\u4FE1\u3067\u304D\u307E\u3059\u3002"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                className: "btn btn-primary",
+                disabled: true,
+                children: "\u21BA"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                className: "btn btn-primary",
+                disabled: true,
+                children: "\u9001\u4FE1"
+              })]
+            })
+          })]
+        });
+      } else {
+        var _this$state2, _this$state2$items;
+
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "chat_container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background0",
+            id: "background0",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              "class": "d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "p-2 bd-highlight",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "header_msg",
+                  children: [" ", this.state.name, "\u3068\u3057\u3066\u30ED\u30B0\u30A4\u30F3\u4E2D\u3002"]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                "class": "p-2 bd-highlight",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  className: "btn btn-danger btn-sm",
+                  onClick: function onClick() {
+                    return _this5.logout();
+                  },
+                  children: "\u30ED\u30B0\u30A2\u30A6\u30C8"
+                })
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background1",
+            id: "background1",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "scroll",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                id: "scroll-inner",
+                children: (_this$state2 = this.state) === null || _this$state2 === void 0 ? void 0 : (_this$state2$items = _this$state2.items) === null || _this$state2$items === void 0 ? void 0 : _this$state2$items.map(function (row) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                        children: row.name
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
+                        children: row.context
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                        children: _this5.convertDate(row.created_at)
+                      })]
+                    })]
+                  });
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "background2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-group mb-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
+                className: "form-control",
+                id: "context",
+                rows: "1",
+                placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8",
+                onKeyDown: function onKeyDown(e) {
+                  return _this5.handleKeyDown(e);
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                onClick: this.reloadMessage,
+                className: "btn btn-primary",
+                children: "\u21BA"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                onClick: this.sendMessage,
+                className: "btn btn-primary",
+                children: "\u9001\u4FE1"
+              })]
+            })
+          })]
+        });
+      }
     }
   }]);
 
