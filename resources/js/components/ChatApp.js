@@ -94,6 +94,38 @@ export default class ChatApp extends Component {
 
   }
 
+  handleKeyDown(e,state) {
+    if (e.keyCode === 13) {
+      if (e.ctrlKey) {
+      let context = document.getElementById('context').value;
+      if (context.length > 0){
+      axios.post('/chatapp/send', {
+      name: this.state.name,
+      context: context
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      
+      const url = "/chatapp/get";
+      axios.get(url).then(response => {
+        console.log(response.data);
+        this.setState((state)=>({
+          status : '完了',
+          items : response.data,
+        }));
+        // ページ最下部へ移動
+        let target = document.getElementById('scroll-inner');
+        target.scrollIntoView(false);
+      });
+      }
+      e.preventDefault();
+      document.getElementById('context').value = '';
+    }
+
+    }
+
+  }
 
   //
   //
@@ -158,7 +190,12 @@ export default class ChatApp extends Component {
 
         <div className="background2"> 
           <div className="input-group mb-3">
-          <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"></textarea>
+          <textarea className="form-control" id = 'context' rows="1" placeholder="メッセージ"  
+          onKeyDown={
+            (e) => this.handleKeyDown(e)
+            }
+          ></textarea>
+          <button onClick={this.reloadMessage} className ="btn btn-primary" >↺</button>
           <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
           </div>
         </div>

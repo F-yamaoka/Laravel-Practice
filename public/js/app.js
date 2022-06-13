@@ -5580,6 +5580,44 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       }
 
       document.getElementById('context').value = '';
+    }
+  }, {
+    key: "handleKeyDown",
+    value: function handleKeyDown(e, state) {
+      var _this4 = this;
+
+      if (e.keyCode === 13) {
+        if (e.ctrlKey) {
+          var context = document.getElementById('context').value;
+
+          if (context.length > 0) {
+            axios__WEBPACK_IMPORTED_MODULE_0___default().post('/chatapp/send', {
+              name: this.state.name,
+              context: context
+            }).then(function (response) {
+              console.log(response);
+            });
+            var url = "/chatapp/get";
+            axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+              console.log(response.data);
+
+              _this4.setState(function (state) {
+                return {
+                  status: '完了',
+                  items: response.data
+                };
+              }); // ページ最下部へ移動
+
+
+              var target = document.getElementById('scroll-inner');
+              target.scrollIntoView(false);
+            });
+          }
+
+          e.preventDefault();
+          document.getElementById('context').value = '';
+        }
+      }
     } //
     //
     // ロードFlag
@@ -5627,7 +5665,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this$state,
           _this$state$items,
-          _this4 = this;
+          _this5 = this;
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "container",
@@ -5641,19 +5679,19 @@ var ChatApp = /*#__PURE__*/function (_Component) {
               children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                    className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this4.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                      className: _this5.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
                       children: row.name
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                    className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                    className: _this5.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
+                      className: _this5.isMine(row.name) ? "rightbox" : "leftbox",
                       children: row.context
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: _this4.isMine(row.name) ? "rightboxdate" : "leftboxdate",
-                      children: _this4.convertDate(row.created_at)
+                      className: _this5.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                      children: _this5.convertDate(row.created_at)
                     })]
                   })]
                 });
@@ -5668,7 +5706,14 @@ var ChatApp = /*#__PURE__*/function (_Component) {
               className: "form-control",
               id: "context",
               rows: "1",
-              placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8"
+              placeholder: "\u30E1\u30C3\u30BB\u30FC\u30B8",
+              onKeyDown: function onKeyDown(e) {
+                return _this5.handleKeyDown(e);
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: this.reloadMessage,
+              className: "btn btn-primary",
+              children: "\u21BA"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               onClick: this.sendMessage,
               className: "btn btn-primary",
