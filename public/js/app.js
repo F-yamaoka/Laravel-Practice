@@ -5588,6 +5588,30 @@ var ChatApp = /*#__PURE__*/function (_Component) {
       return myname == this.state.name;
     } //
     //
+    // 日付変換　時間のみ表示
+
+  }, {
+    key: "convertDate",
+    value: function convertDate(created_at) {
+      var hour = created_at.slice(11, 13);
+      var min = created_at.slice(14, 16);
+      console.log('1:' + hour); // 日本時間に変換 (MySQLの時間設定が変えられないので暫定処理)
+
+      var time_difference = 9; // 時差 (JST - UTC)
+
+      hour = Number(hour);
+      hour += time_difference;
+      console.log(hour);
+
+      if (hour > 24) {
+        hour = hour - 24;
+      }
+
+      if (hour < 10) hour = '0' + hour; //
+
+      return hour + ':' + min;
+    } //
+    //
     // トップに戻る
 
   }, {
@@ -5614,17 +5638,29 @@ var ChatApp = /*#__PURE__*/function (_Component) {
           className: "background1",
           id: "background1",
           children: (_this$state = this.state) === null || _this$state === void 0 ? void 0 : (_this$state$items = _this$state.items) === null || _this$state$items === void 0 ? void 0 : _this$state$items.map(function (row) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-                className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
-                children: row.context
-              })
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: _this4.isMine(row.name) ? "rightboxlavel" : "leftboxlavel",
+                  children: row.name
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                className: _this4.isMine(row.name) ? "rightmessagebox" : "leftmessagebox",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: _this4.isMine(row.name) ? "rightbox" : "leftbox",
+                  children: row.context
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: _this4.isMine(row.name) ? "rightboxdate" : "leftboxdate",
+                  children: _this4.convertDate(row.created_at)
+                })]
+              })]
             });
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "background2",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "input-group input-group-lg mb-3",
+            className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
               className: "form-control",
               id: "context",
