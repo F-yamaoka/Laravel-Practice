@@ -173,9 +173,9 @@ export default class ChatApp extends Component {
         return (
           <div className="chat_container">
               <div className="background0" id = "background0">
-                <div class="d-flex justify-content-between">
-                <div class="p-2 bd-highlight"><div className = 'header_msg'>ログインしていません。</div></div>
-                <div class="p-2 bd-highlight"><button className ="btn btn-primary btn-sm" onClick={()=>this.login()}>ログイン</button></div>
+                <div className="d-flex justify-content-between">
+                <div className="p-2 bd-highlight"><div className = 'header_msg'>ログインしていません。</div></div>
+                <div className="p-2 bd-highlight"><button className ="btn btn-primary btn-sm" onClick={()=>this.login()}>ログイン</button></div>
                 </div>
               </div>
               
@@ -213,9 +213,9 @@ export default class ChatApp extends Component {
       return (
         <div className="chat_container">
             <div className="background0" id = "background0">
-              <div class="d-flex justify-content-between">
-                <div class="p-2 bd-highlight"><div className = 'header_msg'> {this.state.name}としてログイン中。</div></div>
-                <div class="p-2 bd-highlight"><button className ="btn btn-danger btn-sm" onClick={()=>this.logout()}>ログアウト</button></div>
+              <div className="d-flex justify-content-between">
+                <div className="p-2 bd-highlight"><div className = 'header_msg'> {this.state.name}としてログイン中。</div></div>
+                <div className="p-2 bd-highlight"><button className ="btn btn-danger btn-sm" onClick={()=>this.logout()}>ログアウト</button></div>
               </div>
             </div>
             <div className="background1" id = "background1">

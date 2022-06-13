@@ -18,25 +18,22 @@ class MessageSeeder extends Seeder
     {
         DB::table('messages')->insert([
             'name'=>'testname',
-            'context'=>'通常のメッセージ',
+            'context'=>'こんにちは！',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
 
         DB::table('messages')->insert([
-            'name'=>'testname',
-            'context'=>'改行されたメッセージ
-改行一回
-改行二回',
+            'name'=>'noname',
+            'context'=>'メッセージは改行することが
+できます。',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
 
         DB::table('messages')->insert([
-            'name'=>'テストその3',
-            'context'=>'ファイルが文字化けした場合の対処方法
-            CSVファイルを右クリックし、「プログラムから開く」→「メモ帳」を選択します。
-            メモ帳で開いた際に文字化けしていない事を確認し、「ファイル」→「名前をつけて保存」を選択し、表示されたダイアログボックス上の「文字コード」を「ANSI」に変更の上、保存します。',
+            'name'=>'太郎',
+            'context'=>'メッセージはCTRL+ENTERでも送信することができます。',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);

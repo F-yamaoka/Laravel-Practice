@@ -5682,15 +5682,15 @@ var ChatApp = /*#__PURE__*/function (_Component) {
             className: "background0",
             id: "background0",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              "class": "d-flex justify-content-between",
+              className: "d-flex justify-content-between",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                "class": "p-2 bd-highlight",
+                className: "p-2 bd-highlight",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                   className: "header_msg",
                   children: "\u30ED\u30B0\u30A4\u30F3\u3057\u3066\u3044\u307E\u305B\u3093\u3002"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                "class": "p-2 bd-highlight",
+                className: "p-2 bd-highlight",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-primary btn-sm",
                   onClick: function onClick() {
@@ -5760,15 +5760,15 @@ var ChatApp = /*#__PURE__*/function (_Component) {
             className: "background0",
             id: "background0",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              "class": "d-flex justify-content-between",
+              className: "d-flex justify-content-between",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                "class": "p-2 bd-highlight",
+                className: "p-2 bd-highlight",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                   className: "header_msg",
                   children: [" ", this.state.name, "\u3068\u3057\u3066\u30ED\u30B0\u30A4\u30F3\u4E2D\u3002"]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                "class": "p-2 bd-highlight",
+                className: "p-2 bd-highlight",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                   className: "btn btn-danger btn-sm",
                   onClick: function onClick() {

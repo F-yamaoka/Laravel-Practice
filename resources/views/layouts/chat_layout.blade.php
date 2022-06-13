@@ -102,7 +102,7 @@ textarea{
 .rightboxlavel{
   font-size: 80%;
   padding:10px;
-  margin:0 3px -10px 0;
+  margin:0 10px -10px 0;
   max-width: 75%;
   white-space:pre-wrap; 
   word-wrap:break-word;
@@ -110,7 +110,7 @@ textarea{
 .leftboxlavel{
   font-size: 80%;
   padding:10px;
-  margin:0 0 -10px 3px;
+  margin:0 0 -10px 10px;
   max-width: 75%;
   white-space:pre-wrap; 
   word-wrap:break-word;
