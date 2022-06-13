@@ -1,4 +1,4 @@
-@extends('layouts/main_layout')
+@extends('layouts/chat_layout')
  
 @section('title', 'チャット')
 

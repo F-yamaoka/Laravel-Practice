@@ -9,6 +9,69 @@
 p.arrow {
         padding: 10px 10px 5px 10px;
 }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+ 
+
+::-webkit-scrollbar-thumb {
+  background: rgb(190, 216, 253);
+  border-radius: 5px;
+}
+
+.context{
+  resize: none;
+}
+.background1{
+/* background-color:rgb(113,147,193); */
+background-color:rgb(0, 0, 0);
+
+padding:1em;
+height: 75%;
+overflow:auto;
+}
+.background2{
+/* background-color:rgb(113,147,193); */
+background-color:rgb(0, 0, 0);
+
+padding:1em;
+height: 10%;
+overflow:auto;
+}
+
+textarea{
+  resize: none;
+}
+
+.leftbox{
+display:inline-block;
+position:relative;
+background-color:white;
+border-radius:10px;
+padding:10px;
+margin:0 0 10px 10px;
+max-width: 75%;
+float: left;
+clear: both;
+white-space:pre-wrap; 
+word-wrap:break-word;
+}
+.rightbox{
+display:inline-block;
+position:relative;
+/* background-color:#85e249; */
+background-color:#ffffff;
+
+border-radius:10px;
+padding:10px;
+margin:0 10px 10px 0;
+max-width: 75%;
+float: right;
+clear: both;
+white-space:pre-wrap; 
+word-wrap:break-word;
+}
 
 </style>   
 </head>
