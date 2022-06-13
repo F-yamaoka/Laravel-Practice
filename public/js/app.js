@@ -5594,14 +5594,12 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     key: "convertDate",
     value: function convertDate(created_at) {
       var hour = created_at.slice(11, 13);
-      var min = created_at.slice(14, 16);
-      console.log('1:' + hour); // 日本時間に変換 (MySQLの時間設定が変えられないので暫定処理)
+      var min = created_at.slice(14, 16); // 日本時間に変換 (MySQLの時間設定が変えられないので暫定処理)
 
       var time_difference = 9; // 時差 (JST - UTC)
 
       hour = Number(hour);
       hour += time_difference;
-      console.log(hour);
 
       if (hour > 24) {
         hour = hour - 24;

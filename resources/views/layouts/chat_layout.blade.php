@@ -15,25 +15,30 @@ li{
   list-style:none;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(190, 216, 253);
+  background-color:rgb(125, 158, 204);
   border-radius: 5px;
 }
 
 .context{
   resize: none;
 }
+
+.form-control{
+  background: rgb(245, 245, 245);
+}
+
 .background1{
   background-color:rgb(113,147,193);
   padding:1em;
   width:75%;
-  height: 75%;
+  height: 70%;
   overflow:auto;
   margin-left: auto;
   margin-right: auto;
 }
 .background2{
-  background-color:rgb(113,147,193);
-  padding:1em;
+  background-color:rgb(255, 255, 255);
+  padding:1em 1em;
   width:75%;
   height: 11%;
   overflow:auto;
@@ -56,8 +61,8 @@ textarea{
 }
 .leftbox{
   background-color:#ebebeb;
-  border-radius:10px;
-  padding:10px;
+  border-radius:30px;
+  padding:10px 23px;
   margin:0 0 10px 10px;
   max-width: 75%;
   white-space:pre-wrap; 
@@ -66,8 +71,8 @@ textarea{
 
 .rightbox{
   background-color:#85e249;
-  border-radius:10px;
-  padding:10px;
+  border-radius:30px;
+  padding:10px 23px;
   margin:0 10px 10px 0;
   max-width: 75%;
   white-space:pre-wrap; 
