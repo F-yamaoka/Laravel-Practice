@@ -7,7 +7,6 @@ export default class ChatApp extends Component {
     
     super(props);
     this.node = React.createRef();
-    this.reloadMessage();
     // メッセージをリロードする。
     this.reloadMessage = this.reloadMessage.bind(this);
     // メッセージを送信する。
@@ -24,7 +23,19 @@ export default class ChatApp extends Component {
 
   }
 
+  // レンダリング後に呼び出される。
+  async componentDidMount() {
 
+    console.log('conponentDidMount');
+    axios.get("/chatapp/get").then(response => {
+      if (response.data.length > 0){
+        this.setState((state)=>({
+          status : '完了',
+          items : response.data,
+        }));
+      }
+    });
+  };
 
   //
   //
