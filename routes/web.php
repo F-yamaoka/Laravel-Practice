@@ -30,8 +30,12 @@ Route::get('/chatapp/get',[ChatAppController::class,'getMessage']);
 Route::get('/chatapp/get/{count}',[ChatAppController::class,'getMessage']);
 Route::post('/chatapp/send',[ChatAppController::class,'sendMessage']);
 
-
-
+Route::group(['prefix' => '/pusher'], function () {
+  Route::get('/hello-world', function () {
+    event(new App\Events\MyEvent('send'));
+    return ['message' => 'send to message'];
+  });
+});
 
 // 郵便番号変換APP（PHP版)
 Route::get('/zipcode',[ZipcodeController::class,'zipcode']);

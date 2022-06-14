@@ -6,12 +6,23 @@ export default class ChatApp extends Component {
   constructor(props){
     
     super(props);
+
+    Pusher.logToConsole = true;
+    this.pusher = new Pusher("786b94b8b8578e9b2e5e", {
+      cluster: 'ap3'
+    });
+    this.channel = this.pusher.subscribe('my-channel');
+
+    this.channel.bind('my-event', (data) =>{
+      this.reloadMessage();
+    });
+
+
     this.node = React.createRef();
-    // メッセージをリロードする。
+    this.reloadMessage();
+
     this.reloadMessage = this.reloadMessage.bind(this);
-    // メッセージを送信する。
     this.sendMessage = this.sendMessage.bind(this);
-    // ロードFlag
     this.isMine = this.isMine.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.state = {
@@ -19,23 +30,7 @@ export default class ChatApp extends Component {
       status : '更新中',
       page : 20,
     };
-
-
   }
-
-  // レンダリング後に呼び出される。
-  async componentDidMount() {
-
-    console.log('conponentDidMount');
-    axios.get("/chatapp/get").then(response => {
-      if (response.data.length > 0){
-        this.setState((state)=>({
-          status : '完了',
-          items : response.data,
-        }));
-      }
-    });
-  };
 
   //
   //
@@ -97,6 +92,8 @@ export default class ChatApp extends Component {
     .then(function (response) {
     })
     
+    axios.get('/pusher/hello-world');
+
     const url = "/chatapp/get";
     axios.get(url).then(response => {
       this.setState((state)=>({
@@ -135,6 +132,8 @@ export default class ChatApp extends Component {
         target.scrollIntoView(false);
       });
       }
+      axios.get('/pusher/hello-world');
+
       e.preventDefault();
       document.getElementById('context').value = '';
     }
