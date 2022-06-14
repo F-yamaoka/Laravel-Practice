@@ -6,36 +6,27 @@ export default class ChatApp extends Component {
   constructor(props){
     
     super(props);
-    this.node = React.createRef();
-    // メッセージをリロードする。
-    this.reloadMessage = this.reloadMessage.bind(this);
-    // メッセージを送信する。
-    this.sendMessage = this.sendMessage.bind(this);
-    // ロードFlag
-    this.isMine = this.isMine.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
     this.state = {
       name : 'noname', // 未ログイン時の名前
-      status : '更新中',
       page : 20,
     };
 
+    // pusher
+    Pusher.logToConsole = true;
+    this.pusher = new Pusher("786b94b8b8578e9b2e5e", {
+      cluster: 'ap3'
+    });
+    this.channel = this.pusher.subscribe('my-channel');
+
+
+    this.node = React.createRef();
+    this.reloadMessage();
+    this.reloadMessage = this.reloadMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.isMine = this.isMine.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
 
   }
-
-  // レンダリング後に呼び出される。
-  async componentDidMount() {
-
-    console.log('conponentDidMount');
-    axios.get("/chatapp/get").then(response => {
-      if (response.data.length > 0){
-        this.setState((state)=>({
-          status : '完了',
-          items : response.data,
-        }));
-      }
-    });
-  };
 
   //
   //
@@ -51,7 +42,6 @@ export default class ChatApp extends Component {
       else  break;
     }
     this.setState((state)=>({
-      status : '更新中',
       name : input_name,
       
     }));
@@ -59,7 +49,6 @@ export default class ChatApp extends Component {
 
   logout(state){
     this.setState((state)=>({
-      status : '更新中',
       name : 'noname',
     }));
   }
@@ -97,6 +86,8 @@ export default class ChatApp extends Component {
     .then(function (response) {
     })
     
+    axios.get('/pusher/hello-world');
+
     const url = "/chatapp/get";
     axios.get(url).then(response => {
       this.setState((state)=>({
@@ -135,6 +126,8 @@ export default class ChatApp extends Component {
         target.scrollIntoView(false);
       });
       }
+      axios.get('/pusher/hello-world');
+
       e.preventDefault();
       document.getElementById('context').value = '';
     }
@@ -207,6 +200,11 @@ export default class ChatApp extends Component {
   //
   // レンダリング
   render(){
+    this.channel.bind('my-event', (data) =>{
+      this.reloadMessage();
+
+    });
+
     if (this.state.name == 'noname'){
       return (
         <div className="chat_container" >
@@ -240,9 +238,8 @@ export default class ChatApp extends Component {
   
           <div className="background2"> 
             <div className="input-group mb-3">
-            <textarea className="form-control" id = 'context' rows="1" disabled placeholder="ログインすることでメッセージを送信できます。"  
+            <textarea className="form-control" id = 'context' rows="1" disabled placeholder="ログインしてメッセージを送信"  
             ></textarea>
-            <button className ="btn btn-primary" disabled>↺</button>
             <button className ="btn btn-primary"  disabled>送信</button>
             </div>
           </div>
@@ -287,7 +284,6 @@ export default class ChatApp extends Component {
               (e) => this.handleKeyDown(e)
               }
             ></textarea>
-            <button onClick={this.reloadMessage} className ="btn btn-primary" >↺</button>
             <button onClick={this.sendMessage} className ="btn btn-primary" >送信</button>
             </div>
           </div>
