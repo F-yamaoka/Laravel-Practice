@@ -7,12 +7,12 @@ export default class ChatApp extends Component {
     
     super(props);
 
+    // pusher
     Pusher.logToConsole = true;
     this.pusher = new Pusher("786b94b8b8578e9b2e5e", {
       cluster: 'ap3'
     });
     this.channel = this.pusher.subscribe('my-channel');
-
     this.channel.bind('my-event', (data) =>{
       this.reloadMessage();
     });
@@ -20,7 +20,6 @@ export default class ChatApp extends Component {
 
     this.node = React.createRef();
     this.reloadMessage();
-
     this.reloadMessage = this.reloadMessage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.isMine = this.isMine.bind(this);

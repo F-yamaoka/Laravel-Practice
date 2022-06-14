@@ -5475,7 +5475,8 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, ChatApp);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this, props); // pusher
+
     Pusher.logToConsole = true;
     _this.pusher = new Pusher("786b94b8b8578e9b2e5e", {
       cluster: 'ap3'
