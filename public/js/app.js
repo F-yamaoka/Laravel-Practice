@@ -5475,18 +5475,18 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
     _classCallCheck(this, ChatApp);
 
-    _this = _super.call(this, props); // pusher
+    _this = _super.call(this, props);
+    _this.state = {
+      name: 'noname',
+      // 未ログイン時の名前
+      page: 20
+    }; // pusher
 
     Pusher.logToConsole = true;
     _this.pusher = new Pusher("786b94b8b8578e9b2e5e", {
       cluster: 'ap3'
     });
     _this.channel = _this.pusher.subscribe('my-channel');
-
-    _this.channel.bind('my-event', function (data) {
-      _this.reloadMessage();
-    });
-
     _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createRef();
 
     _this.reloadMessage();
@@ -5495,12 +5495,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     _this.sendMessage = _this.sendMessage.bind(_assertThisInitialized(_this));
     _this.isMine = _this.isMine.bind(_assertThisInitialized(_this));
     _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
-    _this.state = {
-      name: 'noname',
-      // 未ログイン時の名前
-      status: '更新中',
-      page: 20
-    };
     return _this;
   } //
   //
@@ -5520,7 +5514,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
 
       this.setState(function (state) {
         return {
-          status: '更新中',
           name: input_name
         };
       });
@@ -5530,7 +5523,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     value: function logout(state) {
       this.setState(function (state) {
         return {
-          status: '更新中',
           name: 'noname'
         };
       });
@@ -5698,6 +5690,10 @@ var ChatApp = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this6 = this;
 
+      this.channel.bind('my-event', function (data) {
+        _this6.reloadMessage();
+      });
+
       if (this.state.name == 'noname') {
         var _this$state, _this$state$items;
 
@@ -5768,11 +5764,7 @@ var ChatApp = /*#__PURE__*/function (_Component) {
                 id: "context",
                 rows: "1",
                 disabled: true,
-                placeholder: "\u30ED\u30B0\u30A4\u30F3\u3059\u308B\u3053\u3068\u3067\u30E1\u30C3\u30BB\u30FC\u30B8\u3092\u9001\u4FE1\u3067\u304D\u307E\u3059\u3002"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                className: "btn btn-primary",
-                disabled: true,
-                children: "\u21BA"
+                placeholder: "\u30ED\u30B0\u30A4\u30F3\u3057\u3066\u30E1\u30C3\u30BB\u30FC\u30B8\u3092\u9001\u4FE1"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 className: "btn btn-primary",
                 disabled: true,
@@ -5854,10 +5846,6 @@ var ChatApp = /*#__PURE__*/function (_Component) {
                 onKeyDown: function onKeyDown(e) {
                   return _this6.handleKeyDown(e);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                onClick: this.reloadMessage,
-                className: "btn btn-primary",
-                children: "\u21BA"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 onClick: this.sendMessage,
                 className: "btn btn-primary",
